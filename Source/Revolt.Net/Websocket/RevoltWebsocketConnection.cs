@@ -1,4 +1,5 @@
-﻿using Revolt.Net.Core.Common.Json;
+﻿using Revolt.Net.Clients;
+using Revolt.Net.Core.Common.Json;
 using Revolt.Net.Core.Entities.Channels;
 using Revolt.Net.Core.Entities.Messages;
 using Revolt.Net.Websocket.Events.Incoming;
@@ -118,7 +119,7 @@ internal sealed class RevoltWebsocketConnection
 
     private Task OnMessageEvent(string message)
     {
-        return Client.Message.InvokeAsync(
+        return Client._Message.InvokeAsync(
             new MessageEvent(Serialization.Deserialize<Message>(message)
         ));
     }

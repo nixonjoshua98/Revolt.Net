@@ -1,6 +1,6 @@
 ﻿namespace Revolt.Net.Core.Common.Types
 {
-    internal readonly struct Optional<T>
+    public readonly struct Optional<T>
     {
         public readonly T Value = default!;
 

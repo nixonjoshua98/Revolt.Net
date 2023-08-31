@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Core.Entities.Users
 {
-    internal sealed class ServerMemberReference
+    public sealed class ServerMemberReference
     {
         [JsonPropertyName("_id")]
         public ServerMemberIdentifer Id { get; init; } = default!;
@@ -19,5 +19,5 @@ namespace Revolt.Net.Core.Entities.Users
         public DateTimeOffset JoinedAt { get; init; } = default!;
     }
 
-    internal sealed record ServerMemberIdentifer(string Server, string User);
+    public sealed record ServerMemberIdentifer(string Server, string User);
 }

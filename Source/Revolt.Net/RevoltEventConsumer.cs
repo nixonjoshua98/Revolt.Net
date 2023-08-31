@@ -1,4 +1,5 @@
-﻿using Revolt.Net.State;
+﻿using Revolt.Net.Clients;
+using Revolt.Net.State;
 using Revolt.Net.Websocket.Events.Incoming;
 
 namespace Revolt.Net
@@ -19,12 +20,12 @@ namespace Revolt.Net
         private void SubscribeToEvents()
         {
             Client._Ready.Add(OnReady);
+            Client._Message.Add(OnMessageEvent);
             Client._UserUpdated.Add(OnUserUpdated);
             Client._ChannelCreated.Add(OnChannelCreated);
             Client._RelationshipUpdated.Add(OnRelationshipUpdated);
 
             Client.MessageDeleted.Add(OnMessageDeleted);
-            Client.Message.Add(OnMessageEvent);
             Client.ServerDeleted.Add(OnServerDeleted);
             Client.ChannelDeleted.Add(OnChannelDeleted);
         }
@@ -64,11 +65,14 @@ namespace Revolt.Net
             await Client.UserUpdated.InvokeAsync(@event.ToPublicEvent());
         }
 
-        private Task OnMessageEvent(MessageEvent @event)
+        private async Task OnMessageEvent(MessageEvent @event)
         {
             State.AddMessage(@event.Message);
 
-            return Task.CompletedTask;
+            _ = await State.GetChannelAsync(@event.Message.ChannelId);
+            _ = await State.GetUserAsync(@event.Message.AuthorId);
+
+            await Client.Message.InvokeAsync(@event);
         }
 
         private Task OnMessageDeleted(MessageDeleteEvent @event)

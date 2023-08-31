@@ -1,4 +1,6 @@
-﻿namespace Revolt.Net.Core.Entities.Common
+﻿using Revolt.Net.Clients;
+
+namespace Revolt.Net.Core.Entities.Common
 {
     public abstract class RevoltEntity
     {

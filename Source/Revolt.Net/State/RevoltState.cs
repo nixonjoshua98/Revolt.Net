@@ -1,8 +1,10 @@
-﻿using Revolt.Net.Core.Entities.Channels;
+﻿using Revolt.Net.Clients;
+using Revolt.Net.Core.Entities.Channels;
 using Revolt.Net.Core.Entities.Messages;
 using Revolt.Net.Core.Entities.Servers;
 using Revolt.Net.Core.Entities.Users;
 using Revolt.Net.Core.Entities.Users.Partials;
+using Revolt.Net.Core.Enums;
 using Revolt.Net.Rest.API;
 using Revolt.Net.Rest.API.Responses;
 using Revolt.Net.Websocket.Events.Incoming;
@@ -12,14 +14,14 @@ namespace Revolt.Net.State
     internal sealed class RevoltState
     {
         private readonly RevoltClient Client;
-        private readonly DefaultRevoltStateCache Cache;
         private readonly RevoltApiClient Api;
+        private readonly IRevoltStateCache Cache;
 
-        public RevoltState(DefaultRevoltStateCache cache, RevoltApiClient api, RevoltClient client)
+        public RevoltState(RevoltClient client)
         {
-            Cache = cache;
-            Api = api;
             Client = client;
+            Cache = Client.Cache;
+            Api = Client.Api;
         }
 
         public void Add(string id, ServerMembersResponse response)
@@ -28,16 +30,35 @@ namespace Revolt.Net.State
             Cache.SetServerMembers(id, response.Members);
         }
 
-        public async Task<User?> GetUserAsync(string id)
+        public Channel? GetChannel(string id)
         {
-            var user = await Api.GetUserAsync(id);
+            var channel = Cache.GetChannel(id);
+            return channel;
+        }
 
-            if (user is not null)
-            {
-                AddUser(user);
-            }
+        public void AddChannel(Channel channel)
+        {
+            Cache.AddChannel(channel);
+        }
 
+        public async ValueTask<Channel?> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)
+        {
+            return await RevoltStateHelper.GetOrDownloadAsync(
+                behaviour, () => GetChannel(id), () => Api.GetChannelAsync(id), c => AddChannel(c)
+            );
+        }
+
+        public User? GetUser(string id)
+        {
+            var user = Cache.GetUser(id);
             return user;
+        }
+
+        public async Task<User?> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)
+        {
+            return await RevoltStateHelper.GetOrDownloadAsync(
+                behaviour, () => GetUser(id), () => Api.GetUserAsync(id), u => AddUser(u)
+            );
         }
 
         public void Add(ReadyInternalEvent @event)
@@ -69,11 +90,11 @@ namespace Revolt.Net.State
         public void AddChannels(IEnumerable<Channel> ls) =>
             Cache.AddChannels(ls);
 
-        public void AddChannel(Channel channel) =>
-            Cache.AddChannel(channel);
-
-        public void AddMessage(Message message) =>
+        public void AddMessage(Message message)
+        {
+            message.SetClient(Client);
             Cache.AddMessage(message);
+        }
 
         public void RemoveMessage(string channelId, string messageId) =>
             Cache.RemoveMessage(channelId, messageId);
@@ -105,8 +126,5 @@ namespace Revolt.Net.State
             server?.SetClient(Client);
             return server;
         }
-
-        public User? GetUser(string id) =>
-            Cache.GetUser(id);
     }
 }

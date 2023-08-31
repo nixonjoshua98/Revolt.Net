@@ -1,7 +1,12 @@
 ﻿namespace Revolt.Net.Core
 {
-    public sealed record RevoltConfiguration(string ApiUrl)
+    public class RevoltConfiguration
     {
-        public static readonly RevoltConfiguration Default = new("https://api.revolt.chat/");
+        public string ApiUrl { get; init; } = "https://api.revolt.chat/";
+    }
+
+    public class RevoltBotConfiguration : RevoltConfiguration
+    {
+        public string Token { get; set; } = default!;
     }
 }

@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 
 namespace Revolt.Net.State
 {
-    internal sealed class DefaultRevoltStateCache
+    internal sealed class DefaultRevoltStateCache : IRevoltStateCache
     {
         private readonly ConcurrentDictionary<string, User> Users = new();
         private readonly ConcurrentDictionary<string, Server> Servers = new();
@@ -19,6 +19,11 @@ namespace Revolt.Net.State
         public void AddServer(Server server)
         {
             Servers[server.Id] = server;
+        }
+
+        public Channel? GetChannel(string id)
+        {
+            return Channels.GetValueOrDefault(id);
         }
 
         public void RemoveServer(string id)
