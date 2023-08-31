@@ -1,17 +1,7 @@
 # Revolt.Net
 
-A .NET library for Revolt with both the sweetness of OOP and DOD.
+A .NET library for interacting with the [Revolt](https://app.revolt.chat) API & Websocket.
 
-This library is [Available on NuGet](https://www.nuget.org/packages/Revolt.Net/) but I'd recommend you
-use [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) for the latest cutting-edge changes.
+[Available on NuGet](https://www.nuget.org/packages/Revolt.Net/)
 
-## Quickstart
-
-```csharp
-using Revolt;
-
-client = new RevoltClient("bot token", "bot user id WILL BE REMOVED IN THE FUTURE");
-await client.ConnectWebSocketAsync();
-```
-
-And now let intellisense guide you around :)
+*Revolt.Net continues on from what [Jan0660 (Jan)](https://github.com/Jan0660) started up until version 0.0.9*
