@@ -2,14 +2,14 @@
 using Revolt.Net.State;
 using Revolt.Net.Websocket.Events.Incoming;
 
-namespace Revolt.Net
+namespace Revolt.Net.Websocket
 {
-    internal sealed class RevoltEventConsumer
+    internal sealed class RevoltWebsocketConsumer
     {
-        private readonly RevoltClient Client;
+        private readonly RevoltBotClient Client;
         private readonly RevoltState State;
 
-        public RevoltEventConsumer(RevoltClient client)
+        public RevoltWebsocketConsumer(RevoltBotClient client)
         {
             Client = client;
             State = client.State;

@@ -10,7 +10,7 @@ namespace Revolt.Net.Core.Entities.Messages
         [JsonPropertyName("_id")]
         public string Id { get; init; } = default!;
 
-        public string? Nonce { get; init; }
+        public string Nonce { get; init; }
 
         [JsonPropertyName("channel")]
         public string ChannelId { get; init; } = default!;
@@ -21,9 +21,9 @@ namespace Revolt.Net.Core.Entities.Messages
         public string Content { get; init; } = default!;
 
         [JsonIgnore]
-        public Channel? Channel => Client.GetChannel(ChannelId);
+        public Channel Channel => Client.GetChannel(ChannelId);
 
         [JsonIgnore]
-        public User? Author => Client.GetUser(AuthorId);
+        public User Author => Client.GetUser(AuthorId);
     }
 }

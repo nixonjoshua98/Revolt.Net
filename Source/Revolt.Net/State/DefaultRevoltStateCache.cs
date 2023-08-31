@@ -71,6 +71,13 @@ namespace Revolt.Net.State
         public void RemoveMessage(string channelId, string messageId) =>
             GetChannelMessages(channelId).TryRemove(messageId, out var _);
 
+        public User GetUserByName(string name)
+        {
+            return Users.Values
+                .FirstOrDefault(user => 
+                    string.Equals(name, user.Username, StringComparison.OrdinalIgnoreCase));
+        }
+
         public void AddUser(User user)
         {
             Users[user.Id] = user;

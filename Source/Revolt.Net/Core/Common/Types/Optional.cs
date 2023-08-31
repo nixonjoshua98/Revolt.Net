@@ -4,22 +4,22 @@
     {
         public readonly T Value = default!;
 
-        public readonly bool HasValue;
+        public readonly bool IsSpecified;
 
         public Optional()
         {
-            HasValue = false;
+            IsSpecified = false;
         }
 
         public Optional(T value)
         {
             Value = value;
-            HasValue = true;
+            IsSpecified = true;
         }
 
         public void WhenHasValue(Action<T> action)
         {
-            if (HasValue)
+            if (IsSpecified)
             {
                 action(Value);
             }

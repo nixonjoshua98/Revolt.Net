@@ -4,12 +4,12 @@ namespace Revolt.Net.Core.Entities.Common
 {
     public abstract class RevoltEntity
     {
-        private RevoltClient _Client = default!;
+        private RevoltBotClient _Client = default!;
 
-        internal RevoltClient Client =>
+        internal RevoltBotClient Client =>
             _Client ?? throw new Exception("Entity does not have a client to use");
 
-        internal void SetClient(RevoltClient client)
+        internal void SetClient(RevoltBotClient client)
         {
             _Client = client;
         }

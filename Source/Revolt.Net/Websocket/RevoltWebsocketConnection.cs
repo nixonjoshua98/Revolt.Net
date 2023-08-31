@@ -18,11 +18,13 @@ internal sealed class RevoltWebsocketConnection
     private readonly ClientWebSocket Ws;
     private readonly string Token;
     private readonly System.Timers.Timer PingTimer;
-    private readonly RevoltClient Client;
+    private readonly RevoltBotClient Client;
+
+    private CancellationToken ConnectionToken = default!;
 
     public TimeSpan SocketPing { get; private set; } = TimeSpan.Zero;
 
-    public RevoltWebsocketConnection(RevoltClient client, string url, string token)
+    public RevoltWebsocketConnection(RevoltBotClient client, string url, string token)
     {
         Client = client;
         Url = new(url);
@@ -30,17 +32,21 @@ internal sealed class RevoltWebsocketConnection
         Token = token;
 
         PingTimer = new System.Timers.Timer(TimeSpan.FromSeconds(15));
+
+        PingTimer.Elapsed += (sender, args) => _ = PingAsync();
     }
 
     public async Task RunAsync(CancellationToken ct)
     {
+        ConnectionToken = ct;
+
         var buffer = new byte[4096];
 
-        await ConnectAsync(ct);
+        await ConnectAsync();
 
         while (true)
         {
-            var (type, content) = await ReceiveAsync(buffer, ct);
+            var (type, content) = await ReceiveAsync(buffer);
 
             if (type == WebSocketMessageType.Text)
             {
@@ -144,35 +150,38 @@ internal sealed class RevoltWebsocketConnection
         return Task.CompletedTask;
     }
 
-    private async Task ConnectAsync(CancellationToken ct)
+    private async Task AuthenticateAsync() =>
+        await SendAsync(new AuthenticateEvent(Token));
+
+    private async Task PingAsync() =>
+        await SendAsync(new PingEvent());
+
+    private async Task ConnectAsync()
     {
-        await Ws.ConnectAsync(Url, ct);
+        await Ws.ConnectAsync(Url, ConnectionToken);
 
-        PingTimer.Elapsed += (sender, args) => _ = PingAsync(ct);
-
-        await AuthenticateAsync(ct);
+        await AuthenticateAsync();
     }
 
-    private async Task AuthenticateAsync(CancellationToken ct) =>
-        await SendAsync(new AuthenticateEvent(Token), ct);
+    public async Task DisconnectAsync(CancellationToken ct = default)
+    {
+        await Ws.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, ct);
+    }
 
-    private async Task PingAsync(CancellationToken ct) =>
-        await SendAsync(new PingEvent(), ct);
-
-    internal async Task SendAsync<T>(T message, CancellationToken ct) where T : class
+    internal async Task SendAsync<T>(T message) where T : class
     {
         var json = JsonSerializer.Serialize(message, Serialization.Options);
 
         var bytes = Encoding.UTF8.GetBytes(json);
 
-        await Ws.SendAsync(bytes, WebSocketMessageType.Text, WebSocketMessageFlags.EndOfMessage, ct);
+        await Ws.SendAsync(bytes, WebSocketMessageType.Text, WebSocketMessageFlags.EndOfMessage, ConnectionToken);
     }
 
-    private async Task<(WebSocketMessageType Type, string Content)> ReceiveAsync(byte[] buffer, CancellationToken ct)
+    private async Task<(WebSocketMessageType Type, string Content)> ReceiveAsync(byte[] buffer)
     {
         while (true)
         {
-            var result = await Ws.ReceiveAsync(buffer, ct);
+            var result = await Ws.ReceiveAsync(buffer, ConnectionToken);
 
             var content = Encoding.UTF8.GetString(buffer, 0, result.Count);
 

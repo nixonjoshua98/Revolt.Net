@@ -13,24 +13,40 @@ namespace Revolt.Net.State
 {
     internal sealed class RevoltState
     {
-        private readonly RevoltClient Client;
+        private readonly RevoltBotClient Client;
         private readonly RevoltApiClient Api;
         private readonly IRevoltStateCache Cache;
 
-        public RevoltState(RevoltClient client)
+        public RevoltState(RevoltBotClient client)
         {
             Client = client;
             Cache = Client.Cache;
             Api = Client.Api;
         }
 
-        public void Add(string id, ServerMembersResponse response)
+        public async ValueTask<Channel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)
         {
-            Cache.AddUsers(response.Users);
-            Cache.SetServerMembers(id, response.Members);
+            return await RevoltStateHelper.GetOrDownloadAsync(
+                behaviour, () => GetChannel(id), () => Api.GetChannelAsync(id), c => AddChannel(c)
+            );
         }
 
-        public Channel? GetChannel(string id)
+        public async ValueTask<User> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)
+        {
+            return await RevoltStateHelper.GetOrDownloadAsync(
+                behaviour, () => GetUser(id), () => Api.GetUserAsync(id), u => AddUser(u)
+            );
+        }
+
+        public User GetUserByName(string name) => Cache.GetUserByName(name);
+
+        public void Add(string id, ServerMembersResponse response)
+        {
+            AddUsers(response.Users);
+            SetServerMembers(id, response.Members);
+        }
+
+        public Channel GetChannel(string id)
         {
             var channel = Cache.GetChannel(id);
             return channel;
@@ -41,33 +57,23 @@ namespace Revolt.Net.State
             Cache.AddChannel(channel);
         }
 
-        public async ValueTask<Channel?> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)
+        public void AddChannels(IEnumerable<Channel> channels)
         {
-            return await RevoltStateHelper.GetOrDownloadAsync(
-                behaviour, () => GetChannel(id), () => Api.GetChannelAsync(id), c => AddChannel(c)
-            );
+            foreach (var chnl in channels) AddChannel(chnl);
         }
 
-        public User? GetUser(string id)
+        public User GetUser(string id)
         {
             var user = Cache.GetUser(id);
             return user;
         }
 
-        public async Task<User?> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)
-        {
-            return await RevoltStateHelper.GetOrDownloadAsync(
-                behaviour, () => GetUser(id), () => Api.GetUserAsync(id), u => AddUser(u)
-            );
-        }
-
         public void Add(ReadyInternalEvent @event)
         {
+            AddUsers(@event.Users);
             AddServers(@event.Servers);
-
-            Cache.AddUsers(@event.Users);
-            Cache.AddChannels(@event.Channels);
-            Cache.AddServerMembers(@event.Members);
+            AddChannels(@event.Channels);
+            AddServerMembers(@event.Members);
         }
 
         public void AddServers(IEnumerable<Server> servers)
@@ -86,9 +92,6 @@ namespace Revolt.Net.State
 
         public void RemoveChannel(string channelId) =>
             Cache.RemoveChannel(channelId);
-
-        public void AddChannels(IEnumerable<Channel> ls) =>
-            Cache.AddChannels(ls);
 
         public void AddMessage(Message message)
         {
@@ -114,13 +117,13 @@ namespace Revolt.Net.State
         public IEnumerable<ServerMember> GetServerMembers(string id) =>
             Cache.GetServerMembers(id);
 
-        public ServerMember? GetServerMember(string server, string userId) =>
+        public ServerMember GetServerMember(string server, string userId) =>
             Cache.GetServerMember(server, userId);
 
         public void UpdateUser(string id, PartialUser partialUser) =>
             Cache.UpdateUser(id, partialUser);
 
-        public Server? GetServer(string id)
+        public Server GetServer(string id)
         {
             var server = Cache.GetServer(id);
             server?.SetClient(Client);

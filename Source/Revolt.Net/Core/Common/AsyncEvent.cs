@@ -1,6 +1,6 @@
 ﻿namespace Revolt.Net.Core.Common
 {
-    public sealed class AsyncEvent<T> where T : class
+    public sealed class AsyncEvent<T>
     {
         private readonly List<Func<T, Task>> Listeners = new();
 

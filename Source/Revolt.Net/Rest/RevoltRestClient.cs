@@ -78,7 +78,7 @@ namespace Revolt.Net.Rest
             }
         }
 
-        private HttpMethod GetMethod(string method)
+        private static HttpMethod GetMethod(string method)
         {
             return method switch
             {
