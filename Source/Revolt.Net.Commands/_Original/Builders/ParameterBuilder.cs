@@ -1,8 +1,7 @@
-using Revolt.Net.Commands._Original.Attributes;
-using Revolt.Net.Commands._Original.Info;
 using Revolt.Net.Commands._Original.Readers;
+using Revolt.Net.Commands.Attributes;
+using Revolt.Net.Commands.Info;
 using System.Reflection;
-using ParameterInfo = Revolt.Net.Commands._Original.Info.ParameterInfo;
 
 namespace Revolt.Net.Commands._Original.Builders
 {
@@ -125,12 +124,12 @@ namespace Revolt.Net.Commands._Original.Builders
             return this;
         }
 
-        internal ParameterInfo Build(CommandInfo info)
+        internal CommandParameterInfo Build(CommandInfo info)
         {
             if ((TypeReader ??= GetReader(ParameterType)) == null)
                 throw new InvalidOperationException($"No type reader found for type {ParameterType.Name}, one must be specified");
 
-            return new ParameterInfo(this, info, Command.Module.Service);
+            return new CommandParameterInfo(this, info, Command.Module.Service);
         }
     }
 }

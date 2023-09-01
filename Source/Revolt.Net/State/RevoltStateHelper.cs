@@ -1,6 +1,4 @@
-﻿using Revolt.Net.Enums;
-
-namespace Revolt.Net.State
+﻿namespace Revolt.Net.State
 {
     internal static class RevoltStateHelper
     {

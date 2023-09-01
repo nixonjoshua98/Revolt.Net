@@ -1,5 +1,5 @@
-using Revolt.Net.Commands._Original.Info;
 using Revolt.Net.Commands.Enums;
+using Revolt.Net.Commands.Info;
 using System.Diagnostics;
 
 namespace Revolt.Net.Commands._Original.Results
@@ -22,15 +22,15 @@ namespace Revolt.Net.Commands._Original.Results
         ///     Provides information about the parameter that caused the parsing error.
         /// </summary>
         /// <returns>
-        ///     A <see cref="ParameterInfo" /> indicating the parameter info of the error that may have occurred during parsing; 
+        ///     A <see cref="CommandParameterInfo" /> indicating the parameter info of the error that may have occurred during parsing; 
         ///     <c>null</c> if the parsing was successful or the parsing error is not specific to a single parameter.
         /// </returns>
-        public ParameterInfo ErrorParameter { get; }
+        public CommandParameterInfo ErrorParameter { get; }
 
         /// <inheritdoc/>
         public bool IsSuccess => !Error.HasValue;
 
-        private ParseResult(IReadOnlyList<TypeReaderResult> argValues, IReadOnlyList<TypeReaderResult> paramValues, CommandError? error, string errorReason, ParameterInfo errorParamInfo)
+        private ParseResult(IReadOnlyList<TypeReaderResult> argValues, IReadOnlyList<TypeReaderResult> paramValues, CommandError? error, string errorReason, CommandParameterInfo errorParamInfo)
         {
             ArgValues = argValues;
             ParamValues = paramValues;
@@ -70,13 +70,13 @@ namespace Revolt.Net.Commands._Original.Results
 
         public static ParseResult FromError(CommandError error, string reason)
             => new(null, null, error, reason, null);
-        public static ParseResult FromError(CommandError error, string reason, ParameterInfo parameterInfo)
+        public static ParseResult FromError(CommandError error, string reason, CommandParameterInfo parameterInfo)
             => new(null, null, error, reason, parameterInfo);
         public static ParseResult FromError(Exception ex)
             => FromError(CommandError.Exception, ex.Message);
         public static ParseResult FromError(IResult result)
             => new(null, null, result.Error, result.ErrorReason, null);
-        public static ParseResult FromError(IResult result, ParameterInfo parameterInfo)
+        public static ParseResult FromError(IResult result, CommandParameterInfo parameterInfo)
             => new(null, null, result.Error, result.ErrorReason, parameterInfo);
 
         public override string ToString() => IsSuccess ? "Success" : $"{Error}: {ErrorReason}";

@@ -1,6 +1,5 @@
 ﻿using Revolt.Net.Client;
 using Revolt.Net.Entities.Messages;
-using Revolt.Net.Enums;
 using Revolt.Net.Rest.ApiClient;
 
 namespace Revolt.Net.State.Messages

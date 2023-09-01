@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Enums;
+﻿using Revolt.Net.Entities.Users;
 
 namespace Revolt.Net.Entities.Relationships
 {

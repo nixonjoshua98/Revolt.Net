@@ -1,7 +1,7 @@
-using Revolt.Net.Commands._Original.Attributes;
-using Revolt.Net.Commands._Original.Info;
 using Revolt.Net.Commands._Original.Utilities;
+using Revolt.Net.Commands.Attributes;
 using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Info;
 using Revolt.Net.Commands.Module;
 using System.Reflection;
 

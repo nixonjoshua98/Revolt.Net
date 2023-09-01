@@ -1,4 +1,4 @@
-using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands.Info;
 
 namespace Revolt.Net.Commands._Original.Map
 {

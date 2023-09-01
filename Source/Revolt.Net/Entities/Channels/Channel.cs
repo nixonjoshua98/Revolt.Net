@@ -1,5 +1,4 @@
 ﻿using Revolt.Net.Entities.Common;
-using Revolt.Net.Enums;
 using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Entities.Channels

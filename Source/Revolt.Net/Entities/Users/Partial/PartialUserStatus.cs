@@ -1,5 +1,4 @@
 ﻿using Revolt.Net.Common.Types;
-using Revolt.Net.Enums;
 
 namespace Revolt.Net.Entities.Users.Partials
 {

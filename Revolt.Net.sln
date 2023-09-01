@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.TestBot", "Sourc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.Commands", "Source\Revolt.Net.Commands\Revolt.Net.Commands.csproj", "{322F41E4-0343-4A36-BD7F-4D90195F9B96}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.Core", "Source\Revolt.Net.Core\Revolt.Net.Core.csproj", "{DF9DDA35-F1B7-4A72-B548-CEDC3317D576}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{322F41E4-0343-4A36-BD7F-4D90195F9B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{322F41E4-0343-4A36-BD7F-4D90195F9B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{322F41E4-0343-4A36-BD7F-4D90195F9B96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF9DDA35-F1B7-4A72-B548-CEDC3317D576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF9DDA35-F1B7-4A72-B548-CEDC3317D576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF9DDA35-F1B7-4A72-B548-CEDC3317D576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF9DDA35-F1B7-4A72-B548-CEDC3317D576}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

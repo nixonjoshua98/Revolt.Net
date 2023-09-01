@@ -1,4 +1,5 @@
-﻿using Revolt.Net.Commands.Module;
+﻿using Revolt.Net.Commands.Attributes;
+using Revolt.Net.Commands.Module;
 
 namespace Revolt.Net.TestBot
 {

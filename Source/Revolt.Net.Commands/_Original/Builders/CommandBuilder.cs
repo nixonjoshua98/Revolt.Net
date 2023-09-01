@@ -1,6 +1,6 @@
-using Revolt.Net.Commands._Original.Attributes;
-using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands.Attributes;
 using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Info;
 
 namespace Revolt.Net.Commands._Original.Builders
 {
@@ -57,11 +57,7 @@ namespace Revolt.Net.Commands._Original.Builders
             Summary = summary;
             return this;
         }
-        public CommandBuilder WithRemarks(string remarks)
-        {
-            Remarks = remarks;
-            return this;
-        }
+
         public CommandBuilder WithPriority(int priority)
         {
             Priority = priority;

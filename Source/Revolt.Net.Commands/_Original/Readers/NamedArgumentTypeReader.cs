@@ -1,7 +1,7 @@
-using Revolt.Net.Commands._Original.Attributes;
 using Revolt.Net.Commands._Original.Builders;
 using Revolt.Net.Commands._Original.Results;
 using Revolt.Net.Commands._Original.Utilities;
+using Revolt.Net.Commands.Attributes;
 using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Enums;
 using System.Collections;

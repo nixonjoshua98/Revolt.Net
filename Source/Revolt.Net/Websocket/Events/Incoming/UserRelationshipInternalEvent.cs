@@ -1,5 +1,4 @@
 ﻿using Revolt.Net.Entities.Users;
-using Revolt.Net.Enums;
 
 namespace Revolt.Net.Websocket.Events.Incoming
 {

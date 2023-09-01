@@ -1,9 +1,9 @@
-using Revolt.Net.Commands._Original.Attributes;
-using Revolt.Net.Commands._Original.Info;
 using Revolt.Net.Commands._Original.Readers;
 using Revolt.Net.Commands._Original.Results;
 using Revolt.Net.Commands._Original.Utilities;
+using Revolt.Net.Commands.Attributes;
 using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Info;
 using Revolt.Net.Commands.Module;
 using System.Reflection;
 
@@ -222,7 +222,7 @@ namespace Revolt.Net.Commands._Original.Builders
             builder.Callback = ExecuteCallback;
         }
 
-        private static void BuildParameter(ParameterBuilder builder, ParameterInfo paramInfo, int position, int count, CommandService service, IServiceProvider services)
+        private static void BuildParameter(ParameterBuilder builder, System.Reflection.ParameterInfo paramInfo, int position, int count, CommandService service, IServiceProvider services)
         {
             var attributes = paramInfo.GetCustomAttributes();
             var paramType = paramInfo.ParameterType;

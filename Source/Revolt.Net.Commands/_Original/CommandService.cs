@@ -1,10 +1,10 @@
 using Revolt.Net.Commands._Original.Builders;
-using Revolt.Net.Commands._Original.Info;
 using Revolt.Net.Commands._Original.Map;
 using Revolt.Net.Commands._Original.Readers;
 using Revolt.Net.Commands._Original.Results;
 using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Enums;
+using Revolt.Net.Commands.Info;
 using Revolt.Net.Commands.Module;
 using Revolt.Net.Common.Types;
 using Revolt.Net.Entities.Permissions;

@@ -3,7 +3,6 @@ using Revolt.Net.Entities.Channels;
 using Revolt.Net.Entities.Servers;
 using Revolt.Net.Entities.Users;
 using Revolt.Net.Entities.Users.Partials;
-using Revolt.Net.Enums;
 using Revolt.Net.Rest.ApiClient;
 using Revolt.Net.Rest.Responses;
 using Revolt.Net.State.Messages;

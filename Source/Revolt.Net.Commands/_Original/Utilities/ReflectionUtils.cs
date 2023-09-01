@@ -1,4 +1,4 @@
-using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands.Attributes;
 using System.Reflection;
 
 namespace Revolt.Net.Commands._Original.Utilities

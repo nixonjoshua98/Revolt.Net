@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Revolt.Net.Client;
+using Revolt.Net.Commands._Original;
 using Revolt.Net.TestBot;
 
 var secrets = new ConfigurationBuilder()

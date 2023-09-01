@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Enums;
+﻿using Revolt.Net.Entities.Users;
 using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Entities.Relationships

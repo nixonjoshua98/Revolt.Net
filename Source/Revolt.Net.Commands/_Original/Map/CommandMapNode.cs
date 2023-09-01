@@ -1,4 +1,4 @@
-using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands.Info;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 

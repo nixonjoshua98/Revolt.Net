@@ -1,7 +1,7 @@
-using Revolt.Net.Commands._Original.Info;
 using Revolt.Net.Commands._Original.Results;
 using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Enums;
+using Revolt.Net.Commands.Info;
 using System.Collections.Immutable;
 using System.Text;
 
@@ -17,7 +17,7 @@ namespace Revolt.Net.Commands._Original
         }
         public static async Task<ParseResult> ParseArgsAsync(CommandInfo command, ICommandContext context, bool ignoreExtraArgs, IServiceProvider services, string input, int startPos, IReadOnlyDictionary<char, char> aliasMap)
         {
-            ParameterInfo curParam = null;
+            CommandParameterInfo curParam = null;
             StringBuilder argBuilder = new(input.Length);
             int endPos = input.Length;
             var curPart = ParserPart.None;
