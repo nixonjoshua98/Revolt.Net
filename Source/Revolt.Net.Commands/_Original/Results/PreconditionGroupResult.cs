@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
+using Revolt.Net.Commands.Enums;
 using System.Diagnostics;
 
-namespace Revolt.Commands.Results
+namespace Revolt.Net.Commands._Original.Results
 {
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
     public class PreconditionGroupResult : PreconditionResult
@@ -12,17 +11,17 @@ namespace Revolt.Commands.Results
         protected PreconditionGroupResult(CommandError? error, string errorReason, ICollection<PreconditionResult> preconditions)
             : base(error, errorReason)
         {
-            PreconditionResults = (preconditions ?? new List<PreconditionResult>(0)).ToReadOnlyCollection();
+            PreconditionResults = (IReadOnlyCollection<PreconditionResult>)(preconditions ?? new List<PreconditionResult>(0).AsReadOnly());
         }
 
-        public new static PreconditionGroupResult FromSuccess()
-            => new PreconditionGroupResult(null, null, null);
+        public static new PreconditionGroupResult FromSuccess()
+            => new(null, null, null);
         public static PreconditionGroupResult FromError(string reason, ICollection<PreconditionResult> preconditions)
-            => new PreconditionGroupResult(CommandError.UnmetPrecondition, reason, preconditions);
+            => new(CommandError.UnmetPrecondition, reason, preconditions);
         public static new PreconditionGroupResult FromError(Exception ex)
-            => new PreconditionGroupResult(CommandError.Exception, ex.Message, null);
+            => new(CommandError.Exception, ex.Message, null);
         public static new PreconditionGroupResult FromError(IResult result) //needed?
-            => new PreconditionGroupResult(result.Error, result.ErrorReason, null);
+            => new(result.Error, result.ErrorReason, null);
 
         public override string ToString() => IsSuccess ? "Success" : $"{Error}: {ErrorReason}";
         private string DebuggerDisplay => IsSuccess ? "Success" : $"{Error}: {ErrorReason}";

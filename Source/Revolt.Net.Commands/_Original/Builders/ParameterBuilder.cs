@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Readers;
 using System.Reflection;
-using Revolt.Commands.Attributes;
-using Revolt.Commands.Info;
-using Revolt.Commands.Readers;
-using ParameterInfo = Revolt.Commands.Info.ParameterInfo;
+using ParameterInfo = Revolt.Net.Commands._Original.Info.ParameterInfo;
 
-namespace Revolt.Commands.Builders
+namespace Revolt.Net.Commands._Original.Builders
 {
     public class ParameterBuilder
     {
@@ -40,7 +37,7 @@ namespace Revolt.Commands.Builders
         internal ParameterBuilder(CommandBuilder command, string name, Type type)
             : this(command)
         {
-            Revolt.Commands.Preconditions.NotNull(name, nameof(name));
+            _Original.Preconditions.NotNull(name, nameof(name));
 
             Name = name;
             SetType(type);
@@ -130,7 +127,7 @@ namespace Revolt.Commands.Builders
 
         internal ParameterInfo Build(CommandInfo info)
         {
-            if ((TypeReader ?? (TypeReader = GetReader(ParameterType))) == null)
+            if ((TypeReader ??= GetReader(ParameterType)) == null)
                 throw new InvalidOperationException($"No type reader found for type {ParameterType.Name}, one must be specified");
 
             return new ParameterInfo(this, info, Command.Module.Service);

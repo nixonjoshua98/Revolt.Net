@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Core.Enums;
+﻿using Revolt.Net.Enums;
 
 namespace Revolt.Net.State
 {

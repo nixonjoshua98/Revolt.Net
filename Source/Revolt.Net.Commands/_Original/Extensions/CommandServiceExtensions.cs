@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Revolt.Commands.Info;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands.Context;
 
-namespace Revolt.Commands.Extensions
+namespace Revolt.Net.Commands._Original.Extensions
 {
     /// <summary>
     ///     Provides extension methods for the <see cref="CommandService"/> class.
@@ -50,7 +47,7 @@ namespace Revolt.Commands.Extensions
         ///     A read-only collection of commands that can be executed under the current context.
         /// </returns>
         public static Task<IReadOnlyCollection<CommandInfo>> GetExecutableCommandsAsync(this CommandService commandService, ICommandContext context, IServiceProvider provider)
-            => GetExecutableCommandsAsync(commandService.Commands.ToArray(), context, provider);
+            => commandService.Commands.ToArray().GetExecutableCommandsAsync(context, provider);
         /// <summary>
         ///     Returns commands that can be executed under the current context.
         /// </summary>

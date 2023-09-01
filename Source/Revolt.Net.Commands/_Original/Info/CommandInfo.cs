@@ -1,18 +1,16 @@
-using System;
+using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands._Original.Builders;
+using Revolt.Net.Commands._Original.Extensions;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Exceptions;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
-using Revolt.Commands.Attributes;
-using Revolt.Commands.Builders;
-using Revolt.Commands.Extensions;
-using Revolt.Commands.Results;
 
-namespace Revolt.Commands.Info
+namespace Revolt.Net.Commands._Original.Info
 {
     /// <summary>
     ///     Provides the information of a command.
@@ -24,8 +22,8 @@ namespace Revolt.Commands.Info
     [DebuggerDisplay("{Name,nq}")]
     public class CommandInfo
     {
-        private static readonly System.Reflection.MethodInfo _convertParamsMethod = typeof(CommandInfo).GetTypeInfo().GetDeclaredMethod(nameof(ConvertParamsList));
-        private static readonly ConcurrentDictionary<Type, Func<IEnumerable<object>, object>> _arrayConverters = new ConcurrentDictionary<Type, Func<IEnumerable<object>, object>>();
+        private static readonly MethodInfo _convertParamsMethod = typeof(CommandInfo).GetTypeInfo().GetDeclaredMethod(nameof(ConvertParamsList));
+        private static readonly ConcurrentDictionary<Type, Func<IEnumerable<object>, object>> _arrayConverters = new();
 
         private readonly CommandService _commandService;
         private readonly Func<ICommandContext, object[], IServiceProvider, CommandInfo, Task> _action;
@@ -38,6 +36,7 @@ namespace Revolt.Commands.Info
         ///     Gets the name of the command. If none is set, the first alias is used.
         /// </summary>
         public string Name { get; }
+
         /// <summary>
         ///     Gets the summary of the command.
         /// </summary>
@@ -46,23 +45,18 @@ namespace Revolt.Commands.Info
         ///     useful in help commands and various implementation that fetches details of the command for the user.
         /// </remarks>
         public string Summary { get; }
-        /// <summary>
-        ///     Gets the remarks of the command.
-        /// </summary>
-        /// <remarks>
-        ///     This field returns the summary of the command. <see cref="Summary"/> and <see cref="Remarks"/> can be
-        ///     useful in help commands and various implementation that fetches details of the command for the user.
-        /// </remarks>
-        public string Remarks { get; }
+
         /// <summary>
         ///     Gets the priority of the command. This is used when there are multiple overloads of the command.
         /// </summary>
         public int Priority { get; }
+
         /// <summary>
         ///     Indicates whether the command accepts a <see langword="params"/> <see cref="Type"/>[] for its
         ///     parameter.
         /// </summary>
         public bool HasVarArgs { get; }
+
         /// <summary>
         ///     Indicates whether extra arguments should be ignored for this command.
         /// </summary>
@@ -72,14 +66,17 @@ namespace Revolt.Commands.Info
         ///     Gets a list of aliases defined by the <see cref="AliasAttribute" /> of the command.
         /// </summary>
         public IReadOnlyList<string> Aliases { get; }
+
         /// <summary>
         ///     Gets a list of information about the parameters of the command.
         /// </summary>
         public IReadOnlyList<ParameterInfo> Parameters { get; }
+
         /// <summary>
         ///     Gets a list of preconditions defined by the <see cref="PreconditionAttribute" /> of the command.
         /// </summary>
         public IReadOnlyList<PreconditionAttribute> Preconditions { get; }
+
         /// <summary>
         ///     Gets a list of attributes of the command.
         /// </summary>
@@ -91,21 +88,9 @@ namespace Revolt.Commands.Info
 
             Name = builder.Name;
             Summary = builder.Summary;
-            Remarks = builder.Remarks;
-
             Priority = builder.Priority;
 
-            Aliases = Enumerable.Select<string, string>(module.Aliases
-                    .Permutate(builder.Aliases, (first, second) =>
-                    {
-                        if (first == "")
-                            return second;
-                        else if (second == "")
-                            return first;
-                        else
-                            return first + service._separatorChar + second;
-                    }), x => service._caseSensitive ? x : x.ToLowerInvariant())
-                .ToImmutableArray();
+            Aliases = CreateAliases(builder, module, service);
 
             Preconditions = builder.Preconditions.ToImmutableArray();
             Attributes = builder.Attributes.ToImmutableArray();
@@ -118,9 +103,24 @@ namespace Revolt.Commands.Info
             _commandService = service;
         }
 
+        private static IReadOnlyList<string> CreateAliases(CommandBuilder builder, ModuleInfo module, CommandService service)
+        {
+            return module.Aliases
+                    .Permutate(builder.Aliases, (first, second) =>
+                    {
+                        return first switch
+                        {
+                            "" => second,
+                            _ => string.IsNullOrEmpty(second) ? first : $"{first}{service._separatorChar}{second}",
+                        };
+                    }).Select(
+x => service._caseSensitive ? x : x.ToLowerInvariant())
+                .ToImmutableArray();
+        }
+
         public async Task<PreconditionResult> CheckPreconditionsAsync(ICommandContext context, IServiceProvider services = null)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
 
             async Task<PreconditionResult> CheckGroups(IEnumerable<PreconditionAttribute> preconditions, string type)
             {
@@ -161,7 +161,7 @@ namespace Revolt.Commands.Info
 
         public async Task<ParseResult> ParseAsync(ICommandContext context, int startIndex, SearchResult searchResult, PreconditionResult preconditionResult = null, IServiceProvider services = null)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
 
             if (!searchResult.IsSuccess)
                 return ParseResult.FromError(searchResult);
@@ -172,7 +172,7 @@ namespace Revolt.Commands.Info
 
             return await CommandParser.ParseArgsAsync(this, context, _commandService._ignoreExtraArgs, services, input, 0, _commandService._quotationMarkAliasMap).ConfigureAwait(false);
         }
-        
+
         public Task<IResult> ExecuteAsync(ICommandContext context, ParseResult parseResult, IServiceProvider services)
         {
             if (!parseResult.IsSuccess)
@@ -198,7 +198,7 @@ namespace Revolt.Commands.Info
         }
         public async Task<IResult> ExecuteAsync(ICommandContext context, IEnumerable<object> argList, IEnumerable<object> paramList, IServiceProvider services)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
 
             try
             {
@@ -216,7 +216,7 @@ namespace Revolt.Commands.Info
                     }
                 }
 
-                _ = ExecuteInternalAsync(context, args, services).ConfigureAwait(false);
+                await ExecuteInternalAsync(context, args, services).ConfigureAwait(false);
 
                 return ExecuteResult.FromSuccess();
             }
@@ -228,6 +228,7 @@ namespace Revolt.Commands.Info
 
         private async Task<IResult> ExecuteInternalAsync(ICommandContext context, object[] args, IServiceProvider services)
         {
+            await Module.Service._cmdLogger.DebugAsync($"Executing {GetLogText(context)}").ConfigureAwait(false);
             try
             {
                 var task = _action(context, args, services, this);
@@ -261,6 +262,7 @@ namespace Revolt.Commands.Info
                     ex = ex.InnerException;
 
                 var wrappedEx = new CommandException(this, context, ex);
+                await Module.Service._cmdLogger.ErrorAsync(wrappedEx).ConfigureAwait(false);
 
                 var result = ExecuteResult.FromError(ex);
                 await Module.Service._commandExecutedEvent.InvokeAsync(this, context, result).ConfigureAwait(false);
@@ -274,6 +276,10 @@ namespace Revolt.Commands.Info
                 }
 
                 return result;
+            }
+            finally
+            {
+                await Module.Service._cmdLogger.VerboseAsync($"Executed {GetLogText(context)}").ConfigureAwait(false);
             }
         }
 
@@ -307,12 +313,10 @@ namespace Revolt.Commands.Info
             return array;
         }
 
-        private static T[] ConvertParamsList<T>(IEnumerable<object> paramsList)
-            => paramsList.Cast<T>().ToArray();
+        private static T[] ConvertParamsList<T>(IEnumerable<object> paramsList) =>
+            paramsList.Cast<T>().ToArray();
 
-        internal string GetLogText(ICommandContext context)
-        {
-                return $"\"{Name}\"";
-        }
+        internal string GetLogText(ICommandContext context) =>
+            $"\"{Name}\"";
     }
 }

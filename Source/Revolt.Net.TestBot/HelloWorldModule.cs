@@ -1,19 +1,19 @@
-﻿using Revolt.Commands;
-using Revolt.Commands.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Revolt.Net.Commands.Module;
 
 namespace Revolt.Net.TestBot
 {
-    public sealed class HelloWorldModule : ModuleBase
+    public sealed class HelloWorldModule : CommandModuleBase
     {
-        [Command("hello")]
-        public async Task HelloAsync()
+        [Command("echo")]
+        public async Task Echo(string message)
         {
-            Console.WriteLine("World");
+            await Context.Message.ReplyAsync(message);
+        }
+
+        [Command("delete")]
+        public async Task Delete()
+        {
+            await Context.Message.DeleteAsync();
         }
     }
 }

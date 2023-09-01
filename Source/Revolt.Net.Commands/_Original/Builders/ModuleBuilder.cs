@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
+using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Utilities;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Module;
 using System.Reflection;
-using System.Threading.Tasks;
-using Revolt.Commands.Attributes;
-using Revolt.Commands.Info;
-using Revolt.Commands.Utilities;
 
-namespace Revolt.Commands.Builders
+namespace Revolt.Net.Commands._Original.Builders
 {
     public class ModuleBuilder
     {
@@ -20,7 +19,6 @@ namespace Revolt.Commands.Builders
         public ModuleBuilder Parent { get; }
         public string Name { get; set; }
         public string Summary { get; set; }
-        public string Remarks { get; set; }
         public string Group { get; set; }
 
         public IReadOnlyList<CommandBuilder> Commands => _commands;
@@ -47,7 +45,7 @@ namespace Revolt.Commands.Builders
         internal ModuleBuilder(CommandService service, ModuleBuilder parent, string primaryAlias)
             : this(service, parent)
         {
-            Revolt.Commands.Preconditions.NotNull(primaryAlias, nameof(primaryAlias));
+            _Original.Preconditions.NotNull(primaryAlias, nameof(primaryAlias));
 
             _aliases = new List<string> { primaryAlias };
         }
@@ -60,11 +58,6 @@ namespace Revolt.Commands.Builders
         public ModuleBuilder WithSummary(string summary)
         {
             Summary = summary;
-            return this;
-        }
-        public ModuleBuilder WithRemarks(string remarks)
-        {
-            Remarks = remarks;
             return this;
         }
 
@@ -120,12 +113,11 @@ namespace Revolt.Commands.Builders
         private ModuleInfo BuildImpl(CommandService service, IServiceProvider services, ModuleInfo parent = null)
         {
             //Default name to first alias
-            if (Name == null)
-                Name = _aliases[0];
+            Name ??= _aliases[0];
 
             if (TypeInfo != null && !TypeInfo.IsAbstract)
             {
-                var moduleInstance = ReflectionUtils.CreateObject<IModuleBase>(TypeInfo, service, services);
+                var moduleInstance = ReflectionUtils.CreateObject<ICommandModuleBase>(TypeInfo, service, services);
                 moduleInstance.OnModuleBuilding(service, this);
             }
 

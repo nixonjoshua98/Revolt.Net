@@ -1,6 +1,4 @@
-using System;
-
-namespace Revolt.Commands.Extensions
+namespace Revolt.Net.Commands._Original.Extensions
 {
     /// <summary>
     ///     Provides extension methods for <see cref="IUserMessage" /> that relates to commands.

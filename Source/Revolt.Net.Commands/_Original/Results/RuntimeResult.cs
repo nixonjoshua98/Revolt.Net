@@ -1,6 +1,7 @@
+using Revolt.Net.Commands.Enums;
 using System.Diagnostics;
 
-namespace Revolt.Commands.Results
+namespace Revolt.Net.Commands._Original.Results
 {
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
     public abstract class RuntimeResult : IResult

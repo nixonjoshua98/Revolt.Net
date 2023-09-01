@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Enums;
 using System.Collections.Immutable;
 using System.Text;
-using System.Threading.Tasks;
-using Revolt.Commands.Info;
-using Revolt.Commands.Results;
 
-namespace Revolt.Commands
+namespace Revolt.Net.Commands._Original
 {
     internal static class CommandParser
     {
@@ -19,7 +18,7 @@ namespace Revolt.Commands
         public static async Task<ParseResult> ParseArgsAsync(CommandInfo command, ICommandContext context, bool ignoreExtraArgs, IServiceProvider services, string input, int startPos, IReadOnlyDictionary<char, char> aliasMap)
         {
             ParameterInfo curParam = null;
-            StringBuilder argBuilder = new StringBuilder(input.Length);
+            StringBuilder argBuilder = new(input.Length);
             int endPos = input.Length;
             var curPart = ParserPart.None;
             int lastArgEndPos = int.MinValue;
@@ -97,8 +96,7 @@ namespace Revolt.Commands
                         return ParseResult.FromError(CommandError.ParseFailed, "There must be at least one character of whitespace between arguments.");
                     else
                     {
-                        if (curParam == null)
-                            curParam = command.Parameters.Count > argList.Count ? command.Parameters[argList.Count] : null;
+                        curParam ??= command.Parameters.Count > argList.Count ? command.Parameters[argList.Count] : null;
 
                         if (curParam != null && curParam.IsRemainder)
                         {

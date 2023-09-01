@@ -1,20 +1,19 @@
-﻿using Revolt.Commands.Info;
-using Revolt.Commands.Results;
+﻿using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
 
-namespace Revolt.Commands.Attributes.Preconditions
+namespace Revolt.Net.Commands._Original.Attributes.Preconditions
 {
-    public class RequireBotOwnerAttribute : PreconditionAttribute
+    public sealed class RequireBotOwnerAttribute : PreconditionAttribute
     {
-        public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
+        public override Task<PreconditionResult> CheckPermissionsAsync(
+            ICommandContext context,
+            CommandInfo command,
             IServiceProvider services)
         {
-            bool isOwner = context.Client.IsOwner(context.Message.AuthorId);
-
-            return Task.FromResult(
-                isOwner ?
-                    PreconditionResult.FromSuccess() :
-                    PreconditionResult.FromError("This command can only be executed by the owner of this bot.")
-            );
+            return context.Client.IsOwner(context.User.Id) ?
+                Task.FromResult(PreconditionResult.FromSuccess()) :
+                Task.FromResult(PreconditionResult.FromError("This command can only be executed by the owner of this bot."));
         }
     }
 }

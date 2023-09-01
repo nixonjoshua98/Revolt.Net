@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Revolt.Commands.Attributes;
-using Revolt.Commands.Info;
+using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands.Context;
 
-namespace Revolt.Commands.Builders
+namespace Revolt.Net.Commands._Original.Builders
 {
     public class CommandBuilder
     {
@@ -19,7 +16,6 @@ namespace Revolt.Commands.Builders
 
         public string Name { get; set; }
         public string Summary { get; set; }
-        public string Remarks { get; set; }
         public string PrimaryAlias { get; set; }
         public int Priority { get; set; }
         public bool IgnoreExtraArgs { get; set; }
@@ -43,8 +39,8 @@ namespace Revolt.Commands.Builders
         internal CommandBuilder(ModuleBuilder module, string primaryAlias, Func<ICommandContext, object[], IServiceProvider, CommandInfo, Task> callback)
             : this(module)
         {
-            Revolt.Commands.Preconditions.NotNull(primaryAlias, nameof(primaryAlias));
-            Revolt.Commands.Preconditions.NotNull(callback, nameof(callback));
+            _Original.Preconditions.NotNull(primaryAlias, nameof(primaryAlias));
+            _Original.Preconditions.NotNull(callback, nameof(callback));
 
             Callback = callback;
             PrimaryAlias = primaryAlias;
@@ -118,19 +114,18 @@ namespace Revolt.Commands.Builders
         internal CommandInfo Build(ModuleInfo info, CommandService service)
         {
             //Default name to primary alias
-            if (Name == null)
-                Name = PrimaryAlias;
+            Name ??= PrimaryAlias;
 
             if (_parameters.Count > 0)
             {
                 var lastParam = _parameters[_parameters.Count - 1];
 
                 var firstMultipleParam = _parameters.FirstOrDefault(x => x.IsMultiple);
-                if ((firstMultipleParam != null) && (firstMultipleParam != lastParam))
+                if (firstMultipleParam != null && firstMultipleParam != lastParam)
                     throw new InvalidOperationException($"Only the last parameter in a command may have the Multiple flag. Parameter: {firstMultipleParam.Name} in {PrimaryAlias}");
-                
+
                 var firstRemainderParam = _parameters.FirstOrDefault(x => x.IsRemainder);
-                if ((firstRemainderParam != null) && (firstRemainderParam != lastParam))
+                if (firstRemainderParam != null && firstRemainderParam != lastParam)
                     throw new InvalidOperationException($"Only the last parameter in a command may have the Remainder flag. Parameter: {firstRemainderParam.Name} in {PrimaryAlias}");
             }
 

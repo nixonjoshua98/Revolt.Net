@@ -1,9 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Revolt.Commands.Info;
-using Revolt.Commands.Results;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
 
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     ///     Requires the parameter to pass the specified precondition before execution can begin.

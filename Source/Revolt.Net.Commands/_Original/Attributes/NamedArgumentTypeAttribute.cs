@@ -1,6 +1,4 @@
-using System;
-
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     /// Instructs the command system to treat command parameters of this type

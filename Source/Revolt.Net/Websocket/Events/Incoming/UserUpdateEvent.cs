@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Core.Entities.Users.Partials;
+﻿using Revolt.Net.Entities.Users.Partials;
 using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Websocket.Events.Incoming;

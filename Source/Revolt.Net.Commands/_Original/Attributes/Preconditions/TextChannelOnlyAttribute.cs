@@ -1,18 +1,18 @@
-﻿using Revolt.Commands.Info;
-using Revolt.Commands.Results;
-using Revolt.Net.Core.Entities.Channels;
+﻿using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Entities.Channels;
 
-namespace Revolt.Commands.Attributes.Preconditions
+namespace Revolt.Net.Commands._Original.Attributes.Preconditions
 {
     public class TextChannelOnlyAttribute : PreconditionAttribute
     {
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
             IServiceProvider services)
         {
-            var revContext = (RevoltCommandContext)context;
-            if (revContext.Channel is TextChannel)
-                return Task.FromResult(PreconditionResult.FromSuccess());
-            return Task.FromResult(PreconditionResult.FromError("This command can only be executed in a server."));
+            return context.Channel is TextChannel ?
+                Task.FromResult(PreconditionResult.FromSuccess()) :
+                Task.FromResult(PreconditionResult.FromError("This command can only be executed in a text channel."));
         }
     }
 }

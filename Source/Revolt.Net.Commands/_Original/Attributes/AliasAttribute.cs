@@ -1,6 +1,4 @@
-using System;
-
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     ///     Marks the aliases for a command.

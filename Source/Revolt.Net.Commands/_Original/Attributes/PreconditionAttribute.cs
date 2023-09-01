@@ -1,9 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Revolt.Commands.Info;
-using Revolt.Commands.Results;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
 
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     ///     Requires the module or class to pass the specified precondition before execution can begin.
@@ -28,7 +27,7 @@ namespace Revolt.Commands.Attributes
         /// Setting this for a class that doesn't override
         /// this property is a no-op.
         /// </summary>
-        public virtual string ErrorMessage { get { return null; } set { } }
+        public virtual string ErrorMessage { get => null; set { } }
 
         /// <summary>
         ///     Checks if the <paramref name="command"/> has the sufficient permission to be executed.

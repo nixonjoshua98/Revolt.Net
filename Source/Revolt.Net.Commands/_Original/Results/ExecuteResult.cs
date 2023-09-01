@@ -1,13 +1,13 @@
-using System;
+using Revolt.Net.Commands.Enums;
 using System.Diagnostics;
 
-namespace Revolt.Commands.Results
+namespace Revolt.Net.Commands._Original.Results
 {
     /// <summary>
     ///     Contains information of the command's overall execution result.
     /// </summary>
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
-    public struct ExecuteResult : IResult
+    public readonly struct ExecuteResult : IResult
     {
         /// <summary>
         ///     Gets the exception that may have occurred during the command execution.
@@ -36,7 +36,7 @@ namespace Revolt.Commands.Results
         ///     A <see cref="ExecuteResult" /> that does not contain any errors.
         /// </returns>
         public static ExecuteResult FromSuccess()
-            => new ExecuteResult(null, null, null);
+            => new(null, null, null);
         /// <summary>
         ///     Initializes a new <see cref="ExecuteResult" /> with a specified <see cref="CommandError" /> and its
         ///     reason, indicating an unsuccessful execution.
@@ -47,7 +47,7 @@ namespace Revolt.Commands.Results
         ///     A <see cref="ExecuteResult" /> that contains a <see cref="CommandError" /> and reason.
         /// </returns>
         public static ExecuteResult FromError(CommandError error, string reason)
-            => new ExecuteResult(null, error, reason);
+            => new(null, error, reason);
         /// <summary>
         ///     Initializes a new <see cref="ExecuteResult" /> with a specified exception, indicating an unsuccessful
         ///     execution.
@@ -59,7 +59,7 @@ namespace Revolt.Commands.Results
         ///     reason.
         /// </returns>
         public static ExecuteResult FromError(Exception ex)
-            => new ExecuteResult(ex, CommandError.Exception, ex.Message);
+            => new(ex, CommandError.Exception, ex.Message);
         /// <summary>
         ///     Initializes a new <see cref="ExecuteResult" /> with a specified result; this may or may not be an
         ///     successful execution depending on the <see cref="IResult.Error" /> and
@@ -70,7 +70,7 @@ namespace Revolt.Commands.Results
         ///     A <see cref="ExecuteResult"/> that inherits the <see cref="IResult"/> error type and reason.
         /// </returns>
         public static ExecuteResult FromError(IResult result)
-            => new ExecuteResult(null, result.Error, result.ErrorReason);
+            => new(null, result.Error, result.ErrorReason);
 
         /// <summary>
         ///     Gets a string that indicates the execution result.

@@ -1,19 +1,18 @@
-﻿using Revolt.Commands.Info;
-using Revolt.Commands.Results;
-using Revolt.Net.Core.Entities.Channels;
+﻿using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Entities.Channels;
 
-namespace Revolt.Commands.Attributes.Preconditions
+namespace Revolt.Net.Commands._Original.Attributes.Preconditions
 {
     public class RequireGroupOwnerAttribute : PreconditionAttribute
     {
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
             IServiceProvider services)
         {
-            if (context is RevoltCommandContext { Channel: GroupChannel groupChannel } revContext &&
-                groupChannel.OwnerId == revContext.Message.AuthorId)
-                return Task.FromResult(PreconditionResult.FromSuccess());
-            return Task.FromResult(
-                PreconditionResult.FromError("This command can only be ran by the owner of this group."));
+            return context.Channel is GroupChannel channel && channel.OwnerId == context.Message.AuthorId ?
+                Task.FromResult(PreconditionResult.FromSuccess()) :
+                Task.FromResult(PreconditionResult.FromError("This command can only be ran by the owner of this group."));
         }
     }
 }

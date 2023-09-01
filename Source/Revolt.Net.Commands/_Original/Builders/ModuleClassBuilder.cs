@@ -1,19 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Readers;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands._Original.Utilities;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Module;
 using System.Reflection;
-using System.Threading.Tasks;
-using Revolt.Commands.Attributes;
-using Revolt.Commands.Info;
-using Revolt.Commands.Readers;
-using Revolt.Commands.Results;
-using Revolt.Commands.Utilities;
 
-namespace Revolt.Commands.Builders
+namespace Revolt.Net.Commands._Original.Builders
 {
     internal static class ModuleClassBuilder
     {
-        private static readonly TypeInfo ModuleTypeInfo = typeof(IModuleBase).GetTypeInfo();
+        private static readonly TypeInfo ModuleTypeInfo = typeof(ICommandModuleBase).GetTypeInfo();
 
         public static async Task<IReadOnlyList<TypeInfo>> SearchAsync(Assembly assembly, CommandService service)
         {
@@ -37,7 +35,7 @@ namespace Revolt.Commands.Builders
                 }
                 else if (IsLoadableModule(typeInfo))
                 {
-
+                    await service._cmdLogger.WarningAsync($"Class {typeInfo.FullName} is not public and cannot be loaded. To suppress this message, mark the class with {nameof(DontAutoLoadAttribute)}.").ConfigureAwait(false);
                 }
             }
 
@@ -72,6 +70,8 @@ namespace Revolt.Commands.Builders
                 result[typeInfo.AsType()] = module.Build(service, services);
             }
 
+            await service._cmdLogger.DebugAsync($"Successfully built {builtTypes.Count} modules.").ConfigureAwait(false);
+
             return result;
         }
 
@@ -81,11 +81,11 @@ namespace Revolt.Commands.Builders
             {
                 if (!IsValidModuleDefinition(typeInfo))
                     continue;
-                
+
                 if (builtTypes.Contains(typeInfo))
                     continue;
-                
-                builder.AddModule((module) => 
+
+                builder.AddModule((module) =>
                 {
                     BuildModule(module, typeInfo, service, services);
                     BuildSubTypes(module, typeInfo.DeclaredNestedTypes, builtTypes, service, services);
@@ -110,14 +110,11 @@ namespace Revolt.Commands.Builders
                     case SummaryAttribute summary:
                         builder.Summary = summary.Text;
                         break;
-                    case RemarksAttribute remarks:
-                        builder.Remarks = remarks.Text;
-                        break;
                     case AliasAttribute alias:
                         builder.AddAliases(alias.Aliases);
                         break;
                     case GroupAttribute group:
-                        builder.Name = builder.Name ?? group.Prefix;
+                        builder.Name ??= group.Prefix;
                         builder.Group = group.Prefix;
                         builder.AddAliases(group.Prefix);
                         break;
@@ -133,15 +130,14 @@ namespace Revolt.Commands.Builders
             //Check for unspecified info
             if (builder.Aliases.Count == 0)
                 builder.AddAliases("");
-            if (builder.Name == null)
-                builder.Name = typeInfo.Name;
+            builder.Name ??= typeInfo.Name;
 
             // Get all methods (including from inherited members), that are valid commands
             var validCommands = typeInfo.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(IsValidCommandDefinition);
 
             foreach (var method in validCommands)
             {
-                builder.AddCommand((command) => 
+                builder.AddCommand((command) =>
                 {
                     BuildCommand(command, typeInfo, method, service, services);
                 });
@@ -151,14 +147,14 @@ namespace Revolt.Commands.Builders
         private static void BuildCommand(CommandBuilder builder, TypeInfo typeInfo, MethodInfo method, CommandService service, IServiceProvider serviceprovider)
         {
             var attributes = method.GetCustomAttributes();
-            
-            foreach (var attribute in attributes)
+
+            foreach (Attribute attribute in attributes)
             {
                 switch (attribute)
                 {
                     case CommandAttribute command:
                         builder.AddAliases(command.Text);
-                        builder.Name = builder.Name ?? command.Text;
+                        builder.Name ??= command.Text;
                         builder.IgnoreExtraArgs = command.IgnoreExtraArgs ?? service._ignoreExtraArgs;
                         break;
                     case NameAttribute name:
@@ -169,9 +165,6 @@ namespace Revolt.Commands.Builders
                         break;
                     case SummaryAttribute summary:
                         builder.Summary = summary.Text;
-                        break;
-                    case RemarksAttribute remarks:
-                        builder.Remarks = remarks.Text;
                         break;
                     case AliasAttribute alias:
                         builder.AddAliases(alias.Aliases);
@@ -185,20 +178,19 @@ namespace Revolt.Commands.Builders
                 }
             }
 
-            if (builder.Name == null)
-                builder.Name = method.Name;
+            builder.Name ??= method.Name;
 
             var parameters = method.GetParameters();
             int pos = 0, count = parameters.Length;
             foreach (var paramInfo in parameters)
             {
-                builder.AddParameter((parameter) => 
+                builder.AddParameter((parameter) =>
                 {
                     BuildParameter(parameter, paramInfo, pos++, count, service, serviceprovider);
                 });
             }
 
-            var createInstance = ReflectionUtils.CreateBuilder<IModuleBase>(typeInfo, service);
+            var createInstance = ReflectionUtils.CreateBuilder<ICommandModuleBase>(typeInfo, service);
 
             async Task<IResult> ExecuteCallback(ICommandContext context, object[] args, IServiceProvider services, CommandInfo cmd)
             {
@@ -230,7 +222,7 @@ namespace Revolt.Commands.Builders
             builder.Callback = ExecuteCallback;
         }
 
-        private static void BuildParameter(ParameterBuilder builder, System.Reflection.ParameterInfo paramInfo, int position, int count, CommandService service, IServiceProvider services)
+        private static void BuildParameter(ParameterBuilder builder, ParameterInfo paramInfo, int position, int count, CommandService service, IServiceProvider services)
         {
             var attributes = paramInfo.GetCustomAttributes();
             var paramType = paramInfo.ParameterType;
@@ -274,11 +266,8 @@ namespace Revolt.Commands.Builders
 
             builder.ParameterType = paramType;
 
-            if (builder.TypeReader == null)
-            {
-                builder.TypeReader = service.GetDefaultTypeReader(paramType)
+            builder.TypeReader ??= service.GetDefaultTypeReader(paramType)
                     ?? service.GetTypeReaders(paramType)?.FirstOrDefault().Value;
-            }
         }
 
         internal static TypeReader GetTypeReader(CommandService service, Type paramType, Type typeReaderType, IServiceProvider services)

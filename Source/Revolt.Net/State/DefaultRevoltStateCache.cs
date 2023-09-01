@@ -1,8 +1,8 @@
-﻿using Revolt.Net.Core.Entities.Channels;
-using Revolt.Net.Core.Entities.Messages;
-using Revolt.Net.Core.Entities.Servers;
-using Revolt.Net.Core.Entities.Users;
-using Revolt.Net.Core.Entities.Users.Partials;
+﻿using Revolt.Net.Entities.Channels;
+using Revolt.Net.Entities.Messages;
+using Revolt.Net.Entities.Servers;
+using Revolt.Net.Entities.Users;
+using Revolt.Net.Entities.Users.Partials;
 using System.Collections.Concurrent;
 
 namespace Revolt.Net.State
@@ -16,12 +16,17 @@ namespace Revolt.Net.State
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, Message>> Messages = new();
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ServerMemberReference>> ServerMemberRefs = new();
 
+        public Message GetMessage(string channel, string message)
+        {
+            return GetChannelMessages(channel).GetValueOrDefault(message);
+        }
+
         public void AddServer(Server server)
         {
             Servers[server.Id] = server;
         }
 
-        public Channel? GetChannel(string id)
+        public Channel GetChannel(string id)
         {
             return Channels.GetValueOrDefault(id);
         }
@@ -50,14 +55,6 @@ namespace Revolt.Net.State
             Messages.Remove(channelId, out var _);
         }
 
-        public void AddChannels(IEnumerable<Channel> ls)
-        {
-            foreach (var channel in ls)
-            {
-                AddChannel(channel);
-            }
-        }
-
         public void AddChannel(Channel channel)
         {
             Channels[channel.Id] = channel;
@@ -74,7 +71,7 @@ namespace Revolt.Net.State
         public User GetUserByName(string name)
         {
             return Users.Values
-                .FirstOrDefault(user => 
+                .FirstOrDefault(user =>
                     string.Equals(name, user.Username, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -121,7 +118,7 @@ namespace Revolt.Net.State
             }
         }
 
-        public ServerMember? GetServerMember(string server, string userId)
+        public ServerMember GetServerMember(string server, string userId)
         {
             var memberRef = GetServerMemberRef(server, userId);
 
@@ -140,13 +137,13 @@ namespace Revolt.Net.State
         {
             var user = GetUser(id);
 
-            user?.UpdateFromPartial(partialUser);
+            user.UpdateFromPartial(partialUser);
         }
 
-        public Server? GetServer(string id) =>
+        public Server GetServer(string id) =>
             Servers.GetValueOrDefault(id);
 
-        public User? GetUser(string id) =>
+        public User GetUser(string id) =>
             Users.GetValueOrDefault(id);
 
         private IEnumerable<ServerMemberReference> GetServerMemberRefs(string id) =>
@@ -158,7 +155,7 @@ namespace Revolt.Net.State
         private ConcurrentDictionary<string, Message> GetChannelMessages(string id) =>
             Messages.GetOrAdd(id, key => new());
 
-        private ServerMemberReference? GetServerMemberRef(string serverId, string userId) =>
+        private ServerMemberReference GetServerMemberRef(string serverId, string userId) =>
             ServerMemberRefs.TryGetValue(serverId, out var server) ? server.GetValueOrDefault(userId) : default;
     }
 }

@@ -1,8 +1,7 @@
-using System;
-using System.Threading.Tasks;
-using Revolt.Commands.Results;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
 
-namespace Revolt.Commands.Readers
+namespace Revolt.Net.Commands._Original.Readers
 {
     /// <summary>
     ///     Defines a reader class that parses user input into a specified type.

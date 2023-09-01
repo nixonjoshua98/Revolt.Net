@@ -1,18 +1,16 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Revolt.Commands
+namespace Revolt.Net.Commands._Original
 {
     internal delegate bool TryParseDelegate<T>(string str, out T value);
 
     internal static class PrimitiveParsers
     {
-        private static readonly Lazy<IReadOnlyDictionary<Type, Delegate>> Parsers = new Lazy<IReadOnlyDictionary<Type, Delegate>>(CreateParsers);
+        private static readonly Lazy<IReadOnlyDictionary<Type, Delegate>> Parsers = new(CreateParsers);
 
         public static IEnumerable<Type> SupportedTypes = Parsers.Value.Keys;
 
-        static IReadOnlyDictionary<Type, Delegate> CreateParsers()
+        private static IReadOnlyDictionary<Type, Delegate> CreateParsers()
         {
             var parserBuilder = ImmutableDictionary.CreateBuilder<Type, Delegate>();
             parserBuilder[typeof(bool)] = (TryParseDelegate<bool>)bool.TryParse;

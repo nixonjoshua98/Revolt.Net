@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
+using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands._Original.Builders;
+using Revolt.Net.Commands._Original.Readers;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using Revolt.Commands.Attributes;
-using Revolt.Commands.Builders;
-using Revolt.Commands.Readers;
-using Revolt.Commands.Results;
 
-namespace Revolt.Commands.Info
+namespace Revolt.Net.Commands._Original.Info
 {
     /// <summary>
     ///     Provides the information of a parameter.
@@ -26,10 +24,12 @@ namespace Revolt.Commands.Info
         ///     Gets the name of this parameter.
         /// </summary>
         public string Name { get; }
+
         /// <summary>
         ///     Gets the summary of this parameter.
         /// </summary>
         public string Summary { get; }
+
         /// <summary>
         ///     Gets a value that indicates whether this parameter is optional or not.
         /// </summary>
@@ -38,7 +38,9 @@ namespace Revolt.Commands.Info
         ///     Gets a value that indicates whether this parameter is a remainder parameter or not.
         /// </summary>
         public bool IsRemainder { get; }
+
         public bool IsMultiple { get; }
+
         /// <summary>
         ///     Gets the type of the parameter.
         /// </summary>
@@ -78,7 +80,7 @@ namespace Revolt.Commands.Info
 
         public async Task<PreconditionResult> CheckPreconditionsAsync(ICommandContext context, object arg, IServiceProvider services = null)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
 
             foreach (var precondition in Preconditions)
             {
@@ -92,7 +94,7 @@ namespace Revolt.Commands.Info
 
         public async Task<TypeReaderResult> ParseAsync(ICommandContext context, string input, IServiceProvider services = null)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
             return await _reader.ReadAsync(context, input, services).ConfigureAwait(false);
         }
 

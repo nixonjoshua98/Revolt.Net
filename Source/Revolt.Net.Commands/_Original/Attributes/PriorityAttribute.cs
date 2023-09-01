@@ -1,6 +1,4 @@
-using System;
-
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     ///     Sets priority of commands.

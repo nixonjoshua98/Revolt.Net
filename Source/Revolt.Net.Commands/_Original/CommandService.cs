@@ -1,22 +1,20 @@
-using System;
+using Revolt.Net.Commands._Original.Builders;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Map;
+using Revolt.Net.Commands._Original.Readers;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Enums;
+using Revolt.Net.Commands.Module;
+using Revolt.Net.Common.Types;
+using Revolt.Net.Entities.Permissions;
+using Revolt.Net.Entities.Users;
+using Revolt.Net.Logging;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Revolt.Commands.Builders;
-using Revolt.Commands.Info;
-using Revolt.Commands.Map;
-using Revolt.Commands.Readers;
-using Revolt.Commands.Results;
-using Revolt.Net.Core.Common;
-using Revolt.Net.Core.Common.Types;
-using Revolt.Net.Core.Entities.Permissions;
-using Revolt.Net.Core.Entities.Users;
 
-namespace Revolt.Commands
+namespace Revolt.Net.Commands._Original
 {
     /// <summary>
     ///     Provides a framework for building Discord commands.
@@ -25,7 +23,7 @@ namespace Revolt.Commands
     ///     <para>
     ///         The service provides a framework for building Discord commands both dynamically via runtime builders or
     ///         statically via compile-time modules. To create a command module at compile-time, see
-    ///         <see cref="ModuleBase" /> (most common); otherwise, see <see cref="ModuleBuilder" />.
+    ///         <see cref="CommandModuleBase" /> (most common); otherwise, see <see cref="ModuleBuilder" />.
     ///     </para>
     ///     <para>
     ///         This service also provides several events for monitoring command usages; such as
@@ -37,6 +35,12 @@ namespace Revolt.Commands
     public class CommandService : IDisposable
     {
         /// <summary>
+        ///     Occurs when a command-related information is received.
+        /// </summary>
+        public event Func<LogMessage, Task> Log { add { _logEvent.Add(value); } remove { _logEvent.Remove(value); } }
+        internal readonly AsyncEvent<Func<LogMessage, Task>> _logEvent = new();
+
+        /// <summary>
         ///     Occurs when a command is executed.
         /// </summary>
         /// <remarks>
@@ -44,7 +48,7 @@ namespace Revolt.Commands
         ///     execute during parsing or precondition stage, the CommandInfo may not be returned.
         /// </remarks>
         public event Func<Optional<CommandInfo>, ICommandContext, IResult, Task> CommandExecuted { add { _commandExecutedEvent.Add(value); } remove { _commandExecutedEvent.Remove(value); } }
-        internal readonly AsyncEvent<Func<Optional<CommandInfo>, ICommandContext, IResult, Task>> _commandExecutedEvent = new AsyncEvent<Func<Optional<CommandInfo>, ICommandContext, IResult, Task>>();
+        internal readonly AsyncEvent<Func<Optional<CommandInfo>, ICommandContext, IResult, Task>> _commandExecutedEvent = new();
 
         private readonly SemaphoreSlim _moduleLock;
         private readonly ConcurrentDictionary<Type, ModuleInfo> _typedModuleDefs;
@@ -56,6 +60,8 @@ namespace Revolt.Commands
 
         internal readonly bool _caseSensitive, _throwOnError, _ignoreExtraArgs;
         internal readonly char _separatorChar;
+        internal readonly Logger _cmdLogger;
+        internal readonly LogManager _logManager;
         internal readonly IReadOnlyDictionary<char, char> _quotationMarkAliasMap;
 
         internal bool _isDisposed;
@@ -94,6 +100,10 @@ namespace Revolt.Commands
             _ignoreExtraArgs = config.IgnoreExtraArgs;
             _separatorChar = config.SeparatorChar;
             _quotationMarkAliasMap = (config.QuotationMarkAliasMap ?? new Dictionary<char, char>()).ToImmutableDictionary();
+
+            _logManager = new LogManager(config.LogLevel);
+            _logManager.Message += async msg => await _logEvent.InvokeAsync(msg).ConfigureAwait(false);
+            _cmdLogger = _logManager.CreateLogger("Command");
 
             _moduleLock = new SemaphoreSlim(1, 1);
             _typedModuleDefs = new ConcurrentDictionary<Type, ModuleInfo>();
@@ -176,7 +186,7 @@ namespace Revolt.Commands
         /// </returns>
         public async Task<ModuleInfo> AddModuleAsync(Type type, IServiceProvider services)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
 
             await _moduleLock.WaitAsync().ConfigureAwait(false);
             try
@@ -211,7 +221,7 @@ namespace Revolt.Commands
         /// </returns>
         public async Task<IEnumerable<ModuleInfo>> AddModulesAsync(Assembly assembly, IServiceProvider services)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
 
             await _moduleLock.WaitAsync().ConfigureAwait(false);
             try
@@ -337,6 +347,9 @@ namespace Revolt.Commands
         /// <param name="reader">An instance of the <see cref="TypeReader" /> to be added.</param>
         public void AddTypeReader(Type type, TypeReader reader)
         {
+            if (_defaultTypeReaders.ContainsKey(type))
+                _ = _cmdLogger.WarningAsync($"The default TypeReader for {type.FullName} was replaced by {reader.GetType().FullName}." +
+                    "To suppress this message, use AddTypeReader<T>(reader, true).");
             AddTypeReader(type, reader, true);
         }
         /// <summary>
@@ -489,7 +502,7 @@ namespace Revolt.Commands
         /// </returns>
         public async Task<IResult> ExecuteAsync(ICommandContext context, string input, IServiceProvider services, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
         {
-            services = services ?? EmptyServiceProvider.Instance;
+            services ??= EmptyServiceProvider.Instance;
 
             var searchResult = Search(input);
             if (!searchResult.IsSuccess)

@@ -1,6 +1,4 @@
-using System;
-
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     ///     Marks the execution information for a command.
@@ -15,12 +13,6 @@ namespace Revolt.Commands.Attributes
 
         public bool? IgnoreExtraArgs { get; }
 
-        /// <inheritdoc />
-        public CommandAttribute()
-        {
-            Text = null;
-        }
-
         /// <summary>
         ///     Initializes a new <see cref="CommandAttribute" /> attribute with the specified name.
         /// </summary>
@@ -29,6 +21,7 @@ namespace Revolt.Commands.Attributes
         {
             Text = text;
         }
+
         public CommandAttribute(string text, bool ignoreExtraArgs)
         {
             Text = text;

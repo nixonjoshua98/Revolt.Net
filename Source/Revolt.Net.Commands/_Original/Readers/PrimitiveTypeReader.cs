@@ -1,8 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Revolt.Commands.Results;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Enums;
 
-namespace Revolt.Commands.Readers
+namespace Revolt.Net.Commands._Original.Readers
 {
     internal static class PrimitiveTypeReader
     {

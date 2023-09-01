@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Core.Entities.Messages;
+﻿using Revolt.Net.Entities.Messages;
 
 namespace Revolt.Net.Websocket.Events.Incoming
 {

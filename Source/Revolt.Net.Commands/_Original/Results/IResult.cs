@@ -1,4 +1,6 @@
-namespace Revolt.Commands.Results
+using Revolt.Net.Commands.Enums;
+
+namespace Revolt.Net.Commands._Original.Results
 {
     /// <summary>
     ///     Contains information of the result related to a command.

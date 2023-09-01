@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
+using Revolt.Net.Commands.Enums;
 using System.Diagnostics;
 
-namespace Revolt.Commands.Results
+namespace Revolt.Net.Commands._Original.Results
 {
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
-    public struct SearchResult : IResult
+    public readonly struct SearchResult : IResult
     {
         public string Text { get; }
         public IReadOnlyList<CommandMatch> Commands { get; }
@@ -27,13 +26,13 @@ namespace Revolt.Commands.Results
         }
 
         public static SearchResult FromSuccess(string text, IReadOnlyList<CommandMatch> commands)
-            => new SearchResult(text, commands, null, null);
+            => new(text, commands, null, null);
         public static SearchResult FromError(CommandError error, string reason)
-            => new SearchResult(null, null, error, reason);
+            => new(null, null, error, reason);
         public static SearchResult FromError(Exception ex)
             => FromError(CommandError.Exception, ex.Message);
         public static SearchResult FromError(IResult result)
-            => new SearchResult(null, null, result.Error, result.ErrorReason);
+            => new(null, null, result.Error, result.ErrorReason);
 
         public override string ToString() => IsSuccess ? "Success" : $"{Error}: {ErrorReason}";
         private string DebuggerDisplay => IsSuccess ? $"Success ({Commands.Count} Results)" : $"{Error}: {ErrorReason}";

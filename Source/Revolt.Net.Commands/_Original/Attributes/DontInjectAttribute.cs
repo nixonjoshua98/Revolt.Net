@@ -1,6 +1,4 @@
-using System;
-
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     ///     Prevents the marked property from being injected into a module.

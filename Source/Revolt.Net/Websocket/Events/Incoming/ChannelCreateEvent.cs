@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Core.Entities.Channels;
+﻿using Revolt.Net.Entities.Channels;
 
 namespace Revolt.Net.Websocket.Events.Incoming
 {

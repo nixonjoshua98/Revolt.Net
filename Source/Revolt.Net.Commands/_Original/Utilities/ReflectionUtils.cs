@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Revolt.Net.Commands._Original.Attributes;
 using System.Reflection;
-using Revolt.Commands.Attributes;
 
-namespace Revolt.Commands.Utilities
+namespace Revolt.Net.Commands._Original.Utilities
 {
     internal static class ReflectionUtils
     {
@@ -12,6 +9,7 @@ namespace Revolt.Commands.Utilities
 
         internal static T CreateObject<T>(TypeInfo typeInfo, CommandService commands, IServiceProvider services = null)
             => CreateBuilder<T>(typeInfo, commands)(services);
+
         internal static Func<IServiceProvider, T> CreateBuilder<T>(TypeInfo typeInfo, CommandService commands)
         {
             var constructor = GetConstructor(typeInfo);
@@ -25,11 +23,12 @@ namespace Revolt.Commands.Utilities
                     args[i] = GetMember(commands, services, parameters[i].ParameterType, typeInfo);
                 var obj = InvokeConstructor<T>(constructor, args, typeInfo);
 
-                foreach(var property in properties)
+                foreach (var property in properties)
                     property.SetValue(obj, GetMember(commands, services, property.PropertyType, typeInfo));
                 return obj;
             };
         }
+
         private static T InvokeConstructor<T>(ConstructorInfo constructor, object[] args, TypeInfo ownerType)
         {
             try
@@ -51,9 +50,10 @@ namespace Revolt.Commands.Utilities
                 throw new InvalidOperationException($"Multiple constructors found for \"{ownerType.FullName}\".");
             return constructors[0];
         }
+
         private static PropertyInfo[] GetProperties(TypeInfo ownerType)
         {
-            var result = new List<System.Reflection.PropertyInfo>();
+            var result = new List<PropertyInfo>();
             while (ownerType != ObjectTypeInfo)
             {
                 foreach (var prop in ownerType.DeclaredProperties)
@@ -65,15 +65,20 @@ namespace Revolt.Commands.Utilities
             }
             return result.ToArray();
         }
+
         private static object GetMember(CommandService commands, IServiceProvider services, Type memberType, TypeInfo ownerType)
         {
             if (memberType == typeof(CommandService))
                 return commands;
+
             if (memberType == typeof(IServiceProvider) || memberType == services.GetType())
                 return services;
+
             var service = services.GetService(memberType);
+
             if (service != null)
                 return service;
+
             throw new InvalidOperationException($"Failed to create \"{ownerType.FullName}\", dependency \"{memberType.Name}\" was not found.");
         }
     }

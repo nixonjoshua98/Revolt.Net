@@ -1,7 +1,7 @@
-﻿using Revolt.Net.Clients;
-using Revolt.Net.Core.Common.Json;
-using Revolt.Net.Core.Entities.Channels;
-using Revolt.Net.Core.Entities.Messages;
+﻿using Revolt.Net.Client;
+using Revolt.Net.Common.Json;
+using Revolt.Net.Entities.Channels;
+using Revolt.Net.Entities.Messages;
 using Revolt.Net.Websocket.Events.Incoming;
 using Revolt.Net.Websocket.Events.Outgoing;
 using System.Net.WebSockets;
@@ -18,13 +18,13 @@ internal sealed class RevoltWebsocketConnection
     private readonly ClientWebSocket Ws;
     private readonly string Token;
     private readonly System.Timers.Timer PingTimer;
-    private readonly RevoltBotClient Client;
+    private readonly RevoltClient Client;
 
     private CancellationToken ConnectionToken = default!;
 
     public TimeSpan SocketPing { get; private set; } = TimeSpan.Zero;
 
-    public RevoltWebsocketConnection(RevoltBotClient client, string url, string token)
+    public RevoltWebsocketConnection(RevoltClient client, string url, string token)
     {
         Client = client;
         Url = new(url);

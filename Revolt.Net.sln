@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net", "Source\Revolt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.TestBot", "Source\Revolt.Net.TestBot\Revolt.Net.TestBot.csproj", "{8EBEB8FD-AFF7-4D62-BF00-3B6E1ADEDDFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Revolt.Net.Commands", "Source\Revolt.Net.Commands\Revolt.Net.Commands.csproj", "{322F41E4-0343-4A36-BD7F-4D90195F9B96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.Commands", "Source\Revolt.Net.Commands\Revolt.Net.Commands.csproj", "{322F41E4-0343-4A36-BD7F-4D90195F9B96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

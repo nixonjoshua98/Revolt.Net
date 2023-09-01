@@ -1,10 +1,8 @@
-using System;
+using Revolt.Net.Commands._Original.Info;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using Revolt.Commands.Info;
 
-namespace Revolt.Commands.Map
+namespace Revolt.Net.Commands._Original.Map
 {
     internal class CommandMapNode
     {
@@ -12,7 +10,7 @@ namespace Revolt.Commands.Map
 
         private readonly ConcurrentDictionary<string, CommandMapNode> _nodes;
         private readonly string _name;
-        private readonly object _lockObj = new object();
+        private readonly object _lockObj = new();
         private ImmutableArray<CommandInfo> _commands;
 
         public bool IsEmpty => _commands.Length == 0 && _nodes.Count == 0;
@@ -86,7 +84,6 @@ namespace Revolt.Commands.Map
             if (visitChildren)
             {
                 string name;
-                CommandMapNode nextNode;
 
                 //Search for next segment
                 int nextSegment = NextSegment(text, index, service._separatorChar);
@@ -94,7 +91,7 @@ namespace Revolt.Commands.Map
                     name = text.Substring(index);
                 else
                     name = text.Substring(index, nextSegment - index);
-                if (_nodes.TryGetValue(name, out nextNode))
+                if (_nodes.TryGetValue(name, out CommandMapNode nextNode))
                 {
                     foreach (var cmd in nextNode.GetCommands(service, nextSegment == -1 ? "" : text, nextSegment + 1, true))
                         yield return cmd;
@@ -130,7 +127,7 @@ namespace Revolt.Commands.Map
                         lowest = index;
                 }
             }
-            return (lowest != int.MaxValue) ? lowest : -1;
+            return lowest != int.MaxValue ? lowest : -1;
         }
     }
 }

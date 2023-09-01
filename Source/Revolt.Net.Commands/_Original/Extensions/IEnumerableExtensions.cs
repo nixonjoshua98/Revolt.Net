@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-
-namespace Revolt.Commands.Extensions
+namespace Revolt.Net.Commands._Original.Extensions
 {
-    public static class IEnumerableExtensions
+    internal static class IEnumerableExtensions
     {
         public static IEnumerable<TResult> Permutate<TFirst, TSecond, TResult>(
             this IEnumerable<TFirst> set,

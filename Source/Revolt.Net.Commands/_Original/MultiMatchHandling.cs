@@ -1,4 +1,4 @@
-namespace Revolt.Commands
+namespace Revolt.Net.Commands._Original
 {
     /// <summary>
     /// Specifies the behavior when multiple matches are found during the command parsing stage.

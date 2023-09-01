@@ -1,9 +1,9 @@
-using System;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Enums;
 using System.Globalization;
-using System.Threading.Tasks;
-using Revolt.Commands.Results;
 
-namespace Revolt.Commands.Readers
+namespace Revolt.Net.Commands._Original.Readers
 {
     internal class TimeSpanTypeReader : TypeReader
     {
@@ -28,7 +28,7 @@ namespace Revolt.Commands.Readers
         /// <inheritdoc />
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
-            return (TimeSpan.TryParseExact(input.ToLowerInvariant(), Formats, CultureInfo.InvariantCulture, out var timeSpan))
+            return TimeSpan.TryParseExact(input.ToLowerInvariant(), Formats, CultureInfo.InvariantCulture, out var timeSpan)
                 ? Task.FromResult(TypeReaderResult.FromSuccess(timeSpan))
                 : Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Failed to parse TimeSpan"));
         }

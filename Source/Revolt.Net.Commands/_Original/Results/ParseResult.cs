@@ -1,15 +1,14 @@
-using System;
-using System.Collections.Generic;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands.Enums;
 using System.Diagnostics;
-using Revolt.Commands.Info;
 
-namespace Revolt.Commands.Results
+namespace Revolt.Net.Commands._Original.Results
 {
     /// <summary>
     ///     Contains information for the parsing result from the command service's parser.
     /// </summary>
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
-    public struct ParseResult : IResult
+    public readonly struct ParseResult : IResult
     {
         public IReadOnlyList<TypeReaderResult> ArgValues { get; }
         public IReadOnlyList<TypeReaderResult> ParamValues { get; }
@@ -70,15 +69,15 @@ namespace Revolt.Commands.Results
         }
 
         public static ParseResult FromError(CommandError error, string reason)
-            => new ParseResult(null, null, error, reason, null);
+            => new(null, null, error, reason, null);
         public static ParseResult FromError(CommandError error, string reason, ParameterInfo parameterInfo)
-            => new ParseResult(null, null, error, reason, parameterInfo);
+            => new(null, null, error, reason, parameterInfo);
         public static ParseResult FromError(Exception ex)
             => FromError(CommandError.Exception, ex.Message);
         public static ParseResult FromError(IResult result)
-            => new ParseResult(null, null, result.Error, result.ErrorReason, null);
+            => new(null, null, result.Error, result.ErrorReason, null);
         public static ParseResult FromError(IResult result, ParameterInfo parameterInfo)
-            => new ParseResult(null, null, result.Error, result.ErrorReason, parameterInfo);
+            => new(null, null, result.Error, result.ErrorReason, parameterInfo);
 
         public override string ToString() => IsSuccess ? "Success" : $"{Error}: {ErrorReason}";
         private string DebuggerDisplay => IsSuccess ? $"Success ({ArgValues.Count}{(ParamValues.Count > 0 ? $" +{ParamValues.Count} Values" : "")})" : $"{Error}: {ErrorReason}";

@@ -1,13 +1,11 @@
-using System.Collections.Generic;
-using Revolt.Commands.Info;
+using Revolt.Net.Commands._Original.Info;
 
-namespace Revolt.Commands.Map
+namespace Revolt.Net.Commands._Original.Map
 {
     internal class CommandMap
     {
         private readonly CommandService _service;
         private readonly CommandMapNode _root;
-        private static readonly string[] BlankAliases = { "" };
 
         public CommandMap(CommandService service)
         {
@@ -20,6 +18,7 @@ namespace Revolt.Commands.Map
             foreach (string text in command.Aliases)
                 _root.AddCommand(_service, text, 0, command);
         }
+
         public void RemoveCommand(CommandInfo command)
         {
             foreach (string text in command.Aliases)

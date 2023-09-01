@@ -1,16 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Revolt.Commands.Info;
-using Revolt.Commands.Results;
+using Revolt.Net.Commands._Original.Info;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
 
-namespace Revolt.Commands
+namespace Revolt.Net.Commands._Original
 {
-    public struct CommandMatch
+    public readonly struct CommandMatch
     {
-        /// <summary> The command that matches the search result. </summary>
+        /// <summary> 
+        ///     The command that matches the search result. 
+        /// </summary>
         public CommandInfo Command { get; }
-        /// <summary> The alias of the command. </summary>
+
+        /// <summary>
+        ///     The alias of the command.
+        /// </summary>
         public string Alias { get; }
 
         public CommandMatch(CommandInfo command, string alias)
@@ -21,10 +24,13 @@ namespace Revolt.Commands
 
         public Task<PreconditionResult> CheckPreconditionsAsync(ICommandContext context, IServiceProvider services = null)
             => Command.CheckPreconditionsAsync(context, services);
+
         public Task<ParseResult> ParseAsync(ICommandContext context, SearchResult searchResult, PreconditionResult preconditionResult = null, IServiceProvider services = null)
             => Command.ParseAsync(context, Alias.Length, searchResult, preconditionResult, services);
+
         public Task<IResult> ExecuteAsync(ICommandContext context, IEnumerable<object> argList, IEnumerable<object> paramList, IServiceProvider services)
             => Command.ExecuteAsync(context, argList, paramList, services);
+
         public Task<IResult> ExecuteAsync(ICommandContext context, ParseResult parseResult, IServiceProvider services)
             => Command.ExecuteAsync(context, parseResult, services);
     }

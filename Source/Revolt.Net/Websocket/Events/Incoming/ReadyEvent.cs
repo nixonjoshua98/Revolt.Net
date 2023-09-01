@@ -1,6 +1,6 @@
-﻿using Revolt.Net.Core.Entities.Channels;
-using Revolt.Net.Core.Entities.Servers;
-using Revolt.Net.Core.Entities.Users;
+﻿using Revolt.Net.Entities.Channels;
+using Revolt.Net.Entities.Servers;
+using Revolt.Net.Entities.Users;
 
 namespace Revolt.Net.Websocket.Events.Incoming;
 

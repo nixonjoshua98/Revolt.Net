@@ -1,23 +1,25 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Revolt.Commands;
-using Revolt.Net.Clients;
+using Microsoft.Extensions.DependencyInjection;
+using Revolt.Net.Client;
 using Revolt.Net.TestBot;
 
 var secrets = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
 
-var client = new RevoltBotClient(token: secrets["TestBotToken"]!);
+var services = new ServiceCollection();
 
-var commands = new CommandService(new CommandServiceConfig());
-await commands.AddModuleAsync<HelloWorldModule>(null!);
+var client = new RevoltClient(token: secrets["TestBotToken"]!);
 
-client.Message.Add(async e =>
-{
-    var ctx = new RevoltCommandContext(e.Message);
+var commands = new CommandService();
 
-    var result = await commands.ExecuteAsync(ctx, 0, null!, MultiMatchHandling.Best);
-});
+client.Log += async message => Console.WriteLine($"{message.Message} | {message.Exception}");
+
+commands.Log += async message => Console.WriteLine($"{message.Message} | {message.Exception}");
+
+var provider = services.BuildServiceProvider();
+
+await CommandHandler.SetupAsync(client, commands, provider);
 
 try
 {

@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
+using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands._Original.Builders;
+using Revolt.Net.Commands._Original.Extensions;
 using System.Collections.Immutable;
-using System.Linq;
-using Revolt.Commands.Attributes;
-using Revolt.Commands.Builders;
-using Revolt.Commands.Extensions;
 
-namespace Revolt.Commands.Info
+namespace Revolt.Net.Commands._Original.Info
 {
     /// <summary>
     ///     Provides the information of a module.
@@ -17,18 +14,17 @@ namespace Revolt.Commands.Info
         ///     Gets the command service associated with this module.
         /// </summary>
         public CommandService Service { get; }
+
         /// <summary>
         ///     Gets the name of this module.
         /// </summary>
         public string Name { get; }
+
         /// <summary>
         ///     Gets the summary of this module.
         /// </summary>
         public string Summary { get; }
-        /// <summary>
-        ///     Gets the remarks of this module.
-        /// </summary>
-        public string Remarks { get; }
+
         /// <summary>
         ///     Gets the group name (main prefix) of this module.
         /// </summary>
@@ -38,26 +34,32 @@ namespace Revolt.Commands.Info
         ///     Gets a read-only list of aliases associated with this module.
         /// </summary>
         public IReadOnlyList<string> Aliases { get; }
+
         /// <summary>
         ///     Gets a read-only list of commands associated with this module.
         /// </summary>
         public IReadOnlyList<CommandInfo> Commands { get; }
+
         /// <summary>
         ///     Gets a read-only list of preconditions that apply to this module.
         /// </summary>
         public IReadOnlyList<PreconditionAttribute> Preconditions { get; }
+
         /// <summary>
         ///     Gets a read-only list of attributes that apply to this module.
         /// </summary>
         public IReadOnlyList<Attribute> Attributes { get; }
+
         /// <summary>
         ///     Gets a read-only list of submodules associated with this module.
         /// </summary>
         public IReadOnlyList<ModuleInfo> Submodules { get; }
+
         /// <summary>
         ///     Gets the parent module of this submodule if applicable.
         /// </summary>
         public ModuleInfo Parent { get; }
+
         /// <summary>
         ///     Gets a value that indicates whether this module is a submodule or not.
         /// </summary>
@@ -69,7 +71,6 @@ namespace Revolt.Commands.Info
 
             Name = builder.Name;
             Summary = builder.Summary;
-            Remarks = builder.Remarks;
             Group = builder.Group;
             Parent = parent;
 
@@ -78,37 +79,37 @@ namespace Revolt.Commands.Info
             Preconditions = BuildPreconditions(builder).ToImmutableArray();
             Attributes = BuildAttributes(builder).ToImmutableArray();
 
-            Submodules = BuildSubmodules(builder, service, services).ToImmutableArray();
+            Submodules = BuildSubModules(builder, service, services).ToImmutableArray();
         }
 
         private static IEnumerable<string> BuildAliases(ModuleBuilder builder, CommandService service)
         {
             var result = builder.Aliases.ToList();
+
             var builderQueue = new Queue<ModuleBuilder>();
 
             var parent = builder;
+
             while ((parent = parent.Parent) != null)
                 builderQueue.Enqueue(parent);
 
-            while (builderQueue.Count > 0)
+            while (builderQueue.TryDequeue(out var level))
             {
-                var level = builderQueue.Dequeue();
-                // permute in reverse because we want to *prefix* our aliases
-                result = Enumerable.ToList<string>(level.Aliases.Permutate(result, (first, second) =>
+                // Permute in reverse because we want to *prefix* our aliases
+                result = level.Aliases.Permutate(result, (first, second) =>
                 {
-                    if (first == "")
-                        return second;
-                    else if (second == "")
-                        return first;
-                    else
-                        return first + service._separatorChar + second;
-                }));
+                    return first switch
+                    {
+                        "" => second,
+                        _ => string.IsNullOrEmpty(second) ? first : $"{first}{service._separatorChar}{second}",
+                    };
+                }).ToList();
             }
 
             return result;
         }
 
-        private List<ModuleInfo> BuildSubmodules(ModuleBuilder parent, CommandService service, IServiceProvider services)
+        private List<ModuleInfo> BuildSubModules(ModuleBuilder parent, CommandService service, IServiceProvider services)
         {
             var result = new List<ModuleInfo>();
 

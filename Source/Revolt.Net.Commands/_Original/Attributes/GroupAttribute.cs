@@ -1,6 +1,4 @@
-using System;
-
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     ///     Marks the module as a command group.
@@ -18,6 +16,7 @@ namespace Revolt.Commands.Attributes
         {
             Prefix = null;
         }
+
         /// <summary>
         ///     Initializes a new <see cref="GroupAttribute" /> with the provided prefix.
         /// </summary>

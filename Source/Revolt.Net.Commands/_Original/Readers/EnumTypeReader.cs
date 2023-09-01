@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Enums;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Revolt.Commands.Results;
 
-namespace Revolt.Commands.Readers
+namespace Revolt.Net.Commands._Original.Readers
 {
     internal static class EnumTypeReader
     {
@@ -24,7 +22,7 @@ namespace Revolt.Commands.Readers
         private readonly IReadOnlyDictionary<T, object> _enumsByValue;
         private readonly Type _enumType;
         private readonly TryParseDelegate<T> _tryParse;
-        
+
         public EnumTypeReader(Type type, TryParseDelegate<T> parser)
         {
             _enumType = type;
@@ -34,7 +32,7 @@ namespace Revolt.Commands.Readers
             var byValueBuilder = ImmutableDictionary.CreateBuilder<T, object>();
 
             foreach (var v in Enum.GetNames(_enumType))
-            {      
+            {
                 var parsedValue = Enum.Parse(_enumType, v);
                 byNameBuilder.Add(v.ToLower(), parsedValue);
                 if (!byValueBuilder.ContainsKey((T)parsedValue))

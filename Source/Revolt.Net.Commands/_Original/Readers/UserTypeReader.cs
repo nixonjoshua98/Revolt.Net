@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Enums;
+using Revolt.Net.Entities.Users;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Net.Sockets;
-using System.Threading.Tasks;
-using Revolt.Commands.Results;
-using Revolt.Net.Core.Entities.Users;
 
-namespace Revolt.Commands.Readers
+namespace Revolt.Net.Commands._Original.Readers
 {
-    public class UserTypeReader<T> : TypeReader where T : User
+    public class UserTypeReader<T> : TypeReader
+        where T : User
     {
         public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
             IServiceProvider services)
@@ -29,7 +27,7 @@ namespace Revolt.Commands.Readers
             }
 
             // By Username (0.9)
-            AddResult(results, (context.Client.GetUserByName(input) as T)!, 0.9f);
+            AddResult(results, context.Client.GetUserByName(input) as T, 0.9f);
             // todo: By Nickname
 
             if (results.Count != 0)

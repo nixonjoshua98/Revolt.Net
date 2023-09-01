@@ -1,15 +1,14 @@
-﻿using Revolt.Net.Core.Entities.Channels;
-using Revolt.Net.Core.Entities.Messages;
-using Revolt.Net.Core.Entities.Servers;
-using Revolt.Net.Core.Entities.Users;
-using Revolt.Net.Core.Entities.Users.Partials;
+﻿using Revolt.Net.Entities.Channels;
+using Revolt.Net.Entities.Messages;
+using Revolt.Net.Entities.Servers;
+using Revolt.Net.Entities.Users;
+using Revolt.Net.Entities.Users.Partials;
 
 namespace Revolt.Net.State
 {
     public interface IRevoltStateCache
     {
         void AddChannel(Channel channel);
-        void AddChannels(IEnumerable<Channel> ls);
         Channel GetChannel(string id);
         void AddMessage(Message message);
         void AddServer(Server server);
@@ -26,5 +25,6 @@ namespace Revolt.Net.State
         void SetServerMembers(string id, IEnumerable<ServerMemberReference> ls);
         void UpdateUser(string id, PartialUser partialUser);
         User GetUserByName(string name);
+        Message GetMessage(string channel, string message);
     }
 }

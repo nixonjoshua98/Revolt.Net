@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Revolt.Commands.Utilities
+namespace Revolt.Net.Commands._Original.Utilities
 {
     /// <summary>
     /// Utility class which contains the default matching pairs of quotation marks for CommandServiceConfig

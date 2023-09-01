@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using Revolt.Commands.Utilities;
+using Revolt.Net.Commands._Original.Utilities;
+using Revolt.Net.Logging;
 
-namespace Revolt.Commands
+namespace Revolt.Net.Commands._Original
 {
     /// <summary>
     ///     Represents a configuration class for <see cref="CommandService"/>.
@@ -12,12 +12,20 @@ namespace Revolt.Commands
         ///     Gets or sets the <see cref="char"/> that separates an argument with another.
         /// </summary>
         public char SeparatorChar { get; set; } = ' ';
-        
+
         /// <summary>
         ///     Gets or sets whether commands should be case-sensitive.
         /// </summary>
         public bool CaseSensitiveCommands { get; set; } = false;
 
+        /// <summary>
+        ///     Gets or sets the minimum log level severity that will be sent to the <see cref="CommandService.Log"/> event.
+        /// </summary>
+        public LogSeverity LogLevel { get; set; } = LogSeverity.Info;
+
+        /// <summary>
+        ///     Gets or sets whether <see cref="RunMode.Sync"/> commands should push exceptions up to the caller.
+        /// </summary>
         public bool ThrowOnError { get; set; } = true;
 
         /// <summary>

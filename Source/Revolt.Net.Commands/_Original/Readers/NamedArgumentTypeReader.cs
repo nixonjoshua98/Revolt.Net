@@ -1,19 +1,26 @@
-using System;
+using Revolt.Net.Commands._Original.Attributes;
+using Revolt.Net.Commands._Original.Builders;
+using Revolt.Net.Commands._Original.Results;
+using Revolt.Net.Commands._Original.Utilities;
+using Revolt.Net.Commands.Context;
+using Revolt.Net.Commands.Enums;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Revolt.Commands.Attributes;
-using Revolt.Commands.Builders;
-using Revolt.Commands.Results;
-using Revolt.Commands.Utilities;
 
-namespace Revolt.Commands.Readers
+namespace Revolt.Net.Commands._Original.Readers
 {
-    internal sealed class NamedArgumentTypeReader<T> : TypeReader
-        where T : class, new()
+    file enum ReadState
+    {
+        LookingForParameter,
+        InParameter,
+        LookingForArgument,
+        InArgument,
+        InQuotedArgument,
+        End
+    }
+
+    internal sealed class NamedArgumentTypeReader<T> : TypeReader where T : class, new()
     {
         private static readonly IReadOnlyDictionary<string, PropertyInfo> _tProps = typeof(T).GetTypeInfo().DeclaredProperties
             .Where(p => p.SetMethod != null && p.SetMethod.IsPublic && !p.SetMethod.IsStatic)
@@ -62,7 +69,7 @@ namespace Revolt.Commands.Readers
                     switch (state)
                     {
                         case ReadState.LookingForParameter:
-                            if (Char.IsWhiteSpace(currentChar))
+                            if (char.IsWhiteSpace(currentChar))
                                 continue;
                             else
                             {
@@ -80,18 +87,18 @@ namespace Revolt.Commands.Readers
                             }
                             break;
                         case ReadState.LookingForArgument:
-                            if (Char.IsWhiteSpace(currentChar))
+                            if (char.IsWhiteSpace(currentChar))
                                 continue;
                             else
                             {
                                 beginRead = currentRead;
-                                state = (QuotationAliasUtils.GetDefaultAliasMap.TryGetValue(currentChar, out match))
+                                state = QuotationAliasUtils.GetDefaultAliasMap.TryGetValue(currentChar, out match)
                                     ? ReadState.InQuotedArgument
                                     : ReadState.InArgument;
                             }
                             break;
                         case ReadState.InArgument:
-                            if (!Char.IsWhiteSpace(currentChar))
+                            if (!char.IsWhiteSpace(currentChar))
                                 continue;
                             else
                                 return GetPropAndValue(out arg);
@@ -111,7 +118,7 @@ namespace Revolt.Commands.Readers
                 PropertyInfo GetPropAndValue(out string argv)
                 {
                     bool quoted = state == ReadState.InQuotedArgument;
-                    state = (currentRead == (quoted ? input.Length - 1 : input.Length))
+                    state = currentRead == (quoted ? input.Length - 1 : input.Length)
                         ? ReadState.End
                         : ReadState.LookingForParameter;
 
@@ -120,7 +127,7 @@ namespace Revolt.Commands.Readers
                         argv = input.Substring(beginRead + 1, currentRead - beginRead - 1).Trim();
                         currentRead++;
                     }
-                    else 
+                    else
                         argv = input.Substring(beginRead, currentRead - beginRead);
 
                     return _tProps[currentParam];
@@ -138,10 +145,10 @@ namespace Revolt.Commands.Readers
                 }
 
                 var overridden = prop.GetCustomAttribute<OverrideTypeReaderAttribute>();
-                var reader = (overridden != null)
+                var reader = overridden != null
                     ? ModuleClassBuilder.GetTypeReader(_commands, elemType, overridden.TypeReader, services)
-                    : (_commands.GetDefaultTypeReader(elemType)
-                        ?? _commands.GetTypeReaders(elemType).FirstOrDefault().Value);
+                    : _commands.GetDefaultTypeReader(elemType)
+                        ?? _commands.GetTypeReaders(elemType).FirstOrDefault().Value;
 
                 if (reader != null)
                 {
@@ -161,7 +168,7 @@ namespace Revolt.Commands.Readers
         private static async Task<object> ReadSingle(TypeReader reader, ICommandContext context, string arg, IServiceProvider services)
         {
             var readResult = await reader.ReadAsync(context, arg, services).ConfigureAwait(false);
-            return (readResult.IsSuccess)
+            return readResult.IsSuccess
                 ? readResult.BestMatch
                 : null;
         }
@@ -176,19 +183,10 @@ namespace Revolt.Commands.Readers
             }
             return objs.ToImmutableArray();
         }
+
         private static readonly MethodInfo _readMultipleMethod = typeof(NamedArgumentTypeReader<T>)
             .GetTypeInfo()
             .DeclaredMethods
             .Single(m => m.IsPrivate && m.IsStatic && m.Name == nameof(ReadMultiple));
-
-        private enum ReadState
-        {
-            LookingForParameter,
-            InParameter,
-            LookingForArgument,
-            InArgument,
-            InQuotedArgument,
-            End
-        }
     }
 }

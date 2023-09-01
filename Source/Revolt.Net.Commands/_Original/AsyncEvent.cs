@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 
-namespace Revolt.Commands
+namespace Revolt.Net.Commands._Original
 {
     internal class AsyncEvent<T>
         where T : class
     {
-        private readonly object _subLock = new object();
+        private readonly object _subLock = new();
         internal ImmutableArray<T> _subscriptions;
 
         public bool HasSubscribers => _subscriptions.Length != 0;
@@ -34,7 +31,7 @@ namespace Revolt.Commands
     }
 
     internal static class EventExtensions
-    { 
+    {
         public static async Task InvokeAsync<T>(this AsyncEvent<Func<T, Task>> eventHandler, T arg)
         {
             var subscribers = eventHandler.Subscriptions;

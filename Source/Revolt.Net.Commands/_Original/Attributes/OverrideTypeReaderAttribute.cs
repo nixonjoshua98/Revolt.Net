@@ -1,8 +1,7 @@
-using System;
+using Revolt.Net.Commands._Original.Readers;
 using System.Reflection;
-using Revolt.Commands.Readers;
 
-namespace Revolt.Commands.Attributes
+namespace Revolt.Net.Commands._Original.Attributes
 {
     /// <summary>
     ///     Marks the <see cref="Type"/> to be read by the specified <see cref="Readers.TypeReader"/>.
@@ -44,8 +43,8 @@ namespace Revolt.Commands.Attributes
         {
             if (!TypeReaderTypeInfo.IsAssignableFrom(overridenTypeReader.GetTypeInfo()))
                 throw new ArgumentException($"{nameof(overridenTypeReader)} must inherit from {nameof(TypeReader)}.");
-            
+
             TypeReader = overridenTypeReader;
         }
-    } 
+    }
 }
