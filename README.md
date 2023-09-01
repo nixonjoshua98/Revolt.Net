@@ -18,6 +18,9 @@ Revolt.Net can be downloaded via [NuGet](https://www.nuget.org/packages/Revolt.N
 # Versioning & Releases
 Revolt.Net is currently in active development, which means it is not uncommon for the ABI to be changed. 
 
+# Contributing
+Any and all pull requests are welcomed! 
+
 <br/>
 
 *Revolt.Net continues on from what [Jan0660 (Jan)](https://github.com/Jan0660) started up until version 0.0.9*
