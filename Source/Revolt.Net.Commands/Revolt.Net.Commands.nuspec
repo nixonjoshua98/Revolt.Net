@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+
+	<metadata>
+		<id>Revolt.Net.Commands</id>
+		<version>0.1</version>
+		<title>Revolt.Net.Commands</title>
+		<authors>JNixon</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<!-- <icon>icon.png</icon> -->
+		<projectUrl>https://github.com/nixonjoshua98/Revolt.Net</projectUrl>
+		<description>Commands functionality for Revolt.Net</description>
+		<releaseNotes>Initial release after taking ownership</releaseNotes>
+		<tags>revolt;revoltchat</tags>
+		<readme>README.md</readme>
+	</metadata>
+
+	<files>
+		<file src="..\..\README.md" />
+	</files>
+
+</package>

@@ -1,5 +1,5 @@
 ﻿using Revolt.Net.Entities.Relationships;
-using Revolt.Net.Entities.Users.Partials;
+using Revolt.Net.Entities.Users.Partial;
 using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Entities.Users

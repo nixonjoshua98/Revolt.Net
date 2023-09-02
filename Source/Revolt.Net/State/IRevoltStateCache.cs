@@ -2,7 +2,7 @@
 using Revolt.Net.Entities.Messages;
 using Revolt.Net.Entities.Servers;
 using Revolt.Net.Entities.Users;
-using Revolt.Net.Entities.Users.Partials;
+using Revolt.Net.Entities.Users.Partial;
 
 namespace Revolt.Net.State
 {

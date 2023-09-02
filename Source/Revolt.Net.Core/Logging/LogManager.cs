@@ -1,7 +1,4 @@
-﻿using Revolt.Net.Commands._Original;
-using Revolt.Net.Common;
-
-namespace Revolt.Net.Logging
+﻿namespace Revolt.Net.Core.Logging
 {
     internal class LogManager
     {

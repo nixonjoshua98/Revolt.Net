@@ -47,6 +47,6 @@ namespace Revolt.Net.Rest.ApiClient
             await Client.SendAsync("PUT", $"channels/{channel}/ack/{message}");
 
         public async Task<Message> GetMessageAsync(string channel, string message) =>
-            await Client.SendAsync < Message>("GET", $"channels/{channel}/{message}/{message}");
+            await Client.SendAsync<Message>("GET", $"channels/{channel}/{message}/{message}");
     }
 }

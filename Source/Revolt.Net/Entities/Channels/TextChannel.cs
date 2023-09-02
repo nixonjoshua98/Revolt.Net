@@ -1,5 +1,4 @@
-﻿using Revolt.Net.Entities.Messages;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Entities.Channels
 {

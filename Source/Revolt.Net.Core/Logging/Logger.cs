@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Logging
+﻿namespace Revolt.Net.Core.Logging
 {
     internal sealed class Logger
     {

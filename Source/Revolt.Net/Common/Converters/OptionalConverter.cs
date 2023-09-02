@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Common.Types;
+﻿using Revolt.Net.Core.Common.Types;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;

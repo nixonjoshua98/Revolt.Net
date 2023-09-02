@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Exceptions
+﻿namespace Revolt.Net.Core.Exceptions
 {
     public class RevoltException : Exception
     {

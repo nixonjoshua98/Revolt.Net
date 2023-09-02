@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Entities.Users.Partials;
+﻿using Revolt.Net.Entities.Users.Partial;
 
 namespace Revolt.Net.Entities.Users
 {

@@ -1,6 +1,6 @@
-﻿using Revolt.Net.Common.Types;
+﻿using Revolt.Net.Core.Common.Types;
 
-namespace Revolt.Net.Entities.Users.Partials
+namespace Revolt.Net.Entities.Users.Partial
 {
     public sealed class PartialUser
     {

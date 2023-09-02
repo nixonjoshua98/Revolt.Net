@@ -26,7 +26,7 @@ namespace Revolt.Net.State.Messages
         public Message Get(string channelId, string messageId)
         {
             var message = Cache.GetMessage(channelId, messageId);
-            message?.SetClient(Client); 
+            message?.SetClient(Client);
             return message;
         }
 

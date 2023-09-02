@@ -1,5 +1,4 @@
-using Revolt.Net.Commands._Original;
-using Revolt.Net.Commands._Original.Builders;
+using Revolt.Net.Commands.Builders;
 using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Info;
 

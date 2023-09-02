@@ -1,4 +1,4 @@
-using Revolt.Net.Commands._Original.Readers;
+using Revolt.Net.Commands.Readers;
 using System.Reflection;
 
 namespace Revolt.Net.Commands.Attributes

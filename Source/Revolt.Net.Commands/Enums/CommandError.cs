@@ -1,5 +1,5 @@
-using Revolt.Net.Commands._Original.Readers;
 using Revolt.Net.Commands.Attributes;
+using Revolt.Net.Commands.Readers;
 
 namespace Revolt.Net.Commands.Enums
 {

@@ -1,5 +1,5 @@
 ﻿using Revolt.Net.Client;
-using Revolt.Net.Commands._Original;
+using Revolt.Net.Commands;
 using Revolt.Net.Commands.Context;
 using Revolt.Net.Websocket.Events.Incoming;
 

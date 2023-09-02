@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Revolt.Net.Client;
-using Revolt.Net.Commands._Original;
+using Revolt.Net.Commands;
 using Revolt.Net.TestBot;
 
 var secrets = new ConfigurationBuilder()
@@ -15,18 +15,10 @@ var client = new RevoltClient(token: secrets["TestBotToken"]!);
 var commands = new CommandService();
 
 client.Log += async message => Console.WriteLine($"{message.Message} | {message.Exception}");
-
 commands.Log += async message => Console.WriteLine($"{message.Message} | {message.Exception}");
 
 var provider = services.BuildServiceProvider();
 
 await CommandHandler.SetupAsync(client, commands, provider);
 
-try
-{
-    await client.RunAsync();
-}
-finally
-{
-    await client.LogoutAsync();
-}
+await client.RunAsync();

@@ -1,5 +1,3 @@
-using Revolt.Net.Commands._Original;
-
 namespace Revolt.Net.Commands.Attributes
 {
     /// <summary>

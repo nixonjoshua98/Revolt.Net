@@ -1,7 +1,6 @@
-using Revolt.Net.Commands._Original;
-using Revolt.Net.Commands._Original.Builders;
-using Revolt.Net.Commands._Original.Extensions;
 using Revolt.Net.Commands.Attributes;
+using Revolt.Net.Commands.Builders;
+using Revolt.Net.Commands.Extensions;
 using System.Collections.Immutable;
 
 namespace Revolt.Net.Commands.Info

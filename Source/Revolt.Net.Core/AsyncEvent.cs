@@ -1,11 +1,11 @@
 ﻿using System.Collections.Immutable;
 
-namespace Revolt.Net.Commands._Original
+namespace Revolt.Net.Core
 {
     public class AsyncEvent<T>
         where T : class
     {
-        private readonly object _subLock = new object();
+        private readonly object _subLock = new();
         internal ImmutableArray<T> _subscriptions;
 
         public bool HasSubscribers => _subscriptions.Length != 0;

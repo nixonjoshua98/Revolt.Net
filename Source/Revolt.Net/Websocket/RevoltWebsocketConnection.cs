@@ -1,6 +1,6 @@
 ﻿using Revolt.Net.Client;
-using Revolt.Net.Commands._Original;
 using Revolt.Net.Common.Json;
+using Revolt.Net.Core;
 using Revolt.Net.Entities.Channels;
 using Revolt.Net.Entities.Messages;
 using Revolt.Net.Websocket.Events.Incoming;

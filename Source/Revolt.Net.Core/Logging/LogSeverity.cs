@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Logging
+﻿namespace Revolt.Net.Core.Logging
 {
     /// <summary>
     ///     Specifies the severity of the log message.
