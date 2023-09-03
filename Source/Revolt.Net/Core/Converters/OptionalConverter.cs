@@ -1,9 +1,8 @@
-﻿using Revolt.Net.Core.Common.Types;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-namespace Revolt.Net.Core.Common.Converters
+namespace Revolt.Net.Converters
 {
     internal sealed class OptionalConverterFactory : JsonConverterFactory
     {

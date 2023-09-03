@@ -1,8 +1,8 @@
-﻿using Revolt.Net.Core.Exceptions;
-using Revolt.Net.Entities;
+﻿using Revolt.Net.Entities;
 using Revolt.Net.Entities.Channels;
 using Revolt.Net.Entities.Servers;
 using Revolt.Net.Entities.Users;
+using Revolt.Net.Exceptions;
 using Revolt.Net.Rest;
 using Revolt.Net.Rest.ApiClient;
 using Revolt.Net.State;

@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Core.Common.Types
+﻿namespace Revolt.Net
 {
     internal readonly struct Union<T1, T2>
     {

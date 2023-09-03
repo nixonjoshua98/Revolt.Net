@@ -1,9 +1,8 @@
 ﻿using System.Collections.Immutable;
 
-namespace Revolt.Net.Core
+namespace Revolt.Net
 {
-    public class AsyncEvent<T>
-        where T : class
+    public class AsyncEvent<T> where T : class
     {
         private readonly object _subLock = new();
         internal ImmutableArray<T> _subscriptions;

@@ -1,6 +1,4 @@
-﻿using Revolt.Net.Core.Common.Types;
-
-namespace Revolt.Net.Entities.Users.Partial
+﻿namespace Revolt.Net.Entities.Users.Partial
 {
     public sealed class PartialUserStatus
     {

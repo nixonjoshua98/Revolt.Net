@@ -1,5 +1,5 @@
 using Revolt.Net.Commands.Utilities;
-using Revolt.Net.Core.Logging;
+using Revolt.Net.Logging;
 
 namespace Revolt.Net.Commands
 {

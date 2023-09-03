@@ -1,5 +1,4 @@
-﻿using Revolt.Net.Core;
-using Revolt.Net.Core.Logging;
+﻿using Revolt.Net.Logging;
 using Revolt.Net.Websocket.Events.Incoming;
 
 namespace Revolt.Net.Client

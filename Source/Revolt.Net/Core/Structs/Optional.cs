@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Core.Common.Types
+﻿namespace Revolt.Net
 {
     public readonly struct Optional<T>
     {

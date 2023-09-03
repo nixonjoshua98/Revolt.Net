@@ -1,5 +1,4 @@
 ﻿using Revolt.Net.Common.Json;
-using Revolt.Net.Core.Common.Types;
 using System.Text.Json;
 
 namespace Revolt.Net.Rest

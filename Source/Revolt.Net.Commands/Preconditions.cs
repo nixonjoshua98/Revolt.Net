@@ -1,6 +1,4 @@
-﻿using Revolt.Net.Core.Common.Types;
-
-namespace Revolt.Net.Commands
+﻿namespace Revolt.Net.Commands
 {
     internal static class Preconditions
     {

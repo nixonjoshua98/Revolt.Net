@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Revolt.Net.Core.Logging
+namespace Revolt.Net.Logging
 {
     /// <summary>
     ///     Provides a message object used for logging purposes.

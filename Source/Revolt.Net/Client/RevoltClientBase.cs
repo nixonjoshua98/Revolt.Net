@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Core.Logging;
+﻿using Revolt.Net.Logging;
 
 namespace Revolt.Net.Client
 {

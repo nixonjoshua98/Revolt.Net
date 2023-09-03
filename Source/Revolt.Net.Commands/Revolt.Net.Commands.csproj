@@ -16,35 +16,33 @@
 	  <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	  <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
 	  <AnalysisLevel>latest</AnalysisLevel>
-	  <PackageReleaseNotes>Updated</PackageReleaseNotes>
+	  <PackageReleaseNotes>Added features, and improved performance</PackageReleaseNotes>
 	  <IncludeSymbols>False</IncludeSymbols>
 	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	  <Version>0.0.11-a</Version>
+	  <Version>0.1.0-rc1</Version>
 	  <EnableNETAnalyzers>False</EnableNETAnalyzers>
 	  <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
 	  <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	  <dependencies>
 		  <group targetFramework="net7.0">
-			  <dependency id="Discord.Net" version="0.0.11-a" />
-			  <dependency id="Discord.Net.Core" version="0.0.11-a" />
+			  <dependency id="Discord.Net" version="0.1.0-rc1" />
 		  </group>
 	  </dependencies>
   </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\..\LICENSE.txt">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Revolt.Net.Core\Revolt.Net.Core.csproj" />
     <ProjectReference Include="..\Revolt.Net\Revolt.Net.csproj" />
   </ItemGroup>
 

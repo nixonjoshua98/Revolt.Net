@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Core.Logging
+﻿namespace Revolt.Net.Logging
 {
     internal class LogManager
     {
