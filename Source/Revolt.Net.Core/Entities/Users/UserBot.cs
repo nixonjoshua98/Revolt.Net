@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Revolt.Net.Core.Entities.Users
+namespace Revolt.Net
 {
     public class UserBot
     {

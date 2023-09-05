@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Core.Entities.Users
+﻿namespace Revolt.Net
 {
     public enum RelationshipStatus
     {

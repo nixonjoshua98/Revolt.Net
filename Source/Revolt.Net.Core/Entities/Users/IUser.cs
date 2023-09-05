@@ -1,4 +1,6 @@
-﻿namespace Revolt.Net.Core.Entities.Users
+﻿using Revolt.Net.Core;
+
+namespace Revolt.Net
 {
     public interface IUser
     {

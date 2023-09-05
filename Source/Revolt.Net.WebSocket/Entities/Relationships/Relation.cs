@@ -1,6 +1,4 @@
-﻿using Revolt.Net.Core.Entities.Users;
-
-namespace Revolt.Net.WebSocket
+﻿namespace Revolt.Net.WebSocket
 {
     public class Relation
     {

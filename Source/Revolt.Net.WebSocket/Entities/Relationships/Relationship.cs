@@ -1,5 +1,4 @@
-﻿using Revolt.Net.Core.Entities.Users;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Revolt.Net.WebSocket
 {

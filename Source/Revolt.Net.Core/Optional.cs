@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Core
+﻿namespace Revolt.Net
 {
     public readonly struct Optional<T>
     {
@@ -17,7 +17,7 @@
             HasValue = true;
         }
 
-        public void WhenHasValue(Action<T> action)
+        public void Match(Action<T> action)
         {
             if (HasValue)
             {

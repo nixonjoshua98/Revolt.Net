@@ -8,8 +8,8 @@
 
         internal void UpdateFromPartial(PartialUserStatus status)
         {
-            status.Text.WhenHasValue(val => Text = val);
-            status.Presence.WhenHasValue(val => Presence = val);
+            status.Text.Match(val => Text = val);
+            status.Presence.Match(val => Presence = val);
         }
     }
 }
