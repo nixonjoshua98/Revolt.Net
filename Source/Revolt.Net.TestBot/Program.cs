@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Revolt.Net.Client;
 using Revolt.Net.Commands;
 using Revolt.Net.TestBot;
+using Revolt.Net.WebSocket;
 
-var client = new RevoltClient(token: GetBotToken());
+var client = new RevoltSocketClient(token: GetBotToken());
 
 var commands = new CommandService();
 
@@ -18,7 +18,7 @@ AddLoggingCallbacks(client, commands);
 
 await client.RunAsync();
 
-static void AddLoggingCallbacks(RevoltClient client, CommandService commands)
+static void AddLoggingCallbacks(RevoltSocketClient client, CommandService commands)
 {
     client.Log += async message => Console.WriteLine($"{message.Message} | {message.Exception}");
     commands.Log += async message => Console.WriteLine($"{message.Message} | {message.Exception}");

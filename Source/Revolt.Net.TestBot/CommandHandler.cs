@@ -1,17 +1,16 @@
-﻿using Revolt.Net.Client;
-using Revolt.Net.Commands;
+﻿using Revolt.Net.Commands;
 using Revolt.Net.Commands.Context;
-using Revolt.Net.Websocket.Events.Incoming;
+using Revolt.Net.WebSocket;
 
 namespace Revolt.Net.TestBot
 {
     internal static class CommandHandler
     {
-        public static async Task SetupAsync(RevoltClient client, CommandService service, IServiceProvider provider)
+        public static async Task SetupAsync(RevoltSocketClient client, CommandService service, IServiceProvider provider)
         {
             await service.AddModuleAsync<HelloWorldModule>(provider);
 
-            client.Message.Add(async e =>
+            client.Message += async e =>
             {
                 if (ShouldHandle(e))
                 {
@@ -19,7 +18,7 @@ namespace Revolt.Net.TestBot
 
                     var result = await service.ExecuteAsync(ctx, 1, provider, MultiMatchHandling.Best);
                 }
-            });
+            };
         }
 
         private static bool ShouldHandle(MessageEvent e)

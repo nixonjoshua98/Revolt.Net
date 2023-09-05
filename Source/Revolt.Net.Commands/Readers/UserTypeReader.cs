@@ -1,7 +1,7 @@
 ﻿using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Enums;
 using Revolt.Net.Commands.Results;
-using Revolt.Net.Entities.Users;
+using Revolt.Net.WebSocket;
 using System.Collections.Immutable;
 
 namespace Revolt.Net.Commands.Readers

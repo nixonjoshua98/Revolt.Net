@@ -1,6 +1,5 @@
 using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Info;
-using Revolt.Net.Exceptions;
 
 namespace Revolt.Net.Commands.Exceptions
 {

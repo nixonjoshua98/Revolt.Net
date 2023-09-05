@@ -1,7 +1,7 @@
 ﻿using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Info;
 using Revolt.Net.Commands.Results;
-using Revolt.Net.Entities.Channels;
+using Revolt.Net.WebSocket;
 
 namespace Revolt.Net.Commands.Attributes.Preconditions
 {

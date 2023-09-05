@@ -43,7 +43,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Revolt.Net\Revolt.Net.csproj" />
+    <ProjectReference Include="..\Revolt.Net.Core\Revolt.Net.Core.csproj" />
+    <ProjectReference Include="..\Revolt.Net.WebSocket\Revolt.Net.WebSocket.csproj" />
   </ItemGroup>
 
 </Project>
