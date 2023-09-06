@@ -28,11 +28,6 @@ namespace Revolt.Net.WebSocket.Json
             return node.Deserialize<T>(Options);
         }
 
-        public static T Deserialize<T>(string message)
-        {
-            return JsonSerializer.Deserialize<T>(message, Options)!;
-        }
-
         public static string Serialize<T>(T value)
         {
             return JsonSerializer.Serialize(value, Options);

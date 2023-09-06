@@ -5,14 +5,12 @@ namespace Revolt.Net.WebSocket.State
     internal sealed class RevoltState
     {
         private readonly RevoltSocketClient Client;
-        private readonly RevoltApiClient Api;
         private readonly IRevoltStateCache Cache;
 
         public RevoltState(RevoltSocketClient client)
         {
             Client = client;
             Cache = Client.Cache;
-            Api = Client.Api;
         }
 
         #region Messages
@@ -41,13 +39,6 @@ namespace Revolt.Net.WebSocket.State
         }
 
         #endregion
-
-        public async ValueTask<SocketUser> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload)
-        {
-            return await RevoltStateHelper.GetOrDownloadAsync(
-                behaviour, () => GetUser(id), () => Api.GetUserAsync(id), u => AddUser(u)
-            );
-        }
 
         public SocketUser GetUserByName(string name) => Cache.GetUserByName(name);
 
@@ -114,13 +105,6 @@ namespace Revolt.Net.WebSocket.State
             var server = Cache.GetServer(id);
             server?.SetClient(Client);
             return server;
-        }
-
-        public async ValueTask<SocketChannel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload)
-        {
-            return await RevoltStateHelper.GetOrDownloadAsync(
-                behaviour, () => GetChannel(id), () => Api.GetChannelAsync(id), c => AddChannel(c)
-            );
         }
 
         public SocketChannel GetChannel(string id)

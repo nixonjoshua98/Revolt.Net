@@ -16,6 +16,19 @@ namespace Revolt.Net.WebSocket.Helpers
             client.State.RemoveMessage(channelId, messageId);
         }
 
+        public static async ValueTask<SocketChannel> GetChannelAsync(
+            RevoltSocketClient client,
+            string channelId,
+            FetchBehaviour behaviour)
+        {
+            return await FetchHelper.GetOrDownloadAsync(
+                behaviour,
+                () => client.State.GetChannel(channelId),
+                () => client.Api.GetChannelAsync(channelId),
+                client.State.AddChannel
+            );
+        }
+
         public static async ValueTask<SocketMessage> GetMessageAsync(
             RevoltSocketClient client,
             string channelId,

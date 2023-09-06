@@ -6,6 +6,7 @@ namespace Revolt.Net.WebSocket
     internal sealed class RevoltWebSocketConsumer
     {
         private readonly RevoltState State;
+        private readonly RevoltSocketClient Client;
         private readonly RevoltWebSocketConnection Socket;
 
         internal event Func<UserRelationshipEvent, Task> UserRelationship = default!;
@@ -17,9 +18,10 @@ namespace Revolt.Net.WebSocket
         internal event Func<MessageEvent, Task> Message = default!;
         internal event Func<ReadyEvent, Task> Ready = default!;
 
-        public RevoltWebSocketConsumer(RevoltWebSocketConnection socket, RevoltState state)
+        public RevoltWebSocketConsumer(RevoltSocketClient client, RevoltWebSocketConnection socket, RevoltState state)
         {
             State = state;
+            Client = client;
             Socket = socket;
 
             Socket.MessageReceived += message =>
@@ -99,8 +101,8 @@ namespace Revolt.Net.WebSocket
 
             State.AddMessage(e);
 
-            _ = await State.GetChannelAsync(e.ChannelId);
-            _ = await State.GetUserAsync(e.AuthorId);
+            _ = await Client.GetChannelAsync(e.ChannelId);
+            _ = await Client.GetUserAsync(e.AuthorId);
 
             Message?.Invoke(new MessageEvent(e));
         }

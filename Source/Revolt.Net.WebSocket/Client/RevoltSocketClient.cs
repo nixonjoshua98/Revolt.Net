@@ -1,6 +1,7 @@
 ﻿using Revolt.Net.Rest;
 using Revolt.Net.Rest.Entities;
 using Revolt.Net.Rest.Entities.Users;
+using Revolt.Net.WebSocket.Helpers;
 using Revolt.Net.WebSocket.State;
 
 namespace Revolt.Net.WebSocket
@@ -59,21 +60,30 @@ namespace Revolt.Net.WebSocket
 
             if (isNewConnection)
             {
-                var consumer = new RevoltWebSocketConsumer(Ws, State);
+                var consumer = new RevoltWebSocketConsumer(this, Ws, State);
 
                 SetupEvents(consumer);
             }
         }
 
         public SocketUser GetUserByName(string name) => State.GetUser(name);
-        public async Task<SocketUser> GetUserAsync(string id) => await State.GetUserAsync(id);
-        public SocketServer GetServer(string id) => State.GetServer(id);
-        public SocketChannel GetChannel(string id) => State.GetChannel(id);
-        public SocketUser GetUser(string id) => State.GetUser(id);
 
-        public bool IsOwner(string id)
-        {
-            return User.Bot.Match(x => x.OwnerId == id, false);
-        }
+        public async Task<SocketUser> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
+            await UserHelper.GetUserAsync(this, id, behaviour);
+
+        public async Task<SocketChannel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
+            await ChannelHelper.GetChannelAsync(this, id, behaviour);
+
+        public SocketServer GetServer(string id) => 
+            State.GetServer(id);
+
+        public SocketChannel GetChannel(string id) => 
+            State.GetChannel(id);
+
+        public SocketUser GetUser(string id) => 
+            State.GetUser(id);
+
+        public bool IsOwner(string id) =>
+            User.Bot.Match(x => x.OwnerId == id, false);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.WebSocket.State
+﻿namespace Revolt.Net
 {
     public enum FetchBehaviour
     {
