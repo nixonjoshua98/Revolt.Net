@@ -1,32 +1,12 @@
-﻿using Revolt.Net.Rest;
+﻿using Revolt.Net.Rest.Clients;
 
-namespace Revolt.Net.WebSocket.Helpers
+namespace Revolt.Net.Rest.Helpers
 {
     internal static class ChannelHelper
     {
-        public static async Task DeleteMessageAsync(
-            RevoltSocketClient client,
-            string channelId,
-            string messageId)
-        {
-            await client.Api.DeleteMessageAsync(channelId, messageId);
-        }
-
-        public static async ValueTask<Channel> GetChannelAsync(
-            RevoltSocketClient client,
-            string channelId,
-            FetchBehaviour behaviour)
-        {
-            return await FetchHelper.GetOrDownloadAsync(
-                behaviour,
-                () => client.State.GetChannel(channelId),
-                () => client.Api.GetChannelAsync(channelId)
-            );
-        }
-
         public static async Task<ClientMessage> SendMessageAsync(
-            RevoltSocketClient client,
-            string channelId, 
+            RevoltClientBase client,
+            IChannel channel, 
             string messageId = null,
             string content = null,
             Embed embed = null,
@@ -35,14 +15,18 @@ namespace Revolt.Net.WebSocket.Helpers
         {
             bool hasReply = MessageReply.TryCreate(messageId, mention, out var reply);
 
-            return await client.Api.SendMessageAsync(
-                channelId,
+            var message = await client.Api.SendMessageAsync(
+                channel.Id,
                 new SendMessageRequest(
                     hasReply ? new MessageReply[] { reply } : Enumerable.Empty<MessageReply>(),
                     content,
                     CreateEmbedsEnumerable(embeds, embed)
                 )
             );
+
+            message?.Update(client, channel, client.User);
+
+            return message;
         }
 
         private static IEnumerable<Embed> CreateEmbedsEnumerable(IEnumerable<Embed> embeds, Embed embed)

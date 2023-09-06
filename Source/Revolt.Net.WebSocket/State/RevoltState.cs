@@ -33,7 +33,7 @@ namespace Revolt.Net.WebSocket.State
             Cache.RemoveMessage(channelId, messageId);
         }
 
-        public void RemoveMessage(SocketMessage message)
+        public void RemoveMessage(RestMessage message)
         {
             RemoveMessage(message.ChannelId, message.Id);
         }
@@ -107,20 +107,20 @@ namespace Revolt.Net.WebSocket.State
             return server;
         }
 
-        public SocketChannel GetChannel(string id)
+        public Channel GetChannel(string id)
         {
             var channel = Cache.GetChannel(id);
             channel?.SetClient(Client);
             return channel;
         }
 
-        public void AddChannel(SocketChannel channel)
+        public void AddChannel(Channel channel)
         {
             channel?.SetClient(Client);
             Cache.AddChannel(channel);
         }
 
-        public void AddChannels(IEnumerable<SocketChannel> channels)
+        public void AddChannels(IEnumerable<Channel> channels)
         {
             foreach (var chnl in channels) AddChannel(chnl);
         }

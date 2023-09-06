@@ -6,7 +6,7 @@ namespace Revolt.Net.WebSocket.State
     {
         private readonly ConcurrentDictionary<string, User> Users = new();
         private readonly ConcurrentDictionary<string, SocketServer> Servers = new();
-        private readonly ConcurrentDictionary<string, SocketChannel> Channels = new();
+        private readonly ConcurrentDictionary<string, Channel> Channels = new();
 
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, SocketMessage>> Messages = new();
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ServerMemberReference>> ServerMemberRefs = new();
@@ -21,7 +21,7 @@ namespace Revolt.Net.WebSocket.State
             Servers[server.Id] = server;
         }
 
-        public SocketChannel GetChannel(string id)
+        public Channel GetChannel(string id)
         {
             return Channels.GetValueOrDefault(id);
         }
@@ -50,20 +50,20 @@ namespace Revolt.Net.WebSocket.State
             Messages.Remove(channelId, out var _);
         }
 
-        public void AddChannel(SocketChannel channel)
+        public void AddChannel(Channel channel)
         {
             Channels[channel.Id] = channel;
         }
 
         public void AddMessage(SocketMessage message)
         {
-            GetChannelMessages(message.ChannelId)[message.Id] = message;
+            GetChannelMessages(message.Channel.Id)[message.Id] = message;
         }
 
         public void RemoveMessage(string channelId, string messageId) =>
             GetChannelMessages(channelId).TryRemove(messageId, out var _);
 
-        public IUser GetUserByName(string name)
+        public User GetUserByName(string name)
         {
             return Users.Values
                 .FirstOrDefault(user =>

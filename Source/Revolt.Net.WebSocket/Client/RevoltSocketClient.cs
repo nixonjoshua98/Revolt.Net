@@ -1,6 +1,4 @@
-﻿using Revolt.Net.Rest;
-using Revolt.Net.Rest.Entities;
-using Revolt.Net.WebSocket.Helpers;
+﻿using Revolt.Net.WebSocket.Helpers;
 using Revolt.Net.WebSocket.State;
 
 namespace Revolt.Net.WebSocket
@@ -9,22 +7,15 @@ namespace Revolt.Net.WebSocket
     {
         internal readonly RevoltBotConfiguration Configuration;
         internal readonly IRevoltStateCache Cache;
-        internal readonly RevoltApiClient Api;
         internal readonly RevoltState State;
-
-        internal User User;
 
         private RevoltApiInformation ApiInfo = default!;
         internal RevoltWebSocketConnection Ws = default!;
 
-        public RevoltSocketClient(RevoltBotConfiguration configuration, IRevoltStateCache cacheProvider) : base()
+        public RevoltSocketClient(RevoltBotConfiguration configuration, IRevoltStateCache cacheProvider) : base(configuration.ApiUrl)
         {
             Configuration = configuration;
             Cache = cacheProvider;
-
-            Api = new RevoltApiClient(
-                new RevoltRestClient(configuration.ApiUrl)
-            );
 
             Api.Client.AddDefaultHeader("x-bot-token", Configuration.Token);
 
@@ -65,24 +56,19 @@ namespace Revolt.Net.WebSocket
             }
         }
 
-        public IUser GetUserByName(string name) => State.GetUser(name);
-
-        public async Task<IUser> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
+        public override async ValueTask<IUser> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
             await UserHelper.GetUserAsync(this, id, behaviour);
 
-        public async Task<SocketChannel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
+        public override async ValueTask<IChannel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
             await ChannelHelper.GetChannelAsync(this, id, behaviour);
 
         public SocketServer GetServer(string id) => 
             State.GetServer(id);
 
-        public SocketChannel GetChannel(string id) => 
+        public Channel GetChannel(string id) => 
             State.GetChannel(id);
 
         public IUser GetUser(string id) => 
             State.GetUser(id);
-
-        public bool IsOwner(string id) =>
-            User.Bot.Match(x => x.OwnerId == id, false);
     }
 }

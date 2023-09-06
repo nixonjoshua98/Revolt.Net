@@ -2,5 +2,5 @@
 
 namespace Revolt.Net.WebSocket
 {
-    internal sealed record WebSocketMessage(string Type, JsonNode Content);
+    internal sealed record SocketMessagePayload(string Type, JsonNode Content);
 }

@@ -2,8 +2,8 @@
 {
     public interface IRevoltStateCache
     {
-        void AddChannel(SocketChannel channel);
-        SocketChannel GetChannel(string id);
+        void AddChannel(Channel channel);
+        Channel GetChannel(string id);
         void AddMessage(SocketMessage message);
         void AddServer(SocketServer server);
         void AddServerMembers(IEnumerable<ServerMemberReference> ls);
@@ -18,7 +18,7 @@
         void RemoveServer(string id);
         void SetServerMembers(string id, IEnumerable<ServerMemberReference> ls);
         void UpdateUser(string id, PartialUser partialUser);
-        IUser GetUserByName(string name);
+        User GetUserByName(string name);
         SocketMessage GetMessage(string channel, string message);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Revolt.Net.WebSocket.Json;
+﻿using Revolt.Net.Rest.Json;
+using Revolt.Net.WebSocket.Payloads;
 using Revolt.Net.WebSocket.State;
 
 namespace Revolt.Net.WebSocket
@@ -24,92 +25,106 @@ namespace Revolt.Net.WebSocket
             Client = client;
             Socket = socket;
 
-            Socket.MessageReceived += message =>
+            Socket.MessageReceived += async payload =>
             {
-                return message.Type switch
+                await (payload.Type switch
                 {
-                    "Ready" => OnReady(message),
-                    "ChannelDelete" => OnChannelDelete(message),
-                    "MessageDelete" => OnMessageDelete(message),
-                    "UserRelationship" => OnUserRelationship(message),
-                    "UserUpdate" => OnUserUpdate(message),
-                    "Message" => OnMessage(message),
-                    "ChannelCreate" => OnChannelCreate(message),
-                    "ServerDelete" => OnServerDelete(message),
+                    "Ready" => OnReady(payload),
+                    "ChannelDelete" => OnChannelDelete(payload),
+                    "MessageDelete" => OnMessageDelete(payload),
+                    "UserRelationship" => OnUserRelationship(payload),
+                    "UserUpdate" => OnUserUpdate(payload),
+                    "Message" => OnMessage(payload),
+                    "ChannelCreate" => OnChannelCreate(payload),
+                    "ServerDelete" => OnServerDelete(payload),
+                    "MessageUpdate" => OnMessageUpdate(payload),
                     _ => Task.CompletedTask
-                };
+                });
             };
         }
 
-        private async Task OnChannelDelete(WebSocketMessage message)
+        private Task OnMessageUpdate(SocketMessagePayload payload)
         {
-            var e = WebSocketSerialization.Deserialize<ChannelDeletePayload>(message.Content);
+            var e = Serialization.Deserialize<MessageUpdate>(payload.Content);
+
+            var message = State.GetMessage(e.ChannelId, e.MessageId);
+
+            message?.Update(e.Data, State);
+
+            return Task.CompletedTask;
+        }
+
+        private async Task OnChannelDelete(SocketMessagePayload message)
+        {
+            var e = Serialization.Deserialize<ChannelDeletePayload>(message.Content);
 
             State.RemoveChannel(e.Id);
 
             ChannelDelete?.Invoke(e.ToEvent());
         }
 
-        private async Task OnServerDelete(WebSocketMessage message)
+        private async Task OnServerDelete(SocketMessagePayload message)
         {
-            var e = WebSocketSerialization.Deserialize<ServerDeletePayload>(message.Content);
+            var e = Serialization.Deserialize<ServerDeletePayload>(message.Content);
 
             State.RemoveServer(e.Id);
 
             ServerDelete?.Invoke(e.ToEvent());
         }
 
-        private async Task OnMessageDelete(WebSocketMessage message)
+        private async Task OnMessageDelete(SocketMessagePayload message)
         {
-            var e = WebSocketSerialization.Deserialize<MessageDeletePayload>(message.Content);
+            var e = Serialization.Deserialize<MessageDeletePayload>(message.Content);
 
             State.RemoveMessage(e.Channel, e.Id);
 
             MessageDelete?.Invoke(e.ToEvent());
         }
 
-        private async Task OnUserRelationship(WebSocketMessage message)
+        private async Task OnUserRelationship(SocketMessagePayload message)
         {
-            var e = WebSocketSerialization.Deserialize<UserRelationshipPayload>(message.Content);
+            var e = Serialization.Deserialize<UserRelationshipPayload>(message.Content);
 
             State.AddUser(e.User);
 
             UserRelationship.Invoke(e.ToEvent());
         }
 
-        private async Task OnChannelCreate(WebSocketMessage message)
+        private async Task OnChannelCreate(SocketMessagePayload message)
         {
-            var e = WebSocketSerialization.Deserialize<ChannelCreatePayload>(message.Content);
+            var e = Serialization.Deserialize<ChannelCreatePayload>(message.Content);
 
             State.AddChannel(e.Channel);
 
             ChannelCreate?.Invoke(e.ToEvent());
         }
 
-        private async Task OnUserUpdate(WebSocketMessage message)
+        private async Task OnUserUpdate(SocketMessagePayload message)
         {
-            var e = WebSocketSerialization.Deserialize<UserUpdateMessage>(message.Content);
+            var e = Serialization.Deserialize<UserUpdateMessage>(message.Content);
 
             State.UpdateUser(e.Id, e.Data);
 
             UserUpdate?.Invoke(e.ToEvent());
         }
 
-        private async Task OnMessage(WebSocketMessage message)
+        private async Task OnMessage(SocketMessagePayload socketMessage)
         {
-            var e = WebSocketSerialization.Deserialize<SocketMessage>(message.Content);
+            var data = Serialization.Deserialize<Message>(socketMessage.Content);
 
-            State.AddMessage(e);
+            var channel = await Client.GetChannelAsync(data.ChannelId);
+            var author = await Client.GetUserAsync(data.AuthorId);
 
-            _ = await Client.GetChannelAsync(e.ChannelId);
-            _ = await Client.GetUserAsync(e.AuthorId);
+            var message = SocketMessage.Create(Client, data, channel, author);
 
-            Message?.Invoke(new MessageEvent(e));
+            State.AddMessage(message);
+
+            Message?.Invoke(new MessageEvent(message));
         }
 
-        private async Task OnReady(WebSocketMessage message)
+        private async Task OnReady(SocketMessagePayload message)
         {
-            var e = WebSocketSerialization.Deserialize<ReadyMessage>(message.Content);
+            var e = Serialization.Deserialize<ReadyMessage>(message.Content);
 
             State.Add(e);
 

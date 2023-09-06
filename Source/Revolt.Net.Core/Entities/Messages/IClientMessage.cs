@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Revolt.Net.Rest.Clients
+namespace Revolt.Net
 {
-    public abstract class RevoltBaseClient
+    public interface IClientMessage : IMessage
     {
-
     }
 }

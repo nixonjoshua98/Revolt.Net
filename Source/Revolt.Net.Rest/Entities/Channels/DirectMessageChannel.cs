@@ -1,6 +1,6 @@
-﻿namespace Revolt.Net.WebSocket
+﻿namespace Revolt.Net
 {
-    public class SocketDirectMessageChannel : SocketMessageChannel
+    public class DirectMessageChannel : MessageChannel
     {
         public bool Active { get; init; }
 

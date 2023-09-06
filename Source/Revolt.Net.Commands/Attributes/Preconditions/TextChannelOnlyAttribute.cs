@@ -1,7 +1,6 @@
 ﻿using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Info;
 using Revolt.Net.Commands.Results;
-using Revolt.Net.WebSocket;
 
 namespace Revolt.Net.Commands.Attributes.Preconditions
 {
@@ -10,7 +9,7 @@ namespace Revolt.Net.Commands.Attributes.Preconditions
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
             IServiceProvider services)
         {
-            return context.Channel is SocketTextChannel ?
+            return context.Channel is MessageChannel ?
                 Task.FromResult(PreconditionResult.FromSuccess()) :
                 Task.FromResult(PreconditionResult.FromError("This command can only be executed in a text channel."));
         }

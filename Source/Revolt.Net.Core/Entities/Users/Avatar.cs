@@ -12,8 +12,6 @@ namespace Revolt.Net
         [JsonPropertyName("filename")]
         public string FileName { get; init; }
 
-        public Metadata Metadata { get; init; }
-
         public string ContentType { get; init; }
 
         public int Size { get; init; }

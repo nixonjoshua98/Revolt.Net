@@ -1,4 +1,5 @@
-﻿using Revolt.Net.WebSocket;
+﻿using Revolt.Net.Rest.Clients;
+using Revolt.Net.WebSocket;
 
 namespace Revolt.Net.Commands.Context
 {
@@ -10,8 +11,7 @@ namespace Revolt.Net.Commands.Context
         public string Arguments { get; set; }
         public SocketMessage Message { get; }
         public IUser User { get; }
-        public SocketChannel Channel { get; }
-        public RevoltSocketClient Client { get; }
-        public SocketServer Server { get; }
+        public IChannel Channel { get; }
+        public RevoltClientBase Client { get; }
     }
 }

@@ -8,7 +8,10 @@ namespace Revolt.Net
 {
     public abstract class Metadata
     {
+        public Metadata()
+        {
 
+        }
     }
 
     public sealed class FileMetadata : Metadata

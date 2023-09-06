@@ -25,8 +25,8 @@ namespace Revolt.Net.Commands.Readers
                 AddResult(results, res as T, 1.0f);
             }
 
-            // By Username (0.9)
-            AddResult(results, context.Client.GetUserByName(input) as T, 0.9f);
+            // By Username (0.9) TODO
+            //AddResult(results, context.Client.GetUserByName(input) as T, 0.9f);
             // todo: By Nickname
 
             if (results.Count != 0)

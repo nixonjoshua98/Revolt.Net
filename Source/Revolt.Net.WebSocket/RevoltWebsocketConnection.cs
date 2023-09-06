@@ -1,4 +1,4 @@
-﻿using Revolt.Net.WebSocket.Json;
+﻿using Revolt.Net.Rest.Json;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -17,7 +17,7 @@ internal sealed class RevoltWebSocketConnection
 
     public TimeSpan SocketPing { get; private set; } = TimeSpan.Zero;
 
-    internal event Func<WebSocketMessage, Task> MessageReceived = default!;
+    internal event Func<SocketMessagePayload, Task> MessageReceived = default!;
 
     public RevoltWebSocketConnection(string url, string token)
     {
@@ -44,7 +44,7 @@ internal sealed class RevoltWebSocketConnection
 
             if (type == WebSocketMessageType.Text)
             {
-                Console.WriteLine($"Incoming : {JsonSerializer.Serialize(JsonNode.Parse(content), WebSocketSerialization.Options)}");
+                Console.WriteLine($"Incoming : {JsonSerializer.Serialize(JsonNode.Parse(content), Serialization.Options)}");
 
                 _ = OnMessageReceieved(content);
             }
@@ -60,13 +60,13 @@ internal sealed class RevoltWebSocketConnection
         return type switch
         {
             "Pong" => OnPongEvent(node),
-            _ => MessageReceived?.Invoke(new WebSocketMessage(type, node))
+            _ => MessageReceived?.Invoke(new SocketMessagePayload(type, node))
         } ?? Task.CompletedTask;
     }
 
     private Task OnPongEvent(JsonNode message)
     {
-        var e = message.Deserialize<PongEvent>(WebSocketSerialization.Options);
+        var e = message.Deserialize<PongEvent>(Serialization.Options);
 
         SocketPing = TimeSpan.FromMilliseconds(
             DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - e.Data
@@ -95,7 +95,7 @@ internal sealed class RevoltWebSocketConnection
 
     internal async Task SendAsync<T>(T message) where T : class
     {
-        var json = JsonSerializer.Serialize(message, WebSocketSerialization.Options);
+        var json = JsonSerializer.Serialize(message, Serialization.Options);
 
         var bytes = Encoding.UTF8.GetBytes(json);
 

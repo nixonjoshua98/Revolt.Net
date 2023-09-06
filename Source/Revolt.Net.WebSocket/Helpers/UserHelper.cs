@@ -1,11 +1,4 @@
-﻿using Revolt.Net.WebSocket.State;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Revolt.Net.WebSocket.Helpers
+﻿namespace Revolt.Net.WebSocket.Helpers
 {
     internal static class UserHelper
     {
@@ -17,8 +10,7 @@ namespace Revolt.Net.WebSocket.Helpers
             return await FetchHelper.GetOrDownloadAsync(
                 behaviour,
                 () => client.State.GetUser(userId),
-                () => client.Api.GetUserAsync(userId),
-                client.State.AddUser
+                () => client.Api.GetUserAsync(userId)
             );
         }
     }

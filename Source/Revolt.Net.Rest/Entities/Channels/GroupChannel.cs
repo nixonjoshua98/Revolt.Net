@@ -1,10 +1,8 @@
-﻿using Revolt.Net.WebSocket.Helpers;
-using Revolt.Net.WebSocket.State;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Revolt.Net.WebSocket
+namespace Revolt.Net
 {
-    public class SocketGroupChannel : SocketMessageChannel
+    public sealed class GroupChannel : MessageChannel
     {
         public string Name { get; init; } = default!;
 
@@ -13,9 +11,10 @@ namespace Revolt.Net.WebSocket
 
         public string Description { get; init; } = default!;
 
-        public IUser Owner => Client.State.GetUser(OwnerId);
-
         public async ValueTask<IUser> GetOwnerAsync(FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
-            await UserHelper.GetUserAsync(Client, OwnerId, behaviour);
+            await Client.GetUserAsync(OwnerId, behaviour);
+
+        public bool IsOwner(IUser user) =>
+            OwnerId == user.Id;
     }
 }

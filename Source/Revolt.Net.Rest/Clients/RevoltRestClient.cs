@@ -1,6 +1,5 @@
 ﻿using Revolt.Net.Core;
-using Revolt.Net.Rest;
-using Revolt.Net.WebSocket.Json;
+using Revolt.Net.Rest.Json;
 using System.Text.Json;
 
 namespace Revolt.Net.Rest
@@ -36,13 +35,11 @@ namespace Revolt.Net.Rest
             return await SendAsync<T>(method, $"{endpoint}?{qs}");
         }
 
-        public async Task<T> SendAsync<T>(string method, string endpoint) where T : class
+        public async Task<TResponse> SendAsync<TResponse>(string method, string endpoint) where TResponse : class
         {
             var resp = await SendAsyncInternal(method, endpoint);
 
-            var result = DeserializeResponse<T>(resp.Content);
-
-            return result.Left;
+            return Serialization.Deserialize<TResponse>(resp.Content);
         }
 
         public async Task SendAsync(string method, string endpoint)
@@ -52,20 +49,18 @@ namespace Revolt.Net.Rest
 
         public async Task SendAsync(string method, string endpoint, object request)
         {
-            var body = WebSocketSerialization.Serialize(request);
+            var body = Serialization.Serialize(request);
 
             await SendAsyncInternal(method, endpoint, body);
         }
 
         public async Task<TResponse> SendAsync<TResponse>(string method, string endpoint, object request) where TResponse : class
         {
-            var body = WebSocketSerialization.Serialize(request);
+            var body = Serialization.Serialize(request);
 
             var resp = await SendAsyncInternal(method, endpoint, body);
 
-            var result = DeserializeResponse<TResponse>(resp.Content);
-
-            return result.Left;
+            return Serialization.Deserialize<TResponse>(resp.Content);
         }
 
         private async Task<RevoltRestResponse> SendAsyncInternal(string method, string endpoint)
@@ -101,18 +96,6 @@ namespace Revolt.Net.Rest
             var content = await response.Content.ReadAsStringAsync();
 
             return new RevoltRestResponse(response.StatusCode, headers, content);
-        }
-
-        private Union<T, Exception> DeserializeResponse<T>(string json) where T : class
-        {
-            try
-            {
-                return JsonSerializer.Deserialize<T>(json, WebSocketSerialization.Options)!;
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
         }
 
         private static HttpMethod GetMethod(string method)

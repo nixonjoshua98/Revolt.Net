@@ -4,7 +4,7 @@
 
     internal sealed record ReadyMessage(
         IReadOnlyList<SocketServer> Servers,
-        IReadOnlyList<SocketChannel> Channels,
+        IReadOnlyList<Channel> Channels,
         IReadOnlyList<User> Users,
         IReadOnlyList<ServerMemberReference> Members
     )

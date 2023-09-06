@@ -1,7 +1,4 @@
-﻿using Revolt.Net.Rest.Entities;
-using Revolt.Net.WebSocket;
-
-namespace Revolt.Net.Rest
+﻿namespace Revolt.Net.Rest
 {
     internal sealed class RevoltApiClient
     {
@@ -27,8 +24,8 @@ namespace Revolt.Net.Rest
         public async Task<User> GetUserAsync(string userId)
             => await Client.SendAsync<User>("GET", $"users/{userId}");
 
-        public async Task<SocketChannel> GetChannelAsync(string channelId) =>
-            await Client.SendAsync<SocketChannel>("GET", $"channels/{channelId}");
+        public async Task<Channel> GetChannelAsync(string channelId) =>
+            await Client.SendAsync<Channel>("GET", $"channels/{channelId}");
 
         public async Task<ServerMembersResponse> GetServerMembersAsync(string id, bool excludeOffline)
             => await Client.SendAsync<ServerMembersResponse>("GET", $"servers/{id}/members", new()
@@ -39,8 +36,8 @@ namespace Revolt.Net.Rest
         public async Task<ServerMember> GetServerMemberAsync(string serverId, string userId)
             => await Client.SendAsync<ServerMember>("GET", $"servers/{serverId}/members/{userId}");
 
-        public async Task<SocketClientMessage> SendMessageAsync(string channel, SendMessageRequest message) =>
-            await Client.SendAsync<SocketClientMessage>("POST", $"channels/{channel}/messages", message);
+        public async Task<ClientMessage> SendMessageAsync(string channel, SendMessageRequest message) =>
+            await Client.SendAsync<ClientMessage>("POST", $"channels/{channel}/messages", message);
 
         public async Task DeleteMessageAsync(string channel, string message) =>
             await Client.SendAsync("DELETE", $"channels/{channel}/messages/{message}");
@@ -48,7 +45,7 @@ namespace Revolt.Net.Rest
         public async Task AcknowledgeMessageAsync(string channel, string message) =>
             await Client.SendAsync("PUT", $"channels/{channel}/ack/{message}");
 
-        public async Task<SocketMessage> GetMessageAsync(string channel, string message) =>
-            await Client.SendAsync<SocketMessage>("GET", $"channels/{channel}/{message}/{message}");
+        public async Task<RestMessage> GetMessageAsync(string channel, string message) =>
+            await Client.SendAsync<RestMessage>("GET", $"channels/{channel}/{message}/{message}");
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.WebSocket.Helpers
+﻿namespace Revolt.Net.Rest.Helpers
 {
     internal static class FetchHelper
     {

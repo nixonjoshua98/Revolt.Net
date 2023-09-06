@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.WebSocket
+﻿namespace Revolt.Net
 {
     public sealed record ServerMember(
         string UserId,

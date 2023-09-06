@@ -1,47 +1,63 @@
-﻿using Revolt.Net.WebSocket.Helpers;
-using System.Text.Json.Serialization;
+﻿using Revolt.Net.Rest.Helpers;
+using Revolt.Net.WebSocket.Entities.Messages;
+using Revolt.Net.WebSocket.State;
 
 namespace Revolt.Net.WebSocket
 {
-    public class SocketMessage : SocketEntity
+    public abstract class SocketMessage : SocketEntity, IMessage
     {
-        [JsonPropertyName("_id")]
-        public string Id { get; init; }
+        public string Id { get; private set; }
 
-        public string Nonce { get; init; }
+        public IUser Author { get; private set; }
 
-        [JsonPropertyName("channel")]
-        public string ChannelId { get; init; }
+        public IChannel Channel { get; private set; }
 
-        [JsonPropertyName("author")]
-        public string AuthorId { get; init; }
+        public string Content { get; private set; }
 
-        public string Content { get; init; }
+        internal SocketMessage(RevoltSocketClient client, Message message, IChannel channel, IUser user)
+        {
+            Channel = channel;
+            Client = client;
+            Author = user;
 
-        [JsonIgnore]
-        public SocketChannel Channel => Client.GetChannel(ChannelId);
+            Id = message.Id;
+        }
 
-        [JsonIgnore]
-        public IUser Author => Client.GetUser(AuthorId);
+        internal static SocketMessage Create(
+            RevoltSocketClient client, 
+            Message message,
+            IChannel channel,
+            IUser user)
+        {
+            var inst = new SocketUserMessage(client, message, channel, user);
 
-        public async Task<SocketClientMessage> ReplyAsync(string content, Embed embed = null, IEnumerable<Embed> embeds = null,  bool mention = false) =>
-            await ChannelHelper.SendMessageAsync(
-                client: Client,
-                channelId: ChannelId,
-                content: content,
-                messageId: Id,
-                mention: mention,
-                embed: embed,
-                embeds: embeds
-            );
+            inst.Update(message, client.State);
 
-        public async Task DeleteAsync() =>
-            await ChannelHelper.DeleteMessageAsync(Client, ChannelId, Id);
+            return inst;
+        }
+
+        internal virtual void Update(Message message, RevoltState state)
+        {
+            message.Content.Match(x => Content = x);
+        }
 
         public async Task AcknowledgeAsync() =>
-            await Client.Api.AcknowledgeMessageAsync(ChannelId, Id);
+            await Client.Api.AcknowledgeMessageAsync(Channel.Id, Id);
+
+        public async Task DeleteAsync() =>
+            await Client.Api.DeleteMessageAsync(Channel.Id, Id);
 
         public async Task RemoveReactionsAsync() =>
-            await Client.Api.RemoveMessageReactionsAsync(ChannelId, Id);
+            await Client.Api.RemoveMessageReactionsAsync(Channel.Id, Id);
+
+        public async Task<IClientMessage> ReplyAsync(string content, Embed embed = null, IEnumerable<Embed> embeds = null, bool mention = false) =>
+            await ChannelHelper.SendMessageAsync(
+                client: Client,
+                channel: Channel,
+                content: content,
+                embed: embed,
+                mention: mention,
+                messageId: Id
+            );
     }
 }
