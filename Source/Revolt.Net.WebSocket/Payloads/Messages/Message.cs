@@ -1,4 +1,4 @@
 ﻿namespace Revolt.Net.WebSocket
 {
-    public sealed record MessageEvent(Message Message);
+    public sealed record MessageEvent(SocketMessage Message);
 }

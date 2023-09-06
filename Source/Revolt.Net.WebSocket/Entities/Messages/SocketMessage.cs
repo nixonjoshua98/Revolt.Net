@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using Revolt.Net.WebSocket.Helpers;
+using System.Text.Json.Serialization;
 
 namespace Revolt.Net.WebSocket
 {
-    public class Message : SocketEntity
+    public class SocketMessage : SocketEntity
     {
         [JsonPropertyName("_id")]
         public string Id { get; init; }
@@ -23,8 +24,16 @@ namespace Revolt.Net.WebSocket
         [JsonIgnore]
         public User Author => Client.GetUser(AuthorId);
 
-        public async Task<ClientMessage> ReplyAsync(string content) =>
-            await Client.State.Messages.SendAsync(ChannelId, Id, content);
+        public async Task<ClientMessage> ReplyAsync(string content, Embed embed = null, IEnumerable<Embed> embeds = null,  bool mention = false) =>
+            await MessageHelper.SendAsync(
+                client: Client,
+                channelId: ChannelId,
+                content: content,
+                messageId: Id,
+                mention: mention,
+                embed: embed,
+                embeds: embeds
+            );
 
         public async Task DeleteAsync() =>
             await Client.State.Messages.DeleteAsync(ChannelId, Id);

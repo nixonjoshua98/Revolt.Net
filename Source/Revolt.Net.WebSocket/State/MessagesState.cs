@@ -1,6 +1,6 @@
 ﻿using Revolt.Net.Rest;
 
-namespace Revolt.Net.WebSocket.State.Messages
+namespace Revolt.Net.WebSocket.State
 {
     internal sealed class MessagesState
     {
@@ -15,29 +15,17 @@ namespace Revolt.Net.WebSocket.State.Messages
             Api = Client.Api;
         }
 
-        public async Task<Message> GetAsync(string channel, string message, FetchBehaviour behaviour = FetchBehaviour.Cache)
+        public async Task<SocketMessage> GetAsync(string channel, string message, FetchBehaviour behaviour = FetchBehaviour.Cache)
         {
             return await RevoltStateHelper.GetOrDownloadAsync(
                 behaviour, () => Get(channel, message), () => Api.GetMessageAsync(channel, message), m => Add(m));
         }
 
-        public Message Get(string channelId, string messageId)
+        public SocketMessage Get(string channelId, string messageId)
         {
             var message = Cache.GetMessage(channelId, messageId);
             message?.SetClient(Client);
             return message;
-        }
-
-        public async Task<ClientMessage> SendAsync(string channel, string content)
-        {
-            var message = await Api.SendMessageAsync(channel, content);
-            return TryAdd(message);
-        }
-
-        public async Task<ClientMessage> SendAsync(string channel, string messageId, string content)
-        {
-            var message = await Api.SendMessageAsync(channel, messageId, content);
-            return TryAdd(message);
         }
 
         public async Task DeleteAsync(string channel, string message)
@@ -46,7 +34,7 @@ namespace Revolt.Net.WebSocket.State.Messages
             Remove(channel, message);
         }
 
-        private T TryAdd<T>(T message) where T : Message
+        internal T TryAdd<T>(T message) where T : SocketMessage
         {
             if (message is not null)
             {
@@ -56,7 +44,7 @@ namespace Revolt.Net.WebSocket.State.Messages
             return message;
         }
 
-        public void Add(Message message)
+        public void Add(SocketMessage message)
         {
             message?.SetClient(Client);
             Cache.AddMessage(message);

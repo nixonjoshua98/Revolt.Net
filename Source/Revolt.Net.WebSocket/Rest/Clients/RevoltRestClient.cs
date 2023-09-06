@@ -52,14 +52,14 @@ namespace Revolt.Net.Rest
 
         public async Task SendAsync(string method, string endpoint, object request)
         {
-            var body = Serialization.Serialize(request);
+            var body = WebSocketSerialization.Serialize(request);
 
             await SendAsyncInternal(method, endpoint, body);
         }
 
         public async Task<TResponse> SendAsync<TResponse>(string method, string endpoint, object request) where TResponse : class
         {
-            var body = Serialization.Serialize(request);
+            var body = WebSocketSerialization.Serialize(request);
 
             var resp = await SendAsyncInternal(method, endpoint, body);
 
@@ -107,7 +107,7 @@ namespace Revolt.Net.Rest
         {
             try
             {
-                return JsonSerializer.Deserialize<T>(json, Serialization.Options)!;
+                return JsonSerializer.Deserialize<T>(json, WebSocketSerialization.Options)!;
             }
             catch (Exception ex)
             {

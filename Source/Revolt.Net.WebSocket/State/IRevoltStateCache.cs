@@ -4,7 +4,7 @@
     {
         void AddChannel(Channel channel);
         Channel GetChannel(string id);
-        void AddMessage(Message message);
+        void AddMessage(SocketMessage message);
         void AddServer(Server server);
         void AddServerMembers(IEnumerable<ServerMemberReference> ls);
         void AddUser(User user);
@@ -19,6 +19,6 @@
         void SetServerMembers(string id, IEnumerable<ServerMemberReference> ls);
         void UpdateUser(string id, PartialUser partialUser);
         User GetUserByName(string name);
-        Message GetMessage(string channel, string message);
+        SocketMessage GetMessage(string channel, string message);
     }
 }

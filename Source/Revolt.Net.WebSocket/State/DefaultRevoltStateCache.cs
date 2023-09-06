@@ -8,10 +8,10 @@ namespace Revolt.Net.WebSocket.State
         private readonly ConcurrentDictionary<string, Server> Servers = new();
         private readonly ConcurrentDictionary<string, Channel> Channels = new();
 
-        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, Message>> Messages = new();
+        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, SocketMessage>> Messages = new();
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ServerMemberReference>> ServerMemberRefs = new();
 
-        public Message GetMessage(string channel, string message)
+        public SocketMessage GetMessage(string channel, string message)
         {
             return GetChannelMessages(channel).GetValueOrDefault(message);
         }
@@ -55,7 +55,7 @@ namespace Revolt.Net.WebSocket.State
             Channels[channel.Id] = channel;
         }
 
-        public void AddMessage(Message message)
+        public void AddMessage(SocketMessage message)
         {
             GetChannelMessages(message.ChannelId)[message.Id] = message;
         }
@@ -147,7 +147,7 @@ namespace Revolt.Net.WebSocket.State
         private ConcurrentDictionary<string, ServerMemberReference> GetServerMembersRefDict(string id) =>
             ServerMemberRefs.GetOrAdd(id, key => new());
 
-        private ConcurrentDictionary<string, Message> GetChannelMessages(string id) =>
+        private ConcurrentDictionary<string, SocketMessage> GetChannelMessages(string id) =>
             Messages.GetOrAdd(id, key => new());
 
         private ServerMemberReference GetServerMemberRef(string serverId, string userId) =>

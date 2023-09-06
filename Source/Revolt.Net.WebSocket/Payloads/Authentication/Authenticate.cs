@@ -4,4 +4,4 @@
     {
         public string Type { get; } = "Authenticate";
     }
-}\
+}

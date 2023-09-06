@@ -2,7 +2,7 @@
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-namespace Revolt.Net.Core.Converters
+namespace Revolt.Net.Json
 {
     internal sealed class OptionalConverterFactory : JsonConverterFactory
     {

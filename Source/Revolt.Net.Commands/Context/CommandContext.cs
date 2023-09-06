@@ -6,13 +6,13 @@ namespace Revolt.Net.Commands.Context
     public class CommandContext : ICommandContext
     {
         public string Arguments { get; set; }
-        public Message Message { get; }
+        public SocketMessage Message { get; }
         public User User { get; }
         public Channel Channel { get; }
         public RevoltSocketClient Client { get; }
         public Server Server { get; }
 
-        public CommandContext(Message message)
+        public CommandContext(SocketMessage message)
         {
             Arguments = message.Content;
             Message = message;
@@ -20,7 +20,7 @@ namespace Revolt.Net.Commands.Context
             Channel = message.Channel;
             Client = message.Client;
 
-            if (Channel is TextChannel textChannel)
+            if (Channel is SocketTextChannel textChannel)
                 Server = Client.GetServer(textChannel.ServerId);
         }
     }

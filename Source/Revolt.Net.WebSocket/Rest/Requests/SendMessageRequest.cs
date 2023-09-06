@@ -7,16 +7,16 @@ namespace Revolt.Net.Rest
         public string Nonce { get; init; }
         public string Content { get; init; }
         public IEnumerable<MessageReply> Replies { get; init; }
+        public IEnumerable<Embed> Embeds { get; init; }
 
-        public SendMessageRequest(string content)
+        public SendMessageRequest(
+            IEnumerable<MessageReply> replies, 
+            string content,
+            IEnumerable<Embed> embeds)
         {
+            Replies = replies;
             Content = content;
-        }
-
-        public SendMessageRequest(MessageReply messageReply, string content)
-        {
-            Replies = new MessageReply[1] { messageReply };
-            Content = content;
+            Embeds = embeds;
         }
     }
 }

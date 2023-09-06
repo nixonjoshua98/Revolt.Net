@@ -8,7 +8,7 @@ namespace Revolt.Net.Commands.Context
     public interface ICommandContext
     {
         public string Arguments { get; set; }
-        public Message Message { get; }
+        public SocketMessage Message { get; }
         public User User { get; }
         public Channel Channel { get; }
         public RevoltSocketClient Client { get; }

@@ -1,6 +1,6 @@
 ﻿namespace Revolt.Net.WebSocket
 {
-    public sealed class ClientMessage : Message
+    public sealed class ClientMessage : SocketMessage
     {
     }
 }

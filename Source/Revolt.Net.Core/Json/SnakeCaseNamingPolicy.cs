@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Revolt.Net.WebSocket.Json
+namespace Revolt.Net.Json
 {
     internal sealed class SnakeCaseNamingPolicy : JsonNamingPolicy
     {

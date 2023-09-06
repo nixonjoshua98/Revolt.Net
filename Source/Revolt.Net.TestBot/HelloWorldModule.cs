@@ -8,7 +8,12 @@ namespace Revolt.Net.TestBot
         [Command("echo")]
         public async Task Echo(string message)
         {
-            await Context.Message.ReplyAsync(message);
+            await Context.Message.ReplyAsync(content: message, embed: new Embed()
+            {
+                Title = "Echo",
+                Description = message,
+                Colour = RevoltColour.Green
+            });
         }
 
         [Command("delete")]

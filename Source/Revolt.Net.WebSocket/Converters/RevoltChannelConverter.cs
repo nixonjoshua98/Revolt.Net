@@ -18,7 +18,7 @@ namespace Revolt.Net.WebSocket.Converters
 
             return channelType switch
             {
-                ChannelType.TextChannel => node.Deserialize<TextChannel>(options),
+                ChannelType.TextChannel => node.Deserialize<SocketTextChannel>(options),
                 ChannelType.Group => node.Deserialize<GroupChannel>(options),
                 ChannelType.DirectMessage => node.Deserialize<DirectMessageChannel>(options),
                 ChannelType.SavedMessages => node.Deserialize<SavedMessagesChannel>(options),

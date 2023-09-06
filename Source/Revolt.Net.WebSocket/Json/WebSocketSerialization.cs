@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Core.Converters;
+﻿using Revolt.Net.Json;
 using Revolt.Net.WebSocket.Converters;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Revolt.Net.WebSocket.Json
 {
-    internal static class Serialization
+    internal static class WebSocketSerialization
     {
         public static JsonSerializerOptions Options = new()
         {
@@ -16,7 +16,8 @@ namespace Revolt.Net.WebSocket.Json
             {
                 new RevoltChannelConverter(),
                 new JsonStringEnumConverter(),
-                new OptionalConverterFactory()
+                new OptionalConverterFactory(),
+                new RevoltColorConverter()
             },
 
             WriteIndented = true

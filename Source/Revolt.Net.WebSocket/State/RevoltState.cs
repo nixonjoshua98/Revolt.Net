@@ -1,5 +1,4 @@
 ﻿using Revolt.Net.Rest;
-using Revolt.Net.WebSocket.State.Messages;
 
 namespace Revolt.Net.WebSocket.State
 {
@@ -18,6 +17,16 @@ namespace Revolt.Net.WebSocket.State
             Api = Client.Api;
 
             Messages = new(client);
+        }
+
+        public void AddMessage(ClientMessage message)
+        {
+            Messages.Add(message);
+        }
+
+        public void TryAddMessage(ClientMessage message)
+        {
+            Messages.TryAdd(message);
         }
 
         public async ValueTask<User> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)

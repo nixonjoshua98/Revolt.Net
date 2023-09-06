@@ -2,7 +2,7 @@
 
 namespace Revolt.Net.WebSocket
 {
-    public sealed class TextChannel : Channel
+    public sealed class SocketTextChannel : MessageChannel
     {
         [JsonPropertyName("server")]
         public string ServerId { get; init; } = default!;
