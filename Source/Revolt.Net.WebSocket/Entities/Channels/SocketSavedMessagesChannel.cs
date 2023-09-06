@@ -9,9 +9,9 @@ namespace Revolt.Net.WebSocket
         [JsonPropertyName("user")]
         public string UserId { get; init; } = default!;
 
-        public SocketUser User => Client.State.GetUser(UserId);
+        public IUser User => Client.State.GetUser(UserId);
 
-        public async ValueTask<SocketUser> GetUserAsync(FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
+        public async ValueTask<IUser> GetUserAsync(FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
             await UserHelper.GetUserAsync(Client, UserId, behaviour);
     }
 }

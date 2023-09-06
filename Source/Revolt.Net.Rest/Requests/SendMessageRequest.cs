@@ -1,6 +1,4 @@
-﻿using Revolt.Net.WebSocket;
-
-namespace Revolt.Net.Rest
+﻿namespace Revolt.Net.Rest
 {
     internal sealed class SendMessageRequest
     {

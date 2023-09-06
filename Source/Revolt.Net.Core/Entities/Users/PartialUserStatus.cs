@@ -1,6 +1,4 @@
-﻿using Revolt.Net.Core;
-
-namespace Revolt.Net.WebSocket
+﻿namespace Revolt.Net
 {
     public sealed class PartialUserStatus
     {

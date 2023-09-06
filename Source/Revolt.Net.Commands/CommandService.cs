@@ -125,7 +125,7 @@ namespace Revolt.Net.Commands
                 new PrimitiveTypeReader<string>((string x, out string y) => { y = x; return true; }, 0);
 
             var entityTypeReaders = ImmutableList.CreateBuilder<(Type, Type)>();
-            entityTypeReaders.Add((typeof(SocketUser), typeof(UserTypeReader<>)));
+            entityTypeReaders.Add((typeof(IUser), typeof(UserTypeReader<>)));
             entityTypeReaders.Add((typeof(Role), typeof(RoleTypeReader<>)));
             _entityTypeReaders = entityTypeReaders.ToImmutable();
         }

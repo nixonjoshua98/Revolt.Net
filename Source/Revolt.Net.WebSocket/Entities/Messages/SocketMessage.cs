@@ -22,7 +22,7 @@ namespace Revolt.Net.WebSocket
         public SocketChannel Channel => Client.GetChannel(ChannelId);
 
         [JsonIgnore]
-        public SocketUser Author => Client.GetUser(AuthorId);
+        public IUser Author => Client.GetUser(AuthorId);
 
         public async Task<SocketClientMessage> ReplyAsync(string content, Embed embed = null, IEnumerable<Embed> embeds = null,  bool mention = false) =>
             await ChannelHelper.SendMessageAsync(

@@ -15,13 +15,13 @@ namespace Revolt.Net.WebSocket
         [JsonPropertyName("channels")]
         public List<string> ChannelIds { get; init; } = new();
 
-        public SocketUser Owner => Client.State.GetUser(OwnerId);
+        public IUser Owner => Client.State.GetUser(OwnerId);
 
         public IEnumerable<ServerMember> Members => Client.State.GetServerMembers(Id);
 
         public ServerMember GetServerMember(string userId) => Client.State.GetServerMember(Id, userId);
 
-        public async ValueTask<SocketUser> GetOwnerAsync(FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
+        public async ValueTask<IUser> GetOwnerAsync(FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
             await UserHelper.GetUserAsync(Client, OwnerId, behaviour);
 
         public async Task<IEnumerable<ServerMember>> GetServerMembersAsync(bool excludeOffline = false)

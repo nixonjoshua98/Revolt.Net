@@ -1,5 +1,4 @@
 ﻿using Revolt.Net.Rest.Entities;
-using Revolt.Net.Rest.Entities.Users;
 using Revolt.Net.WebSocket;
 
 namespace Revolt.Net.Rest
@@ -22,11 +21,11 @@ namespace Revolt.Net.Rest
         public async Task<RevoltApiInformation> GetApiInformationAsync()
             => await Client.SendAsync<RevoltApiInformation>("GET", string.Empty);
 
-        public async Task<RestClientUser> GetClientUserAsync()
-            => await Client.SendAsync<RestClientUser>("GET", "users/@me");
+        public async Task<User> GetClientUserAsync()
+            => await Client.SendAsync<User>("GET", "users/@me");
 
-        public async Task<SocketUser> GetUserAsync(string userId)
-            => await Client.SendAsync<SocketUser>("GET", $"users/{userId}");
+        public async Task<User> GetUserAsync(string userId)
+            => await Client.SendAsync<User>("GET", $"users/{userId}");
 
         public async Task<SocketChannel> GetChannelAsync(string channelId) =>
             await Client.SendAsync<SocketChannel>("GET", $"channels/{channelId}");

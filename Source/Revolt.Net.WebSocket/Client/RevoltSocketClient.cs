@@ -1,6 +1,5 @@
 ﻿using Revolt.Net.Rest;
 using Revolt.Net.Rest.Entities;
-using Revolt.Net.Rest.Entities.Users;
 using Revolt.Net.WebSocket.Helpers;
 using Revolt.Net.WebSocket.State;
 
@@ -13,7 +12,7 @@ namespace Revolt.Net.WebSocket
         internal readonly RevoltApiClient Api;
         internal readonly RevoltState State;
 
-        internal RestClientUser User;
+        internal User User;
 
         private RevoltApiInformation ApiInfo = default!;
         internal RevoltWebSocketConnection Ws = default!;
@@ -66,9 +65,9 @@ namespace Revolt.Net.WebSocket
             }
         }
 
-        public SocketUser GetUserByName(string name) => State.GetUser(name);
+        public IUser GetUserByName(string name) => State.GetUser(name);
 
-        public async Task<SocketUser> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
+        public async Task<IUser> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
             await UserHelper.GetUserAsync(this, id, behaviour);
 
         public async Task<SocketChannel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
@@ -80,7 +79,7 @@ namespace Revolt.Net.WebSocket
         public SocketChannel GetChannel(string id) => 
             State.GetChannel(id);
 
-        public SocketUser GetUser(string id) => 
+        public IUser GetUser(string id) => 
             State.GetUser(id);
 
         public bool IsOwner(string id) =>

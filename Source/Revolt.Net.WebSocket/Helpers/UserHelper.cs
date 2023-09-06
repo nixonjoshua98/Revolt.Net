@@ -9,7 +9,7 @@ namespace Revolt.Net.WebSocket.Helpers
 {
     internal static class UserHelper
     {
-        public static async ValueTask<SocketUser> GetUserAsync(
+        public static async ValueTask<IUser> GetUserAsync(
             RevoltSocketClient client,
             string userId,
             FetchBehaviour behaviour)

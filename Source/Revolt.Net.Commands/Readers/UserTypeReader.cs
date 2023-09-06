@@ -6,8 +6,7 @@ using System.Collections.Immutable;
 
 namespace Revolt.Net.Commands.Readers
 {
-    public class UserTypeReader<T> : TypeReader
-        where T : SocketUser
+    public class UserTypeReader<T> : TypeReader where T : class, IUser
     {
         public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
             IServiceProvider services)

@@ -40,7 +40,7 @@ namespace Revolt.Net.WebSocket.State
 
         #endregion
 
-        public SocketUser GetUserByName(string name) => Cache.GetUserByName(name);
+        public IUser GetUserByName(string name) => Cache.GetUserByName(name);
 
         public void Add(string id, ServerMembersResponse response)
         {
@@ -48,7 +48,7 @@ namespace Revolt.Net.WebSocket.State
             SetServerMembers(id, response.Members);
         }
 
-        public SocketUser GetUser(string id)
+        public User GetUser(string id)
         {
             var user = Cache.GetUser(id);
             return user;
@@ -79,10 +79,10 @@ namespace Revolt.Net.WebSocket.State
         public void RemoveChannel(string channelId) =>
             Cache.RemoveChannel(channelId);
 
-        public void AddUser(SocketUser user) =>
+        public void AddUser(User user) =>
             Cache.AddUser(user);
 
-        public void AddUsers(IEnumerable<SocketUser> ls) =>
+        public void AddUsers(IEnumerable<User> ls) =>
             Cache.AddUsers(ls);
 
         public void SetServerMembers(string id, IEnumerable<ServerMemberReference> ls) =>

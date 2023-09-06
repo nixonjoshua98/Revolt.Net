@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.WebSocket
+﻿namespace Revolt.Net
 {
     internal sealed record MessageReply(string Id, bool Mention)
     {

@@ -4,7 +4,7 @@ namespace Revolt.Net.WebSocket.State
 {
     internal sealed class DefaultRevoltStateCache : IRevoltStateCache
     {
-        private readonly ConcurrentDictionary<string, SocketUser> Users = new();
+        private readonly ConcurrentDictionary<string, User> Users = new();
         private readonly ConcurrentDictionary<string, SocketServer> Servers = new();
         private readonly ConcurrentDictionary<string, SocketChannel> Channels = new();
 
@@ -63,19 +63,19 @@ namespace Revolt.Net.WebSocket.State
         public void RemoveMessage(string channelId, string messageId) =>
             GetChannelMessages(channelId).TryRemove(messageId, out var _);
 
-        public SocketUser GetUserByName(string name)
+        public IUser GetUserByName(string name)
         {
             return Users.Values
                 .FirstOrDefault(user =>
                     string.Equals(name, user.Username, StringComparison.OrdinalIgnoreCase));
         }
 
-        public void AddUser(SocketUser user)
+        public void AddUser(User user)
         {
             Users[user.Id] = user;
         }
 
-        public void AddUsers(IEnumerable<SocketUser> ls)
+        public void AddUsers(IEnumerable<User> ls)
         {
             foreach (var ele in ls)
             {
@@ -131,14 +131,13 @@ namespace Revolt.Net.WebSocket.State
         public void UpdateUser(string id, PartialUser partialUser)
         {
             var user = GetUser(id);
-
-            user.UpdateFromPartial(partialUser);
+            user?.UpdateFromPartial(partialUser);
         }
 
         public SocketServer GetServer(string id) =>
             Servers.GetValueOrDefault(id);
 
-        public SocketUser GetUser(string id) =>
+        public User GetUser(string id) =>
             Users.GetValueOrDefault(id);
 
         private IEnumerable<ServerMemberReference> GetServerMemberRefs(string id) =>

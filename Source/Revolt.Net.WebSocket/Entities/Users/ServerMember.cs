@@ -4,11 +4,11 @@
         string UserId,
         string ServerId,
         string Nickname,
-        Attachment Avatar,
+        Avatar Avatar,
         DateTimeOffset JoinedAt
     )
     {
-        internal static ServerMember Create(ServerMemberReference reference, SocketUser user)
+        internal static ServerMember Create(ServerMemberReference reference, IUser user)
         {
             return new(
                 user.Id,

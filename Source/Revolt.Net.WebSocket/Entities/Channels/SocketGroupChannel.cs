@@ -13,9 +13,9 @@ namespace Revolt.Net.WebSocket
 
         public string Description { get; init; } = default!;
 
-        public SocketUser Owner => Client.State.GetUser(OwnerId);
+        public IUser Owner => Client.State.GetUser(OwnerId);
 
-        public async ValueTask<SocketUser> GetOwnerAsync(FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
+        public async ValueTask<IUser> GetOwnerAsync(FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
             await UserHelper.GetUserAsync(Client, OwnerId, behaviour);
     }
 }
