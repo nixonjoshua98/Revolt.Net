@@ -1,17 +1,17 @@
 ﻿using Revolt.Net.Rest;
 using Revolt.Net.Rest.Helpers;
 
-namespace Revolt.Net
+namespace Revolt.Net.Rest
 {
-    public abstract class MessageChannel : Channel
+    public abstract class RestMessageChannel : RestChannel
     {
-        public async Task<ClientMessage> SendMessageAsync(string content = null, Embed embed = null, IEnumerable<Embed> embeds = null) =>
+        public async Task<RestClientMessage> SendMessageAsync(string content = null, Embed embed = null, IEnumerable<Embed> embeds = null) =>
             await ChannelHelper.SendMessageAsync(
                 client: Client,
                 channel: this,
                 content: content,
                 embed: embed,
-                embeds : embeds
+                embeds: embeds
             );
 
         public async ValueTask<RestMessage> GetMessageAsync(string messageId) =>

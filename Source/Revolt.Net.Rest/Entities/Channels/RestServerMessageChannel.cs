@@ -1,9 +1,9 @@
 ﻿using Revolt.Net.Rest;
 using System.Text.Json.Serialization;
 
-namespace Revolt.Net
+namespace Revolt.Net.Rest
 {
-    public sealed class ServerMessageChannel : MessageChannel
+    public sealed class RestServerMessageChannel : RestMessageChannel
     {
         [JsonPropertyName("server")]
         public string ServerId { get; init; } = default!;

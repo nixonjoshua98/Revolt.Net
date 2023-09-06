@@ -9,8 +9,6 @@ namespace Revolt.Net.Rest
         [JsonPropertyName("_id")]
         public string Id { get; init; }
 
-        public string Nonce { get; init; }
-
         [JsonPropertyName("channel")]
         public string ChannelId { get; init; }
 

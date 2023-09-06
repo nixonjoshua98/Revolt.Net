@@ -4,9 +4,9 @@ namespace Revolt.Net.Rest.Helpers
 {
     internal static class ChannelHelper
     {
-        public static async Task<ClientMessage> SendMessageAsync(
+        public static async Task<RestClientMessage> SendMessageAsync(
             RevoltClientBase client,
-            IChannel channel, 
+            IChannel channel,
             string messageId = null,
             string content = null,
             Embed embed = null,

@@ -1,5 +1,4 @@
-﻿using Revolt.Net.Core;
-using Revolt.Net.Core.Entities.Relationships;
+﻿using Revolt.Net.Core.Entities.Relationships;
 
 namespace Revolt.Net
 {

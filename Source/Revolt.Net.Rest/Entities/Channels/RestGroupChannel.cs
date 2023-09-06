@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Revolt.Net
+namespace Revolt.Net.Rest
 {
-    public sealed class GroupChannel : MessageChannel
+    public sealed class RestGroupChannel : RestMessageChannel
     {
         public string Name { get; init; } = default!;
 
@@ -11,8 +11,8 @@ namespace Revolt.Net
 
         public string Description { get; init; } = default!;
 
-        public async ValueTask<IUser> GetOwnerAsync(FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
-            await Client.GetUserAsync(OwnerId, behaviour);
+        public async Task<IUser> GetOwnerAsync() =>
+            await Client.Api.GetUserAsync(OwnerId);
 
         public bool IsOwner(IUser user) =>
             OwnerId == user.Id;

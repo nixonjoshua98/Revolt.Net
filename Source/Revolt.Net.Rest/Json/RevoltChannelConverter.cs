@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Rest.Json
 {
-    internal class RevoltChannelConverter : JsonConverter<Channel>
+    internal class RevoltChannelConverter : JsonConverter<RestChannel>
     {
-        public override Channel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override RestChannel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var doc = JsonDocument.ParseValue(ref reader);
             var ele = doc.RootElement;
@@ -18,15 +18,15 @@ namespace Revolt.Net.Rest.Json
 
             return channelType switch
             {
-                ChannelType.TextChannel => node.Deserialize<MessageChannel>(options),
-                ChannelType.Group => node.Deserialize<GroupChannel>(options),
-                ChannelType.DirectMessage => node.Deserialize<DirectMessageChannel>(options),
-                ChannelType.SavedMessages => node.Deserialize<SavedMessagesChannel>(options),
+                ChannelType.TextChannel => node.Deserialize<RestMessageChannel>(options),
+                ChannelType.Group => node.Deserialize<RestGroupChannel>(options),
+                ChannelType.DirectMessage => node.Deserialize<RestDirectMessageChannel>(options),
+                ChannelType.SavedMessages => node.Deserialize<RestSavedMessagesChannel>(options),
                 _ => throw new Exception()
             }; ;
         }
 
-        public override void Write(Utf8JsonWriter writer, Channel value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, RestChannel value, JsonSerializerOptions options)
         {
             throw new NotImplementedException();
         }

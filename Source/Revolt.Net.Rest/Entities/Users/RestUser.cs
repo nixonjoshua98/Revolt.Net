@@ -1,9 +1,9 @@
 ﻿using Revolt.Net.Core.Entities.Relationships;
 using System.Text.Json.Serialization;
 
-namespace Revolt.Net
+namespace Revolt.Net.Rest
 {
-    public sealed class User : IUser
+    public sealed class RestUser : IUser
     {
         [JsonPropertyName("_id")]
         public string Id { get; init; }

@@ -9,7 +9,7 @@
 		<Title>Revolt.Net</Title>
 		<Authors>JNixon</Authors>
 		<PackageId>Revolt.Net</PackageId>
-		<Description>The .Net wrapper for Revolt.Chat</Description>
+		<Description>Library for interacting with Revolt.Chat. Contains all optional Revolt.Net components.</Description>
 		<PackageProjectUrl>https://github.com/nixonjoshua98/Revolt.Net</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/nixonjoshua98/Revolt.Net</RepositoryUrl>
@@ -17,18 +17,7 @@
 		<EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<PackageReleaseNotes>Added features, and improved performance</PackageReleaseNotes>
-		<IncludeSymbols>False</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Version>0.1.0-rc1</Version>
-		<EnableNETAnalyzers>False</EnableNETAnalyzers>
-		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<dependencies>
-			<group targetFramework="net7.0">
-				<dependency id="Discord.Net.Commands" version="0.1.0-rc1" />
-			</group>
-		</dependencies>
+		<Version>0.1.0-rc2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -40,6 +29,13 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Revolt.Net.Commands\Revolt.Net.Commands.csproj" />
+	  <ProjectReference Include="..\Revolt.Net.Core\Revolt.Net.Core.csproj" />
+	  <ProjectReference Include="..\Revolt.Net.Rest\Revolt.Net.Rest.csproj" />
+	  <ProjectReference Include="..\Revolt.Net.WebSocket\Revolt.Net.WebSocket.csproj" />
 	</ItemGroup>
 
 </Project>

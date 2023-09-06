@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Revolt.Net.Rest;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Revolt.Net.WebSocket.Payloads
 {
@@ -15,6 +11,6 @@ namespace Revolt.Net.WebSocket.Payloads
         [JsonPropertyName("channel")]
         public string ChannelId { get; init; }
 
-        public Message Data { get; init; }
+        public MessagePayload Data { get; init; }
     }
 }

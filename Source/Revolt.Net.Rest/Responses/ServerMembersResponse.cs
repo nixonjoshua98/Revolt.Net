@@ -2,6 +2,6 @@
 {
     internal sealed record ServerMembersResponse(
         IReadOnlyList<ServerMemberReference> Members,
-        IReadOnlyList<User> Users
+        IReadOnlyList<RestUser> Users
     );
 }

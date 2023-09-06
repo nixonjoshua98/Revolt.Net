@@ -1,4 +1,5 @@
-﻿using Revolt.Net.Rest.Helpers;
+﻿using Revolt.Net.Rest;
+using Revolt.Net.Rest.Helpers;
 using Revolt.Net.WebSocket.Entities.Messages;
 using Revolt.Net.WebSocket.State;
 
@@ -14,7 +15,7 @@ namespace Revolt.Net.WebSocket
 
         public string Content { get; private set; }
 
-        internal SocketMessage(RevoltSocketClient client, Message message, IChannel channel, IUser user)
+        internal SocketMessage(RevoltSocketClient client, MessagePayload message, IChannel channel, IUser user)
         {
             Channel = channel;
             Client = client;
@@ -24,8 +25,8 @@ namespace Revolt.Net.WebSocket
         }
 
         internal static SocketMessage Create(
-            RevoltSocketClient client, 
-            Message message,
+            RevoltSocketClient client,
+            MessagePayload message,
             IChannel channel,
             IUser user)
         {
@@ -36,7 +37,7 @@ namespace Revolt.Net.WebSocket
             return inst;
         }
 
-        internal virtual void Update(Message message, RevoltState state)
+        internal virtual void Update(MessagePayload message, RevoltState state)
         {
             message.Content.Match(x => Content = x);
         }

@@ -1,6 +1,6 @@
-﻿namespace Revolt.Net
+﻿namespace Revolt.Net.Rest
 {
-    public class DirectMessageChannel : MessageChannel
+    public class RestDirectMessageChannel : RestMessageChannel
     {
         public bool Active { get; init; }
 

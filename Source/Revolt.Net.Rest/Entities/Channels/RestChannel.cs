@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Revolt.Net
+namespace Revolt.Net.Rest
 {
-    public abstract class Channel : RestEntity, IChannel
+    public abstract class RestChannel : RestEntity, IChannel
     {
         [JsonPropertyName("_id")]
         public string Id { get; init; }

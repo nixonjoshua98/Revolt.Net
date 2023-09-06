@@ -8,7 +8,7 @@
         public IEnumerable<Embed> Embeds { get; init; }
 
         public SendMessageRequest(
-            IEnumerable<MessageReply> replies, 
+            IEnumerable<MessageReply> replies,
             string content,
             IEnumerable<Embed> embeds)
         {

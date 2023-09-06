@@ -1,6 +1,4 @@
-﻿using Revolt.Net.Core;
-
-namespace Revolt.Net
+﻿namespace Revolt.Net
 {
     public sealed class PartialUser
     {

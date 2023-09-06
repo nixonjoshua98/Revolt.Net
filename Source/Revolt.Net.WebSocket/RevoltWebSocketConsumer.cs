@@ -1,4 +1,5 @@
-﻿using Revolt.Net.Rest.Json;
+﻿using Revolt.Net.Rest;
+using Revolt.Net.Rest.Json;
 using Revolt.Net.WebSocket.Payloads;
 using Revolt.Net.WebSocket.State;
 
@@ -110,7 +111,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnMessage(SocketMessagePayload socketMessage)
         {
-            var data = Serialization.Deserialize<Message>(socketMessage.Content);
+            var data = Serialization.Deserialize<MessagePayload>(socketMessage.Content);
 
             var channel = await Client.GetChannelAsync(data.ChannelId);
             var author = await Client.GetUserAsync(data.AuthorId);

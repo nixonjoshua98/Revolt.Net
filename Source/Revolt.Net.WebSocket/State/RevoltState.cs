@@ -48,7 +48,7 @@ namespace Revolt.Net.WebSocket.State
             SetServerMembers(id, response.Members);
         }
 
-        public User GetUser(string id)
+        public RestUser GetUser(string id)
         {
             var user = Cache.GetUser(id);
             return user;
@@ -79,10 +79,10 @@ namespace Revolt.Net.WebSocket.State
         public void RemoveChannel(string channelId) =>
             Cache.RemoveChannel(channelId);
 
-        public void AddUser(User user) =>
+        public void AddUser(RestUser user) =>
             Cache.AddUser(user);
 
-        public void AddUsers(IEnumerable<User> ls) =>
+        public void AddUsers(IEnumerable<RestUser> ls) =>
             Cache.AddUsers(ls);
 
         public void SetServerMembers(string id, IEnumerable<ServerMemberReference> ls) =>
@@ -107,20 +107,20 @@ namespace Revolt.Net.WebSocket.State
             return server;
         }
 
-        public Channel GetChannel(string id)
+        public RestChannel GetChannel(string id)
         {
             var channel = Cache.GetChannel(id);
             channel?.SetClient(Client);
             return channel;
         }
 
-        public void AddChannel(Channel channel)
+        public void AddChannel(RestChannel channel)
         {
             channel?.SetClient(Client);
             Cache.AddChannel(channel);
         }
 
-        public void AddChannels(IEnumerable<Channel> channels)
+        public void AddChannels(IEnumerable<RestChannel> channels)
         {
             foreach (var chnl in channels) AddChannel(chnl);
         }

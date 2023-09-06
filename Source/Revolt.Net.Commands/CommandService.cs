@@ -16,11 +16,11 @@ using System.Reflection;
 namespace Revolt.Net.Commands
 {
     /// <summary>
-    ///     Provides a framework for building Discord commands.
+    ///     Provides a framework for building Revolt commands.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         The service provides a framework for building Discord commands both dynamically via runtime builders or
+    ///         The service provides a framework for building Revolt commands both dynamically via runtime builders or
     ///         statically via compile-time modules. To create a command module at compile-time, see
     ///         <see cref="CommandModuleBase" /> (most common); otherwise, see <see cref="ModuleBuilder" />.
     ///     </para>

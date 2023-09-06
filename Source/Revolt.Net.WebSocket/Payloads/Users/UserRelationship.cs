@@ -1,8 +1,9 @@
 ﻿using Revolt.Net.Core.Entities.Relationships;
+using Revolt.Net.Rest;
 
 namespace Revolt.Net.WebSocket
 {
-    internal sealed record UserRelationshipPayload(User User, RelationshipStatus Status)
+    internal sealed record UserRelationshipPayload(RestUser User, RelationshipStatus Status)
     {
         public UserRelationshipEvent ToEvent() => new(User, Status);
     }

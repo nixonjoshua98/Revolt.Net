@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Revolt.Net
+namespace Revolt.Net.Rest
 {
     /// <summary>
     /// Message entity which contains all possible properties. Useful for loading data which may not be present and can be re-used for
     /// sockets, api responses, and partial messages.
     /// </summary>
-    internal sealed class Message
+    internal sealed class MessagePayload
     {
         [JsonPropertyName("_id")]
         public string Id { get; init; }

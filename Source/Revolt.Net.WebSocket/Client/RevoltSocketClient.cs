@@ -1,5 +1,4 @@
-﻿using Revolt.Net.WebSocket.Helpers;
-using Revolt.Net.WebSocket.State;
+﻿using Revolt.Net.WebSocket.State;
 
 namespace Revolt.Net.WebSocket
 {
@@ -56,19 +55,19 @@ namespace Revolt.Net.WebSocket
             }
         }
 
-        public override async ValueTask<IUser> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
-            await UserHelper.GetUserAsync(this, id, behaviour);
+        public override async Task<IUser> GetUserAsync(string id) =>
+            await Api.GetUserAsync(id);
 
-        public override async ValueTask<IChannel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload) =>
-            await ChannelHelper.GetChannelAsync(this, id, behaviour);
+        public override async Task<IChannel> GetChannelAsync(string id) =>
+            await Api.GetChannelAsync(id);
 
-        public SocketServer GetServer(string id) => 
+        public IServer GetServer(string id) =>
             State.GetServer(id);
 
-        public Channel GetChannel(string id) => 
+        public IChannel GetChannel(string id) =>
             State.GetChannel(id);
 
-        public IUser GetUser(string id) => 
+        public IUser GetUser(string id) =>
             State.GetUser(id);
     }
 }

@@ -9,7 +9,7 @@
 	  <Title>Revolt.Net.Commands</Title>
 	  <Authors>JNixon</Authors>
 	  <PackageId>Revolt.Net.Commands</PackageId>
-	  <Description>Command functionality for Revolt.Net</Description>
+	  <Description>Command functionality for the Revolt.Net library.</Description>
 	  <PackageProjectUrl>https://github.com/nixonjoshua98/Revolt.Net</PackageProjectUrl>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/nixonjoshua98/Revolt.Net</RepositoryUrl>
@@ -17,18 +17,7 @@
 	  <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
 	  <AnalysisLevel>latest</AnalysisLevel>
 	  <PackageReleaseNotes>Added features, and improved performance</PackageReleaseNotes>
-	  <IncludeSymbols>False</IncludeSymbols>
-	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	  <Version>0.1.0-rc1</Version>
-	  <EnableNETAnalyzers>False</EnableNETAnalyzers>
-	  <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-	  <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
-	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-	  <dependencies>
-		  <group targetFramework="net7.0">
-			  <dependency id="Discord.Net" version="0.1.0-rc1" />
-		  </group>
-	  </dependencies>
+	  <Version>0.1.0-rc2</Version>
   </PropertyGroup>
 
   <ItemGroup>
