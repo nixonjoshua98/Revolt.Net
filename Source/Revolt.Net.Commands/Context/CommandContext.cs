@@ -7,10 +7,10 @@ namespace Revolt.Net.Commands.Context
     {
         public string Arguments { get; set; }
         public SocketMessage Message { get; }
-        public User User { get; }
-        public Channel Channel { get; }
+        public SocketUser User { get; }
+        public SocketChannel Channel { get; }
         public RevoltSocketClient Client { get; }
-        public Server Server { get; }
+        public SocketServer Server { get; }
 
         public CommandContext(SocketMessage message)
         {

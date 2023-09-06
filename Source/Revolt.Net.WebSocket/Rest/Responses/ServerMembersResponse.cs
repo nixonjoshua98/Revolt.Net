@@ -4,6 +4,6 @@ namespace Revolt.Net.Rest
 {
     internal sealed record ServerMembersResponse(
         IReadOnlyList<ServerMemberReference> Members,
-        IReadOnlyList<User> Users
+        IReadOnlyList<SocketUser> Users
     );
 }

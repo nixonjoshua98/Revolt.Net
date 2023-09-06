@@ -2,7 +2,7 @@
 
 namespace Revolt.Net.WebSocket
 {
-    public class User : IUser
+    public class SocketUser : IUser
     {
         [JsonPropertyName("_id")]
         public string Id { get; init; }

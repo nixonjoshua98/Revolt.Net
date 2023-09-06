@@ -19,13 +19,13 @@ namespace Revolt.Net.WebSocket
         public string Content { get; init; }
 
         [JsonIgnore]
-        public Channel Channel => Client.GetChannel(ChannelId);
+        public SocketChannel Channel => Client.GetChannel(ChannelId);
 
         [JsonIgnore]
-        public User Author => Client.GetUser(AuthorId);
+        public SocketUser Author => Client.GetUser(AuthorId);
 
-        public async Task<ClientMessage> ReplyAsync(string content, Embed embed = null, IEnumerable<Embed> embeds = null,  bool mention = false) =>
-            await MessageHelper.SendAsync(
+        public async Task<SocketClientMessage> ReplyAsync(string content, Embed embed = null, IEnumerable<Embed> embeds = null,  bool mention = false) =>
+            await ChannelHelper.SendMessageAsync(
                 client: Client,
                 channelId: ChannelId,
                 content: content,
@@ -36,9 +36,12 @@ namespace Revolt.Net.WebSocket
             );
 
         public async Task DeleteAsync() =>
-            await Client.State.Messages.DeleteAsync(ChannelId, Id);
+            await ChannelHelper.DeleteMessageAsync(Client, ChannelId, Id);
 
         public async Task AcknowledgeAsync() =>
             await Client.Api.AcknowledgeMessageAsync(ChannelId, Id);
+
+        public async Task RemoveReactionsAsync() =>
+            await Client.Api.RemoveMessageReactionsAsync(ChannelId, Id);
     }
 }

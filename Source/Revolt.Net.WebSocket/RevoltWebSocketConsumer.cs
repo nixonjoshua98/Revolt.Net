@@ -61,7 +61,7 @@ namespace Revolt.Net.WebSocket
         {
             var e = WebSocketSerialization.Deserialize<MessageDeletePayload>(message.Content);
 
-            State.Messages.Remove(e.Channel, e.Id);
+            State.RemoveMessage(e.Channel, e.Id);
 
             MessageDelete?.Invoke(e.ToEvent());
         }
@@ -97,7 +97,7 @@ namespace Revolt.Net.WebSocket
         {
             var e = WebSocketSerialization.Deserialize<SocketMessage>(message.Content);
 
-            State.Messages.Add(e);
+            State.AddMessage(e);
 
             _ = await State.GetChannelAsync(e.ChannelId);
             _ = await State.GetUserAsync(e.AuthorId);

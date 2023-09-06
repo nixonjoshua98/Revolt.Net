@@ -8,7 +8,7 @@
             Func<Task<T>> fetchFactory,
             Action<T> cacheFunc = null!)
         {
-            if (behaviour == FetchBehaviour.Download)
+            if (behaviour == FetchBehaviour.DownloadOnly)
             {
                 return await _DownloadAndCache(fetchFactory, cacheFunc);
             }

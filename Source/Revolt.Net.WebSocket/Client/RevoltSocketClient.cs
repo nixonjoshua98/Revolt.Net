@@ -65,11 +65,11 @@ namespace Revolt.Net.WebSocket
             }
         }
 
-        public User GetUserByName(string name) => State.GetUser(name);
-        public async Task<User> GetUserAsync(string id) => await State.GetUserAsync(id);
-        public Server GetServer(string id) => State.GetServer(id);
-        public Channel GetChannel(string id) => State.GetChannel(id);
-        public User GetUser(string id) => State.GetUser(id);
+        public SocketUser GetUserByName(string name) => State.GetUser(name);
+        public async Task<SocketUser> GetUserAsync(string id) => await State.GetUserAsync(id);
+        public SocketServer GetServer(string id) => State.GetServer(id);
+        public SocketChannel GetChannel(string id) => State.GetChannel(id);
+        public SocketUser GetUser(string id) => State.GetUser(id);
 
         public bool IsOwner(string id)
         {

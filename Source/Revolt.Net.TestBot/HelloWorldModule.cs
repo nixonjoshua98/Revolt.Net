@@ -15,11 +15,5 @@ namespace Revolt.Net.TestBot
                 Colour = RevoltColour.Green
             });
         }
-
-        [Command("delete")]
-        public async Task Delete()
-        {
-            await Context.Message.DeleteAsync();
-        }
     }
 }

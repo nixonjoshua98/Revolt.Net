@@ -10,7 +10,7 @@ namespace Revolt.Net.Commands.Attributes.Preconditions
         public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
             IServiceProvider services)
         {
-            return context.Channel is GroupChannel channel && channel.OwnerId == context.Message.AuthorId ?
+            return context.Channel is SocketGroupChannel channel && channel.OwnerId == context.Message.AuthorId ?
                 Task.FromResult(PreconditionResult.FromSuccess()) :
                 Task.FromResult(PreconditionResult.FromError("This command can only be ran by the owner of this group."));
         }

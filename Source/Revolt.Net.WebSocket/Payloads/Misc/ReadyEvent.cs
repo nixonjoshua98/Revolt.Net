@@ -3,9 +3,9 @@
     public sealed record ReadyEvent;
 
     internal sealed record ReadyMessage(
-        IReadOnlyList<Server> Servers,
-        IReadOnlyList<Channel> Channels,
-        IReadOnlyList<User> Users,
+        IReadOnlyList<SocketServer> Servers,
+        IReadOnlyList<SocketChannel> Channels,
+        IReadOnlyList<SocketUser> Users,
         IReadOnlyList<ServerMemberReference> Members
     )
     {

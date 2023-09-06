@@ -8,35 +8,48 @@ namespace Revolt.Net.WebSocket.State
         private readonly RevoltApiClient Api;
         private readonly IRevoltStateCache Cache;
 
-        public readonly MessagesState Messages;
-
         public RevoltState(RevoltSocketClient client)
         {
             Client = client;
             Cache = Client.Cache;
             Api = Client.Api;
-
-            Messages = new(client);
         }
 
-        public void AddMessage(ClientMessage message)
+        #region Messages
+
+        public void AddMessage(SocketMessage message)
         {
-            Messages.Add(message);
+            message?.SetClient(Client);
+            Cache.AddMessage(message);
         }
 
-        public void TryAddMessage(ClientMessage message)
+        public SocketMessage GetMessage(string channelId, string messageId)
         {
-            Messages.TryAdd(message);
+            var message = Cache.GetMessage(channelId, messageId);
+            message?.SetClient(Client);
+            return message;
         }
 
-        public async ValueTask<User> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)
+        public void RemoveMessage(string channelId, string messageId)
+        {
+            Cache.RemoveMessage(channelId, messageId);
+        }
+
+        public void RemoveMessage(SocketMessage message)
+        {
+            RemoveMessage(message.ChannelId, message.Id);
+        }
+
+        #endregion
+
+        public async ValueTask<SocketUser> GetUserAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload)
         {
             return await RevoltStateHelper.GetOrDownloadAsync(
                 behaviour, () => GetUser(id), () => Api.GetUserAsync(id), u => AddUser(u)
             );
         }
 
-        public User GetUserByName(string name) => Cache.GetUserByName(name);
+        public SocketUser GetUserByName(string name) => Cache.GetUserByName(name);
 
         public void Add(string id, ServerMembersResponse response)
         {
@@ -44,7 +57,7 @@ namespace Revolt.Net.WebSocket.State
             SetServerMembers(id, response.Members);
         }
 
-        public User GetUser(string id)
+        public SocketUser GetUser(string id)
         {
             var user = Cache.GetUser(id);
             return user;
@@ -58,12 +71,12 @@ namespace Revolt.Net.WebSocket.State
             AddServerMembers(@event.Members);
         }
 
-        public void AddServers(IEnumerable<Server> servers)
+        public void AddServers(IEnumerable<SocketServer> servers)
         {
             foreach (var server in servers) AddServer(server);
         }
 
-        public void AddServer(Server server)
+        public void AddServer(SocketServer server)
         {
             server.SetClient(Client);
             Cache.AddServer(server);
@@ -75,10 +88,10 @@ namespace Revolt.Net.WebSocket.State
         public void RemoveChannel(string channelId) =>
             Cache.RemoveChannel(channelId);
 
-        public void AddUser(User user) =>
+        public void AddUser(SocketUser user) =>
             Cache.AddUser(user);
 
-        public void AddUsers(IEnumerable<User> ls) =>
+        public void AddUsers(IEnumerable<SocketUser> ls) =>
             Cache.AddUsers(ls);
 
         public void SetServerMembers(string id, IEnumerable<ServerMemberReference> ls) =>
@@ -96,34 +109,34 @@ namespace Revolt.Net.WebSocket.State
         public void UpdateUser(string id, PartialUser partialUser) =>
             Cache.UpdateUser(id, partialUser);
 
-        public Server GetServer(string id)
+        public SocketServer GetServer(string id)
         {
             var server = Cache.GetServer(id);
             server?.SetClient(Client);
             return server;
         }
 
-        public async ValueTask<Channel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.Cache)
+        public async ValueTask<SocketChannel> GetChannelAsync(string id, FetchBehaviour behaviour = FetchBehaviour.CacheThenDownload)
         {
             return await RevoltStateHelper.GetOrDownloadAsync(
                 behaviour, () => GetChannel(id), () => Api.GetChannelAsync(id), c => AddChannel(c)
             );
         }
 
-        public Channel GetChannel(string id)
+        public SocketChannel GetChannel(string id)
         {
             var channel = Cache.GetChannel(id);
             channel?.SetClient(Client);
             return channel;
         }
 
-        public void AddChannel(Channel channel)
+        public void AddChannel(SocketChannel channel)
         {
             channel?.SetClient(Client);
             Cache.AddChannel(channel);
         }
 
-        public void AddChannels(IEnumerable<Channel> channels)
+        public void AddChannels(IEnumerable<SocketChannel> channels)
         {
             foreach (var chnl in channels) AddChannel(chnl);
         }

@@ -2,7 +2,7 @@
 {
     public enum FetchBehaviour
     {
-        Download,
-        Cache
+        DownloadOnly,
+        CacheThenDownload
     }
 }

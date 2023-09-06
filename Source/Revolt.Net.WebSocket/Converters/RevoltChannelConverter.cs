@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Revolt.Net.WebSocket.Converters
 {
-    internal class RevoltChannelConverter : JsonConverter<Channel>
+    internal class RevoltChannelConverter : JsonConverter<SocketChannel>
     {
-        public override Channel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override SocketChannel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var doc = JsonDocument.ParseValue(ref reader);
             var ele = doc.RootElement;
@@ -19,14 +19,14 @@ namespace Revolt.Net.WebSocket.Converters
             return channelType switch
             {
                 ChannelType.TextChannel => node.Deserialize<SocketTextChannel>(options),
-                ChannelType.Group => node.Deserialize<GroupChannel>(options),
-                ChannelType.DirectMessage => node.Deserialize<DirectMessageChannel>(options),
-                ChannelType.SavedMessages => node.Deserialize<SavedMessagesChannel>(options),
+                ChannelType.Group => node.Deserialize<SocketGroupChannel>(options),
+                ChannelType.DirectMessage => node.Deserialize<SocketDirectMessageChannel>(options),
+                ChannelType.SavedMessages => node.Deserialize<SocketSavedMessagesChannel>(options),
                 _ => throw new Exception()
             }; ;
         }
 
-        public override void Write(Utf8JsonWriter writer, Channel value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, SocketChannel value, JsonSerializerOptions options)
         {
             throw new NotImplementedException();
         }

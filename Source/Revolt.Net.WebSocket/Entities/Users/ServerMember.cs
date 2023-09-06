@@ -8,7 +8,7 @@
         DateTimeOffset JoinedAt
     )
     {
-        internal static ServerMember Create(ServerMemberReference reference, User user)
+        internal static ServerMember Create(ServerMemberReference reference, SocketUser user)
         {
             return new(
                 user.Id,
