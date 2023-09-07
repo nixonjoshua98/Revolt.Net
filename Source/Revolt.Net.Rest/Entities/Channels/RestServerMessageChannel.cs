@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Rest
 {
-    public sealed class RestServerMessageChannel : RestMessageChannel
+    public sealed class RestServerMessageChannel : RestTextChannel
     {
         [JsonPropertyName("server")]
         public string ServerId { get; init; } = default!;

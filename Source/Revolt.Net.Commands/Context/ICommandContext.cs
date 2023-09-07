@@ -11,7 +11,7 @@ namespace Revolt.Net.Commands.Context
         public string Arguments { get; set; }
         public SocketMessage Message { get; }
         public IUser User { get; }
-        public IChannel Channel { get; }
+        public ITextChannel Channel { get; }
         public RevoltClientBase Client { get; }
     }
 }

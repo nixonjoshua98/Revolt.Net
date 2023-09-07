@@ -24,7 +24,16 @@ namespace Revolt.Net.Rest.Json
 
         public static T Deserialize<T>(string value)
         {
-            return JsonSerializer.Deserialize<T>(value, Options);
+            try
+            {
+                return JsonSerializer.Deserialize<T>(value, Options);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Deserialize: " + ex);
+            }
+
+            return default!;
         }
 
         public static T Deserialize<T>(JsonNode node)

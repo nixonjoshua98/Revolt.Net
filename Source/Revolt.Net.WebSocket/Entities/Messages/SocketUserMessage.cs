@@ -8,7 +8,7 @@ namespace Revolt.Net.WebSocket.Entities.Messages
         internal SocketUserMessage(
             RevoltSocketClient client,
             MessagePayload message,
-            IChannel channel,
+            ITextChannel channel,
             IUser user) : base(client, message, channel, user)
         {
 

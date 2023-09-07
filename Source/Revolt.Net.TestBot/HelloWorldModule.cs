@@ -15,5 +15,15 @@ namespace Revolt.Net.TestBot
                 Colour = RevoltColour.Green
             });
         }
+
+        [Command("echo")]
+        public async Task Echo(string message, int delay)
+        {            
+            var sentMessage = await Context.Channel.SendMessageAsync(message);
+
+            await Task.Delay(delay);
+
+            await sentMessage.DeleteAsync();
+        }
     }
 }

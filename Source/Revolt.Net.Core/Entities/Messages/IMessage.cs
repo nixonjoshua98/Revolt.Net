@@ -2,7 +2,7 @@
 {
     public interface IMessage
     {
-        IChannel Channel { get; }
+        ITextChannel Channel { get; }
         string Content { get; }
         string Id { get; }
         IUser Author { get; }

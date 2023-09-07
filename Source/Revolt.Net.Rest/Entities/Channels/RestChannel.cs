@@ -8,5 +8,10 @@ namespace Revolt.Net.Rest
         public string Id { get; init; }
 
         public ChannelType ChannelType { get; init; }
+
+        protected RestChannel()
+        {
+
+        }
     }
 }

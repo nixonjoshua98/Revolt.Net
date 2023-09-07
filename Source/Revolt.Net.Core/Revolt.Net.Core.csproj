@@ -14,7 +14,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/nixonjoshua98/Revolt.Net</RepositoryUrl>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<Version>0.1.0-rc2</Version>
+		<Version>0.1.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

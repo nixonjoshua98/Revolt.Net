@@ -17,7 +17,7 @@
 		<EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<PackageReleaseNotes>Added features, and improved performance</PackageReleaseNotes>
-		<Version>0.1.0-rc2</Version>
+		<Version>0.1.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

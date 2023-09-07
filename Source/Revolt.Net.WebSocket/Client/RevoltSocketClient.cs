@@ -1,4 +1,5 @@
-﻿using Revolt.Net.WebSocket.State;
+﻿using Revolt.Net.Rest.Helpers;
+using Revolt.Net.WebSocket.State;
 
 namespace Revolt.Net.WebSocket
 {
@@ -59,7 +60,7 @@ namespace Revolt.Net.WebSocket
             await Api.GetUserAsync(id);
 
         public override async Task<IChannel> GetChannelAsync(string id) =>
-            await Api.GetChannelAsync(id);
+            await ChannelHelper.GetChannelAsync(this, id);
 
         public IServer GetServer(string id) =>
             State.GetServer(id);

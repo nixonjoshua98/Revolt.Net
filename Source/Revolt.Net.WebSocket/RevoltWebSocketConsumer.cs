@@ -26,7 +26,12 @@ namespace Revolt.Net.WebSocket
             Client = client;
             Socket = socket;
 
-            Socket.MessageReceived += async payload =>
+            Socket.MessageReceived += HandleMessage;
+        }
+
+        private async Task HandleMessage(SocketMessagePayload payload)
+        {
+            try
             {
                 await (payload.Type switch
                 {
@@ -41,7 +46,11 @@ namespace Revolt.Net.WebSocket
                     "MessageUpdate" => OnMessageUpdate(payload),
                     _ => Task.CompletedTask
                 });
-            };
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private Task OnMessageUpdate(SocketMessagePayload payload)
@@ -109,14 +118,14 @@ namespace Revolt.Net.WebSocket
             UserUpdate?.Invoke(e.ToEvent());
         }
 
-        private async Task OnMessage(SocketMessagePayload socketMessage)
+        private async Task OnMessage(SocketMessagePayload payload)
         {
-            var data = Serialization.Deserialize<MessagePayload>(socketMessage.Content);
+            var data = Serialization.Deserialize<MessagePayload>(payload.Content);
 
             var channel = await Client.GetChannelAsync(data.ChannelId);
             var author = await Client.GetUserAsync(data.AuthorId);
 
-            var message = SocketMessage.Create(Client, data, channel, author);
+            var message = SocketMessage.Create(Client, data, channel as ITextChannel, author);
 
             State.AddMessage(message);
 

@@ -2,7 +2,7 @@
 
 namespace Revolt.Net.Rest
 {
-    public sealed class RestGroupChannel : RestMessageChannel
+    public sealed class RestGroupChannel : RestTextChannel
     {
         public string Name { get; init; } = default!;
 

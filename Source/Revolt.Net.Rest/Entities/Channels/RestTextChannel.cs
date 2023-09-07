@@ -3,9 +3,12 @@ using Revolt.Net.Rest.Helpers;
 
 namespace Revolt.Net.Rest
 {
-    public abstract class RestMessageChannel : RestChannel
+    public class RestTextChannel : RestChannel, ITextChannel
     {
-        public async Task<RestClientMessage> SendMessageAsync(string content = null, Embed embed = null, IEnumerable<Embed> embeds = null) =>
+        public async Task<IClientMessage> SendMessageAsync(
+            string content = null,
+            Embed embed = null, 
+            IEnumerable<Embed> embeds = null) =>
             await ChannelHelper.SendMessageAsync(
                 client: Client,
                 channel: this,
@@ -14,7 +17,7 @@ namespace Revolt.Net.Rest
                 embeds: embeds
             );
 
-        public async ValueTask<RestMessage> GetMessageAsync(string messageId) =>
+        public async Task<IMessage> GetMessageAsync(string messageId) =>
             await Client.Api.GetMessageAsync(Id, messageId);
     }
 }

@@ -11,11 +11,11 @@ namespace Revolt.Net.WebSocket
 
         public IUser Author { get; private set; }
 
-        public IChannel Channel { get; private set; }
+        public ITextChannel Channel { get; private set; }
 
         public string Content { get; private set; }
 
-        internal SocketMessage(RevoltSocketClient client, MessagePayload message, IChannel channel, IUser user)
+        internal SocketMessage(RevoltSocketClient client, MessagePayload message, ITextChannel channel, IUser user)
         {
             Channel = channel;
             Client = client;
@@ -27,7 +27,7 @@ namespace Revolt.Net.WebSocket
         internal static SocketMessage Create(
             RevoltSocketClient client,
             MessagePayload message,
-            IChannel channel,
+            ITextChannel channel,
             IUser user)
         {
             var inst = new SocketUserMessage(client, message, channel, user);

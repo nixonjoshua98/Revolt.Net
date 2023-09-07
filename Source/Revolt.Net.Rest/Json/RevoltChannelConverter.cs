@@ -18,7 +18,7 @@ namespace Revolt.Net.Rest.Json
 
             return channelType switch
             {
-                ChannelType.TextChannel => node.Deserialize<RestMessageChannel>(options),
+                ChannelType.TextChannel => node.Deserialize<RestTextChannel>(options),
                 ChannelType.Group => node.Deserialize<RestGroupChannel>(options),
                 ChannelType.DirectMessage => node.Deserialize<RestDirectMessageChannel>(options),
                 ChannelType.SavedMessages => node.Deserialize<RestSavedMessagesChannel>(options),
