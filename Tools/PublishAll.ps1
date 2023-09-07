@@ -10,7 +10,9 @@ $packages = @(
     @{ Name = "Revolt.Net.Rest"; Version = "0.1.0" }
 )
 
-$nugetSource = "https://api.nuget.org/v3/index.json"
+#$nugetSource = "https://api.nuget.org/v3/index.json"
+$nugetSource = "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\"
+
 $nugetApiKey = ""
 
 foreach ($package in $packages) {
@@ -19,12 +21,18 @@ foreach ($package in $packages) {
 
     $nupkg = Join-Path -Path $path ($package.Name + "." + $package.Version + ".nupkg")
 
-    Write-Host "$nupkg"
-
     if (!(Test-Path -Path $nupkg -PathType Leaf)) {
         throw "Error: Package file '$nupkg' does not exist."
     }
 
-    dotnet nuget push $nupkg -k $nugetApiKey -s $nugetSource --skip-duplicate
+    # Assume local folder
+    if ($nugetApiKey -Like "") {
+        dotnet nuget push $nupkg -s $nugetSource --skip-duplicate
+    }
+
+    # Assume online source
+    else {
+        dotnet nuget push $nupkg -k $nugetApiKey -s $nugetSource --skip-duplicate
+    }
 
 }
