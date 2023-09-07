@@ -8,13 +8,22 @@ namespace Revolt.Net.TestBot
         [Command("echo")]
         public async Task Echo(string message)
         {
-            await Context.Message.ReplyAsync(message);
+            await Context.Message.ReplyAsync(content: message, embed: new Embed()
+            {
+                Title = "Echo",
+                Description = message,
+                Colour = RevoltColour.Green
+            });
         }
 
-        [Command("delete")]
-        public async Task Delete()
-        {
-            await Context.Message.DeleteAsync();
+        [Command("echo")]
+        public async Task Echo(string message, int delay)
+        {            
+            var sentMessage = await Context.Channel.SendMessageAsync(message);
+
+            await Task.Delay(delay);
+
+            await sentMessage.DeleteAsync();
         }
     }
 }

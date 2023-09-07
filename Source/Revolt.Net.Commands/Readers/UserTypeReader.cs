@@ -1,13 +1,11 @@
 ﻿using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Enums;
 using Revolt.Net.Commands.Results;
-using Revolt.Net.Entities.Users;
 using System.Collections.Immutable;
 
 namespace Revolt.Net.Commands.Readers
 {
-    public class UserTypeReader<T> : TypeReader
-        where T : User
+    public class UserTypeReader<T> : TypeReader where T : class, IUser
     {
         public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
             IServiceProvider services)
@@ -26,8 +24,8 @@ namespace Revolt.Net.Commands.Readers
                 AddResult(results, res as T, 1.0f);
             }
 
-            // By Username (0.9)
-            AddResult(results, context.Client.GetUserByName(input) as T, 0.9f);
+            // By Username (0.9) TODO
+            //AddResult(results, context.Client.GetUserByName(input) as T, 0.9f);
             // todo: By Nickname
 
             if (results.Count != 0)

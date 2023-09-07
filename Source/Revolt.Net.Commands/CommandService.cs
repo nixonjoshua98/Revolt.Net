@@ -6,9 +6,9 @@ using Revolt.Net.Commands.Map;
 using Revolt.Net.Commands.Module;
 using Revolt.Net.Commands.Readers;
 using Revolt.Net.Commands.Results;
-using Revolt.Net.Entities.Permissions;
-using Revolt.Net.Entities.Users;
-using Revolt.Net.Logging;
+using Revolt.Net.Core;
+using Revolt.Net.Core.Logging;
+using Revolt.Net.WebSocket;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Reflection;
@@ -16,11 +16,11 @@ using System.Reflection;
 namespace Revolt.Net.Commands
 {
     /// <summary>
-    ///     Provides a framework for building Discord commands.
+    ///     Provides a framework for building Revolt commands.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         The service provides a framework for building Discord commands both dynamically via runtime builders or
+    ///         The service provides a framework for building Revolt commands both dynamically via runtime builders or
     ///         statically via compile-time modules. To create a command module at compile-time, see
     ///         <see cref="CommandModuleBase" /> (most common); otherwise, see <see cref="ModuleBuilder" />.
     ///     </para>
@@ -125,7 +125,7 @@ namespace Revolt.Net.Commands
                 new PrimitiveTypeReader<string>((string x, out string y) => { y = x; return true; }, 0);
 
             var entityTypeReaders = ImmutableList.CreateBuilder<(Type, Type)>();
-            entityTypeReaders.Add((typeof(User), typeof(UserTypeReader<>)));
+            entityTypeReaders.Add((typeof(IUser), typeof(UserTypeReader<>)));
             entityTypeReaders.Add((typeof(Role), typeof(RoleTypeReader<>)));
             _entityTypeReaders = entityTypeReaders.ToImmutable();
         }
