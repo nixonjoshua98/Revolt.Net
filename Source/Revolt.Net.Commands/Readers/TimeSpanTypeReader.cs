@@ -1,4 +1,3 @@
-using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Enums;
 using Revolt.Net.Commands.Results;
 using System.Globalization;

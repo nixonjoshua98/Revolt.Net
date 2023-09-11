@@ -1,5 +1,4 @@
 using Revolt.Net.Commands.Builders;
-using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Enums;
 using Revolt.Net.Commands.Info;
 using Revolt.Net.Commands.Map;
@@ -124,10 +123,18 @@ namespace Revolt.Net.Commands
             _defaultTypeReaders[typeof(string)] =
                 new PrimitiveTypeReader<string>((string x, out string y) => { y = x; return true; }, 0);
 
+            _entityTypeReaders = CreateEntityTypeReaders().ToImmutable();
+        }
+
+        private static ImmutableList<(Type, Type)>.Builder CreateEntityTypeReaders()
+        {
             var entityTypeReaders = ImmutableList.CreateBuilder<(Type, Type)>();
+
             entityTypeReaders.Add((typeof(IUser), typeof(UserTypeReader<>)));
+            entityTypeReaders.Add((typeof(IChannel), typeof(ChannelReader<>)));
             entityTypeReaders.Add((typeof(Role), typeof(RoleTypeReader<>)));
-            _entityTypeReaders = entityTypeReaders.ToImmutable();
+
+            return entityTypeReaders;
         }
 
         //Modules

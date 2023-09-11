@@ -55,7 +55,7 @@ namespace Revolt.Net.WebSocket
 
         private Task OnMessageUpdate(SocketMessagePayload payload)
         {
-            var e = Serialization.Deserialize<MessageUpdate>(payload.Content);
+            var e = RestSerialization.Deserialize<MessageUpdate>(payload.Content);
 
             var message = State.GetMessage(e.ChannelId, e.MessageId);
 
@@ -66,7 +66,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnChannelDelete(SocketMessagePayload message)
         {
-            var e = Serialization.Deserialize<ChannelDeletePayload>(message.Content);
+            var e = RestSerialization.Deserialize<ChannelDeletePayload>(message.Content);
 
             State.RemoveChannel(e.Id);
 
@@ -75,7 +75,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnServerDelete(SocketMessagePayload message)
         {
-            var e = Serialization.Deserialize<ServerDeletePayload>(message.Content);
+            var e = RestSerialization.Deserialize<ServerDeletePayload>(message.Content);
 
             State.RemoveServer(e.Id);
 
@@ -84,7 +84,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnMessageDelete(SocketMessagePayload message)
         {
-            var e = Serialization.Deserialize<MessageDeletePayload>(message.Content);
+            var e = RestSerialization.Deserialize<MessageDeletePayload>(message.Content);
 
             State.RemoveMessage(e.Channel, e.Id);
 
@@ -93,7 +93,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnUserRelationship(SocketMessagePayload message)
         {
-            var e = Serialization.Deserialize<UserRelationshipPayload>(message.Content);
+            var e = RestSerialization.Deserialize<UserRelationshipPayload>(message.Content);
 
             State.AddUser(e.User);
 
@@ -102,7 +102,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnChannelCreate(SocketMessagePayload message)
         {
-            var e = Serialization.Deserialize<ChannelCreatePayload>(message.Content);
+            var e = RestSerialization.Deserialize<ChannelCreatePayload>(message.Content);
 
             State.AddChannel(e.Channel);
 
@@ -111,7 +111,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnUserUpdate(SocketMessagePayload message)
         {
-            var e = Serialization.Deserialize<UserUpdateMessage>(message.Content);
+            var e = RestSerialization.Deserialize<UserUpdateMessage>(message.Content);
 
             State.UpdateUser(e.Id, e.Data);
 
@@ -120,7 +120,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnMessage(SocketMessagePayload payload)
         {
-            var data = Serialization.Deserialize<MessagePayload>(payload.Content);
+            var data = RestSerialization.Deserialize<MessagePayload>(payload.Content);
 
             var channel = await Client.GetChannelAsync(data.ChannelId);
             var author = await Client.GetUserAsync(data.AuthorId);
@@ -134,7 +134,7 @@ namespace Revolt.Net.WebSocket
 
         private async Task OnReady(SocketMessagePayload message)
         {
-            var e = Serialization.Deserialize<ReadyMessage>(message.Content);
+            var e = RestSerialization.Deserialize<ReadyMessage>(message.Content);
 
             State.Add(e);
 

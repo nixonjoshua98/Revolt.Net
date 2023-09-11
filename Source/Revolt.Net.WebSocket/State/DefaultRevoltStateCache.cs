@@ -6,18 +6,18 @@ namespace Revolt.Net.WebSocket.State
     internal sealed class DefaultRevoltStateCache : IRevoltStateCache
     {
         private readonly ConcurrentDictionary<string, RestUser> Users = new();
-        private readonly ConcurrentDictionary<string, SocketServer> Servers = new();
+        private readonly ConcurrentDictionary<string, RestServer> Servers = new();
         private readonly ConcurrentDictionary<string, RestChannel> Channels = new();
 
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, SocketMessage>> Messages = new();
-        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ServerMemberReference>> ServerMemberRefs = new();
+        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ServerMember>> ServerMemberRefs = new();
 
         public SocketMessage GetMessage(string channel, string message)
         {
             return GetChannelMessages(channel).GetValueOrDefault(message);
         }
 
-        public void AddServer(SocketServer server)
+        public void AddServer(RestServer server)
         {
             Servers[server.Id] = server;
         }
@@ -84,28 +84,28 @@ namespace Revolt.Net.WebSocket.State
             }
         }
 
-        public void SetServerMembers(string id, IEnumerable<ServerMemberReference> ls)
+        public void SetServerMembers(string id, IEnumerable<ServerMember> ls)
         {
             ServerMemberRefs.Remove(id, out _);
 
             AddServerMembers(ls);
         }
 
-        public void AddServerMembers(IEnumerable<ServerMemberReference> ls)
+        public void AddServerMembers(IEnumerable<ServerMember> ls)
         {
             foreach (var ele in ls)
             {
                 var server = GetServerMembersRefDict(ele.ServerId);
 
-                server[ele.UserId] = ele;
+                server[ele.Id] = ele;
             }
         }
 
-        public IEnumerable<ServerMember> GetServerMembers(string id)
+        public IEnumerable<ServerMemberUser> GetServerMembers(string id)
         {
             foreach (var userRef in GetServerMemberRefs(id))
             {
-                var member = GetServerMember(id, userRef.UserId);
+                var member = GetServerMember(id, userRef.Id);
 
                 if (member is not null)
                 {
@@ -114,7 +114,7 @@ namespace Revolt.Net.WebSocket.State
             }
         }
 
-        public ServerMember GetServerMember(string server, string userId)
+        public ServerMemberUser GetServerMember(string server, string userId)
         {
             var memberRef = GetServerMemberRef(server, userId);
 
@@ -123,7 +123,7 @@ namespace Revolt.Net.WebSocket.State
                 var user = GetUser(userId);
 
                 return user is null ?
-                    default : ServerMember.Create(memberRef, user);
+                    default : ServerMemberUser.Create(memberRef, user);
             }
 
             return default!;
@@ -135,22 +135,22 @@ namespace Revolt.Net.WebSocket.State
             user?.UpdateFromPartial(partialUser);
         }
 
-        public SocketServer GetServer(string id) =>
+        public RestServer GetServer(string id) =>
             Servers.GetValueOrDefault(id);
 
         public RestUser GetUser(string id) =>
             Users.GetValueOrDefault(id);
 
-        private IEnumerable<ServerMemberReference> GetServerMemberRefs(string id) =>
-            ServerMemberRefs.TryGetValue(id, out var server) ? server.Values : Enumerable.Empty<ServerMemberReference>();
+        private IEnumerable<ServerMember> GetServerMemberRefs(string id) =>
+            ServerMemberRefs.TryGetValue(id, out var server) ? server.Values : Enumerable.Empty<ServerMember>();
 
-        private ConcurrentDictionary<string, ServerMemberReference> GetServerMembersRefDict(string id) =>
+        private ConcurrentDictionary<string, ServerMember> GetServerMembersRefDict(string id) =>
             ServerMemberRefs.GetOrAdd(id, key => new());
 
         private ConcurrentDictionary<string, SocketMessage> GetChannelMessages(string id) =>
             Messages.GetOrAdd(id, key => new());
 
-        private ServerMemberReference GetServerMemberRef(string serverId, string userId) =>
+        private ServerMember GetServerMemberRef(string serverId, string userId) =>
             ServerMemberRefs.TryGetValue(serverId, out var server) ? server.GetValueOrDefault(userId) : default;
     }
 }

@@ -4,20 +4,29 @@ namespace Revolt.Net.Rest.Helpers
 {
     internal static class ChannelHelper
     {
+        public static async Task<IEnumerable<ServerMemberUser>> GetServerMemberUsersAsync(
+            RevoltClientBase client,
+            string serverId,
+            bool excludeOffline)
+        {
+            var resp = await client.Api.GetServerMembersAsync(serverId, excludeOffline);
+
+            return ServerMemberHelper.CreateServerMemberUsers(resp.Members, resp.Users);
+        }
+
         public static async Task<IChannel> GetChannelAsync(
             RevoltClientBase client,
             string id)
         {
             var channel = await client.Api.GetChannelAsync(id);
 
-            channel?.SetClient(client);
-
-            return channel;
+            return channel is not null ?
+                RestChannel.Create(client, channel) : default!;
         }
 
         public static async Task<RestClientMessage> SendMessageAsync(
             RevoltClientBase client,
-            ITextChannel channel,
+            IMessageChannel channel,
             string messageId = null,
             string content = null,
             Embed embed = null,

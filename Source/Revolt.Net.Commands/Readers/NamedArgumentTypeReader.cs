@@ -1,6 +1,5 @@
 using Revolt.Net.Commands.Attributes;
 using Revolt.Net.Commands.Builders;
-using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Enums;
 using Revolt.Net.Commands.Results;
 using Revolt.Net.Commands.Utilities;

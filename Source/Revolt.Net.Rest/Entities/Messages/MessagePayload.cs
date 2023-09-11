@@ -2,10 +2,6 @@
 
 namespace Revolt.Net.Rest
 {
-    /// <summary>
-    /// Message entity which contains all possible properties. Useful for loading data which may not be present and can be re-used for
-    /// sockets, api responses, and partial messages.
-    /// </summary>
     internal sealed class MessagePayload
     {
         [JsonPropertyName("_id")]

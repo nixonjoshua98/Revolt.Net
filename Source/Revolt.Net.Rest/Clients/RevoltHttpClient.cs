@@ -2,12 +2,12 @@
 
 namespace Revolt.Net.Rest
 {
-    public sealed class RevoltRestClient
+    internal sealed class RevoltHttpClient
     {
         private readonly HttpClient Client;
         private readonly string ApiUrl;
 
-        public RevoltRestClient(string url)
+        public RevoltHttpClient(string url)
         {
             ApiUrl = url;
 
@@ -37,7 +37,7 @@ namespace Revolt.Net.Rest
         {
             var resp = await SendAsyncInternal(method, endpoint);
 
-            return Serialization.Deserialize<TResponse>(resp.Content);
+            return RestSerialization.Deserialize<TResponse>(resp.Content);
         }
 
         public async Task SendAsync(string method, string endpoint)
@@ -47,18 +47,18 @@ namespace Revolt.Net.Rest
 
         public async Task SendAsync(string method, string endpoint, object request)
         {
-            var body = Serialization.Serialize(request);
+            var body = RestSerialization.Serialize(request);
 
             await SendAsyncInternal(method, endpoint, body);
         }
 
         public async Task<TResponse> SendAsync<TResponse>(string method, string endpoint, object request) where TResponse : class
         {
-            var body = Serialization.Serialize(request);
+            var body = RestSerialization.Serialize(request);
 
             var resp = await SendAsyncInternal(method, endpoint, body);
 
-            return Serialization.Deserialize<TResponse>(resp.Content);
+            return RestSerialization.Deserialize<TResponse>(resp.Content);
         }
 
         private async Task<RevoltRestResponse> SendAsyncInternal(string method, string endpoint)

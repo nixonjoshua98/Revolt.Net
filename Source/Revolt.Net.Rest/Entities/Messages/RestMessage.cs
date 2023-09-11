@@ -18,12 +18,12 @@ namespace Revolt.Net.Rest
         public string Content { get; init; }
 
         [JsonIgnore]
-        public ITextChannel Channel { get; private set; }
+        public IMessageChannel Channel { get; private set; }
 
         [JsonIgnore]
         public IUser Author { get; private set; }
 
-        internal void Update(RevoltClientBase client, ITextChannel channel, IUser author)
+        internal void Update(RevoltClientBase client, IMessageChannel channel, IUser author)
         {
             Client = client;
             Channel = channel;

@@ -62,12 +62,12 @@ namespace Revolt.Net.WebSocket.State
             AddServerMembers(@event.Members);
         }
 
-        public void AddServers(IEnumerable<SocketServer> servers)
+        public void AddServers(IEnumerable<RestServer> servers)
         {
             foreach (var server in servers) AddServer(server);
         }
 
-        public void AddServer(SocketServer server)
+        public void AddServer(RestServer server)
         {
             server.SetClient(Client);
             Cache.AddServer(server);
@@ -85,22 +85,22 @@ namespace Revolt.Net.WebSocket.State
         public void AddUsers(IEnumerable<RestUser> ls) =>
             Cache.AddUsers(ls);
 
-        public void SetServerMembers(string id, IEnumerable<ServerMemberReference> ls) =>
+        public void SetServerMembers(string id, IEnumerable<ServerMember> ls) =>
             Cache.SetServerMembers(id, ls);
 
-        public void AddServerMembers(IEnumerable<ServerMemberReference> ls) =>
+        public void AddServerMembers(IEnumerable<ServerMember> ls) =>
             Cache.AddServerMembers(ls);
 
-        public IEnumerable<ServerMember> GetServerMembers(string id) =>
+        public IEnumerable<ServerMemberUser> GetServerMembers(string id) =>
             Cache.GetServerMembers(id);
 
-        public ServerMember GetServerMember(string server, string userId) =>
+        public ServerMemberUser GetServerMember(string server, string userId) =>
             Cache.GetServerMember(server, userId);
 
         public void UpdateUser(string id, PartialUser partialUser) =>
             Cache.UpdateUser(id, partialUser);
 
-        public SocketServer GetServer(string id)
+        public RestServer GetServer(string id)
         {
             var server = Cache.GetServer(id);
             server?.SetClient(Client);

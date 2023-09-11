@@ -1,16 +1,16 @@
 ﻿using Revolt.Net.Rest.Clients;
 using Revolt.Net.WebSocket;
 
-namespace Revolt.Net.Commands.Context
+namespace Revolt.Net.Commands
 {
-    /// <summary> The context of a command which may contain the client, user, guild, channel, and message. </summary>
     public class CommandContext : ICommandContext
     {
-        public string Arguments { get; set; }
+        public string Arguments { get; }
         public SocketMessage Message { get; }
         public IUser User { get; }
-        public ITextChannel Channel { get; }
+        public IMessageChannel Channel { get; }
         public RevoltClientBase Client { get; }
+        public IServer Server { get; }
 
         public CommandContext(SocketMessage message)
         {

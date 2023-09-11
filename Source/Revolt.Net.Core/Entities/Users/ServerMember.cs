@@ -1,22 +1,18 @@
-﻿namespace Revolt.Net
+﻿using System.Text.Json.Serialization;
+
+namespace Revolt.Net
 {
-    public sealed record ServerMember(
-        string UserId,
-        string ServerId,
-        string Nickname,
-        Avatar Avatar,
-        DateTimeOffset JoinedAt
-    )
+    public sealed class ServerMember
     {
-        internal static ServerMember Create(ServerMemberReference reference, IUser user)
-        {
-            return new(
-                user.Id,
-                reference.Id.Server,
-                reference.Nickname,
-                reference.Avatar,
-                reference.JoinedAt
-            );
-        }
+        [JsonPropertyName("_id")]
+        public ServerMemberIdentifer Identifier { get; init; }
+
+        public string Id => Identifier.User;
+        public string ServerId => Identifier.Server;
+        public string Nickname { get; init; }
+        public Avatar Avatar { get; init; }
+        public DateTimeOffset JoinedAt { get; init; }
     }
+
+    public sealed record ServerMemberIdentifer(string Server, string User);
 }

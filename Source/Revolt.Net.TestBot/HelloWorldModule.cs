@@ -1,5 +1,6 @@
 ﻿using Revolt.Net.Commands.Attributes;
 using Revolt.Net.Commands.Module;
+using Revolt.Net.Rest;
 
 namespace Revolt.Net.TestBot
 {
@@ -24,6 +25,14 @@ namespace Revolt.Net.TestBot
             await Task.Delay(delay);
 
             await sentMessage.DeleteAsync();
+        }
+
+        [Command("get-messages")]
+        public async Task Messages(IRestTextChannel channel)
+        {
+            var resp = await channel.GetMessagesAsync(10);
+
+            await Context.Message.ReplyAsync($"Count: {resp.Messages.Count()}");
         }
     }
 }

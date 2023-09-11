@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Rest.Json
 {
-    internal static class Serialization
+    internal static class RestSerialization
     {
         public static JsonSerializerOptions Options = new()
         {
@@ -13,7 +13,7 @@ namespace Revolt.Net.Rest.Json
 
             Converters =
             {
-                new RevoltChannelConverter(),
+                //new RevoltChannelConverter(),
                 new JsonStringEnumConverter(),
                 new OptionalConverterFactory(),
                 new RevoltColorConverter()
