@@ -5,7 +5,7 @@
         public RevoltClientBase(string apiUrl)
         {
             Api = new RevoltApiClient(
-                new RevoltRestClient(apiUrl)
+                new RevoltHttpClient(apiUrl)
             );
         }
 

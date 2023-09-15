@@ -1,8 +1,7 @@
 ﻿namespace Revolt.Net
 {
-    public interface ITextChannel : IChannel
+    public interface ITextChannel : IMessageChannel
     {
-        Task<IMessage> GetMessageAsync(string messageId);
-        Task<IClientMessage> SendMessageAsync(string content = null, Embed embed = null, IEnumerable<Embed> embeds = null);
+
     }
 }

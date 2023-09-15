@@ -1,23 +1,38 @@
-﻿using Revolt.Net.Rest;
-using Revolt.Net.Rest.Helpers;
+﻿using Revolt.Net.Rest.Clients;
+using Revolt.Net.Rest.Entities.Channels;
 
 namespace Revolt.Net.Rest
 {
-    public class RestTextChannel : RestChannel, ITextChannel
+    public class RestTextChannel : RestMessageChannel, IRestTextChannel
     {
-        public async Task<IClientMessage> SendMessageAsync(
-            string content = null,
-            Embed embed = null, 
-            IEnumerable<Embed> embeds = null) =>
-            await ChannelHelper.SendMessageAsync(
-                client: Client,
-                channel: this,
-                content: content,
-                embed: embed,
-                embeds: embeds
-            );
+        public string ServerId { get; init; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public string LastMessageId { get; private set; }
+        public bool Nsfw { get; private set; }
 
-        public async Task<IMessage> GetMessageAsync(string messageId) =>
-            await Client.Api.GetMessageAsync(Id, messageId);
+        internal RestTextChannel(RevoltClientBase client, string id, string serverId) : base(client, id)
+        {
+            ServerId = serverId;
+        }
+
+        internal override void Update(ChannelPayload channel)
+        {
+            base.Update(channel);
+
+            channel.Name.Match(x => Name = x);
+            channel.Description.Match(x => Description = x);
+            channel.LastMessageId.Match(x => LastMessageId = x);
+            channel.Nsfw.Match(x => Nsfw = x);
+        }
+
+        internal new static RestTextChannel Create(RevoltClientBase client, ChannelPayload channel)
+        {
+            var chnl = new RestTextChannel(client, channel.Id, channel.ServerId.Value);
+
+            chnl.Update(channel);
+
+            return chnl;
+        }
     }
 }

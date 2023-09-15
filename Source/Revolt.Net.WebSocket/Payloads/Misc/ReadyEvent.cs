@@ -5,10 +5,10 @@ namespace Revolt.Net.WebSocket
     public sealed record ReadyEvent;
 
     internal sealed record ReadyMessage(
-        IReadOnlyList<SocketServer> Servers,
+        IReadOnlyList<RestServer> Servers,
         IReadOnlyList<RestChannel> Channels,
         IReadOnlyList<RestUser> Users,
-        IReadOnlyList<ServerMemberReference> Members
+        IReadOnlyList<ServerMember> Members
     )
     {
         internal ReadyEvent ToEvent() => new();

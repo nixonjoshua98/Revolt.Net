@@ -1,4 +1,3 @@
-using Revolt.Net.Commands.Context;
 using Revolt.Net.Commands.Info;
 
 namespace Revolt.Net.Commands.Exceptions

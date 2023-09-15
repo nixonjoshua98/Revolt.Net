@@ -1,5 +1,4 @@
 ﻿using Revolt.Net.Commands;
-using Revolt.Net.Commands.Context;
 using Revolt.Net.WebSocket;
 
 namespace Revolt.Net.TestBot
