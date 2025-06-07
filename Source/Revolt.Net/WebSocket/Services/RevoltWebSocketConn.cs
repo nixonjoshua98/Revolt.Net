@@ -22,7 +22,7 @@ namespace Revolt.Net.WebSocket.Services
             _logger.LogDebug("Revolt.Net.WebSocket : Connected");
         }
 
-        public async Task SendAsync<T>(T message, CancellationToken cancellationToken) where T : class
+        public async ValueTask SendAsync<T>(T message, CancellationToken cancellationToken) where T : class
         {
             var json = JsonSerializer.Serialize(message, RevoltCoreConstant.DefaultSerializerOptions);
 
@@ -37,9 +37,7 @@ namespace Revolt.Net.WebSocket.Services
 
             var content = Encoding.UTF8.GetString(buffer, 0, result.Count);
 
-            var message = new ReceiveWebSocketMessage(result.MessageType, content);
-
-            return message;
+            return new ReceiveWebSocketMessage(result.MessageType, content);
         }
     }
 }

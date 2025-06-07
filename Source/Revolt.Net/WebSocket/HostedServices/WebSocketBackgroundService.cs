@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Revolt.Net.Core;
 using Revolt.Net.Core.Hosting.Configuration;
 using Revolt.Net.Core.Json;
 using Revolt.Net.Rest;
@@ -12,7 +13,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-namespace Revolt.Net.WebSocket.Hosting.HostedServices
+namespace Revolt.Net.WebSocket.HostedServices
 {
     internal sealed class WebSocketBackgroundService(
         IOptions<RevoltConfiguration> _configurationOptions,
@@ -24,17 +25,6 @@ namespace Revolt.Net.WebSocket.Hosting.HostedServices
         private readonly RevoltWebSocketConn _connection = new(_loggerFactory);
         private readonly RevoltConfiguration _configuration = _configurationOptions.Value;
         private readonly ILogger<WebSocketBackgroundService> _logger = _loggerFactory.CreateLogger<WebSocketBackgroundService>();
-
-        private static readonly JsonSerializerOptions _serializerOptions = new()
-        {
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = new SnakeCaseNamingPolicy()
-        };
-
-        static WebSocketBackgroundService()
-        {
-            _serializerOptions.Converters.Add(new JsonStringEnumConverter());
-        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -54,9 +44,9 @@ namespace Revolt.Net.WebSocket.Hosting.HostedServices
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(15_000, cancellationToken);
+                await Task.Delay(10_000, cancellationToken);
 
-                await _connection.SendAsync(new PingWebSocketEvent(), cancellationToken);
+                await _connection.SendAsync(new PingPayload(), cancellationToken);
 
                 _logger.LogDebug("Revolt.Net.WebSocket : Ping");
             }
@@ -75,7 +65,7 @@ namespace Revolt.Net.WebSocket.Hosting.HostedServices
                     var node = JsonNode.Parse(message.Content) ??
                         throw new Exception("Json node parsing failed");
 
-                    var typedMessaged = JsonSerializer.Deserialize<WebSocketEvent>(node, _serializerOptions)
+                    var typedMessaged = JsonSerializer.Deserialize<WebSocketEvent>(node, RevoltCoreConstant.DefaultSerializerOptions)
                         ?? throw new Exception("Message failed to be deserialized");
 
                     _logger.LogInformation("Revolt.Net.WebSocket : {MessageType}", node["type"]);

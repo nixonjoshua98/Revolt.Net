@@ -4,7 +4,7 @@ using Revolt.Net.Commands.Handlers;
 using Revolt.Net.Commands.Hosting.Extensions;
 using Revolt.Net.Core.Hosting.Extensions;
 using Revolt.Net.Rest.Hosting.Extensions;
-using Revolt.Net.WebSocket.Hosting.Extensions;
+using Revolt.Net.WebSocket.Extensions;
 
 var builder = Host.CreateApplicationBuilder(args);
 

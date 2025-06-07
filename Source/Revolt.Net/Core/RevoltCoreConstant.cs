@@ -9,7 +9,7 @@ namespace Revolt.Net.Core
         public static JsonSerializerOptions DefaultSerializerOptions = new()
         {
             PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance,
-
+            PropertyNameCaseInsensitive = true,
             Converters =
             {
                 new JsonStringEnumConverter(),
