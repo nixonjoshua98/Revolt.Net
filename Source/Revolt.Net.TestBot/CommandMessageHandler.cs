@@ -8,6 +8,11 @@ namespace Revolt.Net.Commands.Handlers
     {
         public async Task HandleAsync(CommandContext context, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(context.Message.Content))
+            {
+                return;
+            }
+
             await _commandProcessor.ExecuteAsync(context, 0, cancellationToken);
         }
     }

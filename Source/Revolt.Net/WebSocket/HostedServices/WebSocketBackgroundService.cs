@@ -1,17 +1,15 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Revolt.Net.Core;
+using Revolt.Net.Core.Common;
 using Revolt.Net.Core.Hosting.Configuration;
-using Revolt.Net.Core.Json;
-using Revolt.Net.Rest;
+using Revolt.Net.Rest.Clients;
 using Revolt.Net.WebSocket.Abstractions;
 using Revolt.Net.WebSocket.Messages;
 using Revolt.Net.WebSocket.Models;
 using Revolt.Net.WebSocket.Services;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 namespace Revolt.Net.WebSocket.HostedServices
 {
@@ -19,7 +17,7 @@ namespace Revolt.Net.WebSocket.HostedServices
         IOptions<RevoltConfiguration> _configurationOptions,
         ILoggerFactory _loggerFactory,
         IWebSocketEventHub _eventHub,
-        RevoltApiClient _apiClient
+        RevoltRestClient _apiClient
     ) : BackgroundService
     {
         private readonly RevoltWebSocketConn _connection = new(_loggerFactory);
@@ -65,7 +63,7 @@ namespace Revolt.Net.WebSocket.HostedServices
                     var node = JsonNode.Parse(message.Content) ??
                         throw new Exception("Json node parsing failed");
 
-                    var typedMessaged = JsonSerializer.Deserialize<WebSocketEvent>(node, RevoltCoreConstant.DefaultSerializerOptions)
+                    var typedMessaged = JsonSerializer.Deserialize<WebSocketEvent>(node, Serialization.DefaultOptions)
                         ?? throw new Exception("Message failed to be deserialized");
 
                     _logger.LogInformation("Revolt.Net.WebSocket : {MessageType}", node["type"]);
@@ -74,7 +72,7 @@ namespace Revolt.Net.WebSocket.HostedServices
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Revolt.Net.WebSocket : Message deserialize");
+                    _logger.LogError(ex, "Revolt.Net.WebSocket");
                 }
             }
         }

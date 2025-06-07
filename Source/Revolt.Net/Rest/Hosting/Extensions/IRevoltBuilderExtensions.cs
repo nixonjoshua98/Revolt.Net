@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Revolt.Net.Core.Hosting.Builders;
 using Revolt.Net.Core.Hosting.Configuration;
-using Revolt.Net.Rest.Common;
+using Revolt.Net.Rest.Clients;
 
 namespace Revolt.Net.Rest.Hosting.Extensions
 {
@@ -15,14 +16,9 @@ namespace Revolt.Net.Rest.Hosting.Extensions
                 cfg.Token = token;
             });
 
-            builder.Services.AddHttpClient<RevoltApiClient>(client =>
-            {
-                client.BaseAddress = new Uri(serverUrl);
+            builder.Services.AddHttpClient();
 
-                client.DefaultRequestHeaders.Remove(RevoltRestConstant.BotTokenHeader);
-
-                client.DefaultRequestHeaders.Add(RevoltRestConstant.BotTokenHeader, token);
-            });
+            builder.Services.TryAddSingleton<RevoltRestClient>();
 
             return builder;
         }

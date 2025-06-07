@@ -29,8 +29,6 @@ namespace Revolt.Net
 
         public static RevoltColour Create(string value)
         {
-
-
             return new RevoltColour(value);
         }
 

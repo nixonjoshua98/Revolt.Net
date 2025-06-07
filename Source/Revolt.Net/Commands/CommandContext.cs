@@ -1,7 +1,7 @@
 ﻿using Revolt.Net.Commands.Abstractions;
-using Revolt.Net.WebSocket.Entities.Messages;
+using Revolt.Net.Core.Entities.Messages;
 
 namespace Revolt.Net.Commands
 {
-    public sealed record CommandContext(SocketMessage Message) : ICommandContext;
+    public sealed record CommandContext(Message Message) : ICommandContext;
 }

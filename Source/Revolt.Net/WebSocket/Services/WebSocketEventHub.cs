@@ -1,22 +1,33 @@
 ﻿using Revolt.Net.Core;
+using Revolt.Net.Core.Entities.Messages;
+using Revolt.Net.Rest.Clients;
 using Revolt.Net.WebSocket.Abstractions;
+using Revolt.Net.WebSocket.Events;
 using Revolt.Net.WebSocket.Messages;
 
 namespace Revolt.Net.WebSocket.Services
 {
-    internal sealed class WebSocketEventHub : IWebSocketEventHub
+    internal sealed class WebSocketEventHub(RevoltRestClient _restClient) : IWebSocketEventHub
     {
         public AsyncEvent<ReadyWebSocketEvent> Ready { get; } = new();
-        public AsyncEvent<MessageWebSocketEvent> Message { get; } = new();
 
-        public async Task InvokeAsync<T>(T message, CancellationToken cancellationToken) where T : WebSocketEvent
+        public AsyncEvent<SocketMessageReceivedEvent> Message { get; } = new();
+
+        public async Task InvokeAsync<T>(T e, CancellationToken cancellationToken) where T : WebSocketEvent
         {
-            await (message switch
+            switch (e)
             {
-                ReadyWebSocketEvent ready => Ready.InvokeAsync(ready, cancellationToken),
-                MessageWebSocketEvent msg => Message.InvokeAsync(msg, cancellationToken),
-                _ => Task.CompletedTask
-            });
+                case ReadyWebSocketEvent ready:
+                    await Ready.InvokeAsync(ready, cancellationToken);
+                    break;
+
+                case MessageWebSocketEvent message:
+                    var socketMessage = new Message(message.ToJsonMessage(), _restClient);
+                    var payload = new SocketMessageReceivedEvent(socketMessage);
+                    await Message.InvokeAsync(payload, cancellationToken);
+                    break;
+
+            }
         }
     }
 }
