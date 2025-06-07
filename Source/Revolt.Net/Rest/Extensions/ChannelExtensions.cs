@@ -16,7 +16,7 @@ namespace Revolt.Net.Rest.Extensions
                 messageId
             );
 
-            return await channel.Client.GetMessageAsync( req, cancellationToken );
+            return await channel.Client.GetMessageAsync(req, cancellationToken);
         }
     }
 }
