@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net.Hosting.Configuration
+﻿namespace Revolt.Net.Core.Hosting.Configuration
 {
     internal sealed class RevoltConfiguration
     {

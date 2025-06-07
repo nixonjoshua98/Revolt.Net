@@ -1,7 +1,7 @@
 ﻿using Revolt.Net.Core.Abstractions;
 using System.Text.Json.Serialization;
 
-namespace Revolt.Net.WebSocket.Models.Messages
+namespace Revolt.Net.WebSocket.Entities.Messages
 {
     public sealed record SocketMessage : IMessage
     {

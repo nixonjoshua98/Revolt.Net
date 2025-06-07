@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Revolt.Net.WebSocket
+namespace Revolt.Net.WebSocket.Entities.Servers
 {
     public sealed class SocketServer
     {

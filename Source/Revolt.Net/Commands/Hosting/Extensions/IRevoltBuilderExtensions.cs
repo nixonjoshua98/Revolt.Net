@@ -5,7 +5,7 @@ using Revolt.Net.Commands.Configuration;
 using Revolt.Net.Commands.Hosting.HostedServices;
 using Revolt.Net.Commands.Models;
 using Revolt.Net.Commands.Services;
-using Revolt.Net.Hosting.Builders;
+using Revolt.Net.Core.Hosting.Builders;
 
 namespace Revolt.Net.Commands.Hosting.Extensions
 {

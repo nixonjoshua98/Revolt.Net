@@ -1,4 +1,5 @@
-﻿using Revolt.Net.Rest.Responses;
+﻿using Revolt.Net.Core.Entities.Members;
+using Revolt.Net.Rest.Responses;
 
 namespace Revolt.Net.Rest
 {

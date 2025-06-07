@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Revolt.Net.Hosting.Builders;
+using Revolt.Net.Core.Hosting.Builders;
 using Revolt.Net.WebSocket.Abstractions;
 using Revolt.Net.WebSocket.Hosting.HostedServices;
 using Revolt.Net.WebSocket.Services;
@@ -11,7 +11,7 @@ namespace Revolt.Net.WebSocket.Hosting.Extensions
     {
         public static IRevoltBuilder AddWebSocket(this IRevoltBuilder builder)
         {
-            builder.Services.AddHostedService<RevoltWebSocketBackgroundService>();
+            builder.Services.AddHostedService<WebSocketBackgroundService>();
 
             builder.Services.TryAddSingleton<IWebSocketEventHub, WebSocketEventHub>();
 

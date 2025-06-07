@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Revolt.Net.Hosting.Builders;
+using Revolt.Net.Core.Hosting.Builders;
 
-namespace Revolt.Net.Hosting.Extensions
+namespace Revolt.Net.Core.Hosting.Extensions
 {
     public static class ServiceCollectionExtensions
     {

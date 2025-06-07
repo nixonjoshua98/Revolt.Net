@@ -1,5 +1,5 @@
 ﻿using Revolt.Net.Core.Abstractions;
-using Revolt.Net.WebSocket.Models.Messages;
+using Revolt.Net.WebSocket.Entities.Messages;
 using System.Text.Json.Serialization;
 
 namespace Revolt.Net.WebSocket.Messages

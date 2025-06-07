@@ -1,4 +1,6 @@
-﻿using Revolt.Net.Rest;
+﻿using Revolt.Net.Core.Entities.Members;
+using Revolt.Net.Rest;
+using Revolt.Net.WebSocket.Entities.Servers;
 
 namespace Revolt.Net.WebSocket.Messages
 {

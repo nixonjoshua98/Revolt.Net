@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Revolt.Net
+namespace Revolt.Net.Core.Entities.Members
 {
     public sealed class ServerMemberReference
     {

@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Revolt.Net.Core.Hosting.Configuration;
 using Revolt.Net.Core.Json;
-using Revolt.Net.Hosting.Configuration;
 using Revolt.Net.Rest;
 using Revolt.Net.WebSocket.Abstractions;
 using Revolt.Net.WebSocket.Messages;
+using Revolt.Net.WebSocket.Models;
 using Revolt.Net.WebSocket.Services;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -13,7 +14,7 @@ using System.Text.Json.Serialization;
 
 namespace Revolt.Net.WebSocket.Hosting.HostedServices
 {
-    internal sealed class RevoltWebSocketBackgroundService(
+    internal sealed class WebSocketBackgroundService(
         IOptions<RevoltConfiguration> _configurationOptions,
         ILoggerFactory _loggerFactory,
         IWebSocketEventHub _eventHub,
@@ -22,7 +23,7 @@ namespace Revolt.Net.WebSocket.Hosting.HostedServices
     {
         private readonly RevoltWebSocketConn _connection = new(_loggerFactory);
         private readonly RevoltConfiguration _configuration = _configurationOptions.Value;
-        private readonly ILogger<RevoltWebSocketBackgroundService> _logger = _loggerFactory.CreateLogger<RevoltWebSocketBackgroundService>();
+        private readonly ILogger<WebSocketBackgroundService> _logger = _loggerFactory.CreateLogger<WebSocketBackgroundService>();
 
         private static readonly JsonSerializerOptions _serializerOptions = new()
         {
@@ -30,7 +31,7 @@ namespace Revolt.Net.WebSocket.Hosting.HostedServices
             PropertyNamingPolicy = new SnakeCaseNamingPolicy()
         };
 
-        static RevoltWebSocketBackgroundService()
+        static WebSocketBackgroundService()
         {
             _serializerOptions.Converters.Add(new JsonStringEnumConverter());
         }

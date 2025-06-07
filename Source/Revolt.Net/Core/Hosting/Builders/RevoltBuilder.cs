@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Revolt.Net.Hosting.Builders
+namespace Revolt.Net.Core.Hosting.Builders
 {
     public interface IRevoltBuilder
     {
