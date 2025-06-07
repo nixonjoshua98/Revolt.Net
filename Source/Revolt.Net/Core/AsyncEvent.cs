@@ -27,7 +27,7 @@ namespace Revolt.Net.Core
         }
     }
 
-    public static class EventExtensions
+    internal static class EventExtensions
     {
         public static async Task InvokeAsync<T>(this AsyncEvent<T> eventHandler, T arg, CancellationToken cancellationToken) where T : class
         {

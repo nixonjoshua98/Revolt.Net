@@ -29,10 +29,7 @@ namespace Revolt.Net
 
         public static RevoltColour Create(string value)
         {
-            if (!ValidateString(value))
-            {
-                throw new RevoltValidationException($"Provider color string is not formatted correctly");
-            }
+
 
             return new RevoltColour(value);
         }

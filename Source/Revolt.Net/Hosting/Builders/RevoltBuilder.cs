@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Revolt.Net.Hosting.Configuration;
 
 namespace Revolt.Net.Hosting.Builders
 {

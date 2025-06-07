@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Revolt.Net.Core.Entities.Relationships;
 using Revolt.Net.Core.Json;
 using Revolt.Net.Hosting.Configuration;
-using Revolt.Net.Json;
 using Revolt.Net.Rest;
 using Revolt.Net.WebSocket.Abstractions;
 using Revolt.Net.WebSocket.Messages;
@@ -17,17 +15,16 @@ namespace Revolt.Net.WebSocket.Hosting.HostedServices
 {
     internal sealed class RevoltWebSocketBackgroundService(
         IOptions<RevoltConfiguration> _configurationOptions,
-        IWebSocketEventHub _eventHub,
         ILoggerFactory _loggerFactory,
+        IWebSocketEventHub _eventHub,
         RevoltApiClient _apiClient
     ) : BackgroundService
     {
+        private readonly RevoltWebSocketConn _connection = new(_loggerFactory);
         private readonly RevoltConfiguration _configuration = _configurationOptions.Value;
         private readonly ILogger<RevoltWebSocketBackgroundService> _logger = _loggerFactory.CreateLogger<RevoltWebSocketBackgroundService>();
 
-        private readonly RevoltWebSocketConn Ws = new(_loggerFactory);
-
-        static readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions()
+        private static readonly JsonSerializerOptions _serializerOptions = new()
         {
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = new SnakeCaseNamingPolicy()
@@ -42,9 +39,9 @@ namespace Revolt.Net.WebSocket.Hosting.HostedServices
         {
             var serverInfo = await _apiClient.GetApiInformationAsync(stoppingToken);
 
-            await Ws.ConnectAsync(serverInfo.WebSocketUrl, stoppingToken);
+            await _connection.ConnectAsync(serverInfo.WebSocketUrl, stoppingToken);
 
-            await Ws.SendAsync(new AuthenticatePayload(_configuration.Token), stoppingToken);
+            await _connection.SendAsync(new AuthenticatePayload(_configuration.Token), stoppingToken);
 
             await Task.WhenAll([
                 SendPingLoopAsync(stoppingToken),
@@ -52,25 +49,25 @@ namespace Revolt.Net.WebSocket.Hosting.HostedServices
             ]);
         }
 
-        async Task SendPingLoopAsync(CancellationToken cancellationToken)
+        private async Task SendPingLoopAsync(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
                 await Task.Delay(15_000, cancellationToken);
 
-                await Ws.SendAsync(new PingEvent(), cancellationToken);
+                await _connection.SendAsync(new PingWebSocketEvent(), cancellationToken);
 
                 _logger.LogDebug("Revolt.Net.WebSocket : Ping");
             }
         }
 
-        async Task ReceiveIncomingMessagesAsync(CancellationToken cancellationToken)
+        private async Task ReceiveIncomingMessagesAsync(CancellationToken cancellationToken)
         {
             var buffer = new byte[4096];
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var message = await Ws.ReceiveAsync(buffer, cancellationToken);
+                var message = await _connection.ReceiveAsync(buffer, cancellationToken);
 
                 try
                 {

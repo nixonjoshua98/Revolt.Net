@@ -8,7 +8,10 @@ namespace Revolt.Net.Json
     {
         public override bool CanConvert(Type typeToConvert)
         {
-            if (!typeToConvert.IsGenericType) return false;
+            if (!typeToConvert.IsGenericType)
+            {
+                return false;
+            }
 
             return typeToConvert.GetGenericTypeDefinition() == typeof(Optional<>);
         }

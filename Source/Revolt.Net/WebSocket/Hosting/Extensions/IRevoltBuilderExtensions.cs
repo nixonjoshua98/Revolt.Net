@@ -9,7 +9,7 @@ namespace Revolt.Net.WebSocket.Hosting.Extensions
 {
     public static class IRevoltBuilderExtensions
     {
-        public static IRevoltBuilder AddWebSocketService(this IRevoltBuilder builder)
+        public static IRevoltBuilder AddWebSocket(this IRevoltBuilder builder)
         {
             builder.Services.AddHostedService<RevoltWebSocketBackgroundService>();
 

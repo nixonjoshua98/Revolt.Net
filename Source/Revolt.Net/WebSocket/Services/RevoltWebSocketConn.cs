@@ -19,7 +19,7 @@ namespace Revolt.Net.WebSocket.Services
 
             await WebSocket.ConnectAsync(uri, cancellationToken);
 
-            _logger.LogDebug("WebSocket : Connected");
+            _logger.LogDebug("Revolt.Net.WebSocket : Connected");
         }
 
         public async Task SendAsync<T>(T message, CancellationToken cancellationToken) where T : class

@@ -1,5 +1,4 @@
-﻿using Revolt.Net.Rest;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Rest
 {
