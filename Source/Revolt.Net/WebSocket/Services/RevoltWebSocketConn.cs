@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Revolt.Net.Rest.Json;
+using Revolt.Net.Core;
 using Revolt.Net.WebSocket.Models;
 using System.Net.WebSockets;
 using System.Text;
@@ -24,7 +24,7 @@ namespace Revolt.Net.WebSocket.Services
 
         public async Task SendAsync<T>(T message, CancellationToken cancellationToken) where T : class
         {
-            var json = JsonSerializer.Serialize(message, Serialization.Options);
+            var json = JsonSerializer.Serialize(message, RevoltCoreConstant.DefaultSerializerOptions);
 
             var bytes = Encoding.UTF8.GetBytes(json);
 

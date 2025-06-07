@@ -1,6 +1,8 @@
-﻿namespace Revolt.Net.Rest
+﻿using Revolt.Net.Rest.Responses;
+
+namespace Revolt.Net.Rest
 {
-    internal sealed class RevoltApiClient(HttpClient _httpClient) : RevoltApiClientBase(_httpClient)
+    public sealed class RevoltApiClient(HttpClient _httpClient) : RevoltApiClientBase(_httpClient)
     {
         public async Task LeaveOrDeleteServerAsync(string id) =>
             await SendAsync("DELETE", $"servers/{id}");
@@ -20,14 +22,17 @@
         public async Task<RestChannel> GetChannelAsync(string channelId) =>
             await SendAsync<RestChannel>("GET", $"channels/{channelId}");
 
-        public async Task<ServerMembersResponse> GetServerMembersAsync(string id, bool excludeOffline)
+        internal async Task<ServerMembersResponse> GetServerMembersAsync(string id, bool excludeOffline)
             => await SendAsync<ServerMembersResponse>("GET", $"servers/{id}/members?exclude_offline={excludeOffline}");
 
         public async Task<ServerMember> GetServerMemberAsync(string serverId, string userId)
             => await SendAsync<ServerMember>("GET", $"servers/{serverId}/members/{userId}");
 
-        public async Task<RestClientMessage> SendMessageAsync(string channel, SendMessageRequest message) =>
+        internal async Task<RestClientMessage> SendMessageAsync(string channel, SendMessageRequest message) =>
             await SendAsync<RestClientMessage>("POST", $"channels/{channel}/messages", message);
+
+        public async Task<RestClientMessage> SendMessageAsync(string channel, string content) =>
+            await SendMessageAsync(channel, new SendMessageRequest(content, [])); // Testing
 
         public async Task DeleteMessageAsync(string channel, string message) =>
             await SendAsync("DELETE", $"channels/{channel}/messages/{message}");

@@ -1,4 +1,4 @@
-﻿namespace Revolt.Net
+﻿namespace Revolt.Net.Core.Enumerations
 {
     public enum ChannelType
     {

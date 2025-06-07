@@ -2,23 +2,17 @@
 
 namespace Revolt.Net.Rest
 {
-    public class RestMessage : RestEntity
+    public class RestMessage
     {
         [JsonPropertyName("_id")]
-        public string Id { get; init; }
+        public required string Id { get; init; }
 
         [JsonPropertyName("channel")]
-        public string ChannelId { get; init; }
+        public required string ChannelId { get; init; }
 
         [JsonPropertyName("author")]
-        public string AuthorId { get; init; }
+        public required string AuthorId { get; init; }
 
-        public string Content { get; init; }
-
-        [JsonIgnore]
-        public ITextChannel Channel { get; private set; }
-
-        [JsonIgnore]
-        public IUser Author { get; private set; }
+        public string? Content { get; init; }
     }
 }

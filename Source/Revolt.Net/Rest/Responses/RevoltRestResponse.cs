@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Revolt.Net.Rest
+namespace Revolt.Net.Rest.Responses
 {
     internal sealed record RevoltRestResponse(
         HttpStatusCode StatusCode,

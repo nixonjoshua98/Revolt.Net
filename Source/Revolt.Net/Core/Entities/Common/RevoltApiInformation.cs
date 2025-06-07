@@ -5,6 +5,6 @@ namespace Revolt.Net
     public sealed class RevoltApiInformation
     {
         [JsonPropertyName("ws")]
-        public string WebSocketUrl { get; init; } = default!;
+        public required string WebSocketUrl { get; init; }
     }
 }
