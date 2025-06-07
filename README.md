@@ -4,16 +4,6 @@ A .NET library for interacting with the [Revolt](https://app.revolt.chat) API & 
 
 [Our Revolt Server](https://rvlt.gg/nWSbGrVY)
 
-# Examples
-
-Sample project can be found in Source/Revolt.Net.TestBot
-
-```cs
-var client = new RevoltClient("TOKEN");
-
-await client.RunAsync();
-```
-
 # Downloading
 
 Revolt.Net can be downloaded via [NuGet](https://www.nuget.org/packages/Revolt.Net/)

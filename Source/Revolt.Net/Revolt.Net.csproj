@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>disable</Nullable>
+		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>Revolt.Net</Title>
 		<Authors>JNixon</Authors>
 		<PackageId>Revolt.Net</PackageId>
-		<Description>Library for interacting with Revolt.Chat. Contains all optional Revolt.Net components.</Description>
+		<Description>Library for interacting with Revolt.Chat.</Description>
 		<PackageProjectUrl>https://github.com/nixonjoshua98/Revolt.Net</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/nixonjoshua98/Revolt.Net</RepositoryUrl>
@@ -32,10 +32,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Revolt.Net.Commands\Revolt.Net.Commands.csproj" />
-	  <ProjectReference Include="..\Revolt.Net.Core\Revolt.Net.Core.csproj" />
-	  <ProjectReference Include="..\Revolt.Net.Rest\Revolt.Net.Rest.csproj" />
-	  <ProjectReference Include="..\Revolt.Net.WebSocket\Revolt.Net.WebSocket.csproj" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" />
+	  <PackageReference Include="Microsoft.Extensions.Http" />
+	  <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Core\Entities\Servers\" />
 	</ItemGroup>
 
 </Project>

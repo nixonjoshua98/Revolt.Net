@@ -3,17 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.Commands", "Source\Revolt.Net.Commands\Revolt.Net.Commands.csproj", "{322F41E4-0343-4A36-BD7F-4D90195F9B96}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.Core", "Source\Revolt.Net.Core\Revolt.Net.Core.csproj", "{5704906C-8020-4A63-B489-A6968B9807C6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.Rest", "Source\Revolt.Net.Rest\Revolt.Net.Rest.csproj", "{DF619896-CE7F-4EA3-9757-094B1ED49E72}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.WebSocket", "Source\Revolt.Net.WebSocket\Revolt.Net.WebSocket.csproj", "{0C196111-8A29-4522-812E-5BDD7BFDEA23}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net", "Source\Revolt.Net\Revolt.Net.csproj", "{47EB68B9-A05A-4A76-90F3-880F5318BC91}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Revolt.Net.TestBot", "Source\Revolt.Net.TestBot\Revolt.Net.TestBot.csproj", "{51A7366E-7E46-47ED-BBF2-06E94BFD9D09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Directory.Packages.props = Source\Directory.Packages.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,22 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{322F41E4-0343-4A36-BD7F-4D90195F9B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{322F41E4-0343-4A36-BD7F-4D90195F9B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{322F41E4-0343-4A36-BD7F-4D90195F9B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{322F41E4-0343-4A36-BD7F-4D90195F9B96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5704906C-8020-4A63-B489-A6968B9807C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5704906C-8020-4A63-B489-A6968B9807C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5704906C-8020-4A63-B489-A6968B9807C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5704906C-8020-4A63-B489-A6968B9807C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF619896-CE7F-4EA3-9757-094B1ED49E72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF619896-CE7F-4EA3-9757-094B1ED49E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF619896-CE7F-4EA3-9757-094B1ED49E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF619896-CE7F-4EA3-9757-094B1ED49E72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C196111-8A29-4522-812E-5BDD7BFDEA23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C196111-8A29-4522-812E-5BDD7BFDEA23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C196111-8A29-4522-812E-5BDD7BFDEA23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C196111-8A29-4522-812E-5BDD7BFDEA23}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47EB68B9-A05A-4A76-90F3-880F5318BC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47EB68B9-A05A-4A76-90F3-880F5318BC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47EB68B9-A05A-4A76-90F3-880F5318BC91}.Release|Any CPU.ActiveCfg = Release|Any CPU

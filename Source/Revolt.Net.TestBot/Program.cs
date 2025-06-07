@@ -1,34 +1,20 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Revolt.Net.Commands;
-using Revolt.Net.TestBot;
-using Revolt.Net.WebSocket;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Revolt.Net.Hosting.Extensions;
+using Revolt.Net.Rest.Hosting.Extensions;
+using Revolt.Net.WebSocket.Hosting.Extensions;
 
-var client = new RevoltSocketClient(token: GetBotToken());
+var builder = Host.CreateApplicationBuilder(args);
 
-var commands = new CommandService();
+builder.Logging.AddConsole();
 
-var services = new ServiceCollection();
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
 
-var provider = services.BuildServiceProvider();
+builder.Services.AddRevolt(cfg => cfg
+    .AddRestClient("https://api.revolt.chat/", builder.Configuration["BOT_TOKEN"])
+    .AddWebSocketService()
+);
 
-await CommandHandler.SetupAsync(client, commands, provider);
+var app = builder.Build();
 
-AddLoggingCallbacks(client, commands);
-
-await client.RunAsync();
-
-static void AddLoggingCallbacks(RevoltSocketClient client, CommandService commands)
-{
-    client.Log += async message => Console.WriteLine($"{message.Message} | {message.Exception}");
-    commands.Log += async message => Console.WriteLine($"{message.Message} | {message.Exception}");
-}
-
-static string GetBotToken()
-{
-    var config = new ConfigurationBuilder()
-        .AddUserSecrets<Program>()
-        .Build();
-
-    return config["TestBotToken"]!;
-}
+await app.RunAsync();
