@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Revolt.Net.Rest.Contracts.Responses
+namespace Revolt.Net.Rest.Contracts
 {
     public sealed class RevoltApiInformation
     {

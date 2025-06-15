@@ -1,7 +1,7 @@
 ﻿using Revolt.Net.Core.Entities.Channels;
 using Revolt.Net.Core.Entities.Embeds;
 using Revolt.Net.Core.Entities.Messages;
-using Revolt.Net.Rest.Contracts.RestValues;
+using Revolt.Net.Rest.Contracts;
 
 namespace Revolt.Net.Rest.Extensions
 {

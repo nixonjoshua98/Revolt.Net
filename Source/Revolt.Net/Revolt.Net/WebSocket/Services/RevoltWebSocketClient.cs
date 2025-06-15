@@ -1,10 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using Revolt.Net.Core;
+﻿using Revolt.Net.Core.Common;
 using Revolt.Net.Core.Entities.Messages;
 using Revolt.Net.Rest.Clients;
 using Revolt.Net.WebSocket.Abstractions;
-using Revolt.Net.WebSocket.Events.Channels;
-using Revolt.Net.WebSocket.Events.Messages;
+using Revolt.Net.WebSocket.Events;
 using Revolt.Net.WebSocket.JsonModels;
 using Revolt.Net.WebSocket.JsonModels.Channels;
 using Revolt.Net.WebSocket.JsonModels.Messages;
@@ -15,9 +13,9 @@ namespace Revolt.Net.WebSocket.Services
         RevoltRestClient restClient
     ) : IRevoltWebSocketClient
     {
-        public AsyncEvent<JsonReadyMessage> Ready { get; } = new();
+        public AsyncEvent<ReadyEvent> Ready { get; } = new();
 
-        public AsyncEvent<MessageEvent> MessageReceived { get; } = new();
+        public AsyncEvent<MessageReceivedEvent> MessageReceived { get; } = new();
 
         public AsyncEvent<ChannelStartTypingEvent> ChannelStartTyping { get; } = new();
 
@@ -30,13 +28,11 @@ namespace Revolt.Net.WebSocket.Services
             switch (e)
             {
                 case JsonReadyMessage ready:
-                    await Ready.InvokeAsync(ready, cancellationToken);
+                    await Ready.InvokeAsync(ready.ToEvent(), cancellationToken);
                     break;
 
                 case JsonMessageReceivedMessage message:
-                    var socketMessage = Message.CreateNew(message.ToJsonMessage(), RestClient);
-                    var payload = new MessageEvent(socketMessage);
-                    await MessageReceived.InvokeAsync(payload, cancellationToken);
+                    await MessageReceived.InvokeAsync(message.ToEvent(RestClient), cancellationToken);
                     break;
 
                 case JsonChannelStartTyping start:

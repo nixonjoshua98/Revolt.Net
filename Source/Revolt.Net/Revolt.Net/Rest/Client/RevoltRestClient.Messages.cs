@@ -1,7 +1,7 @@
 ﻿using Revolt.Net.Core.Common;
 using Revolt.Net.Core.Entities.Messages;
 using Revolt.Net.Core.JsonModels.Messages;
-using Revolt.Net.Rest.Contracts.RestValues;
+using Revolt.Net.Rest.Contracts;
 using System.Net.Http.Json;
 
 namespace Revolt.Net.Rest.Clients

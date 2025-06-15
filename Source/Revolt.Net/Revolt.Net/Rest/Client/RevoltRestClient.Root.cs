@@ -1,4 +1,4 @@
-﻿using Revolt.Net.Rest.Contracts.Responses;
+﻿using Revolt.Net.Rest.Contracts;
 
 namespace Revolt.Net.Rest.Clients
 {

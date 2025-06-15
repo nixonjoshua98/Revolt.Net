@@ -1,6 +1,9 @@
-﻿using Revolt.Net.Core.JsonModels.Messages;
+﻿using Revolt.Net.Core.Entities.Messages;
+using Revolt.Net.Core.JsonModels.Messages;
 using Revolt.Net.Core.JsonModels.Servers;
 using Revolt.Net.Core.JsonModels.Users;
+using Revolt.Net.Rest.Clients;
+using Revolt.Net.WebSocket.Events;
 using System.Text.Json.Serialization;
 
 namespace Revolt.Net.WebSocket.JsonModels.Messages
@@ -20,11 +23,11 @@ namespace Revolt.Net.WebSocket.JsonModels.Messages
 
         public JsonServerMember? Member { get; init; }
 
-        public JsonUser User { get; init; }
+        public JsonUser? User { get; init; }
 
-        internal JsonMessage ToJsonMessage()
+        public MessageReceivedEvent ToEvent(RevoltRestClient restClient)
         {
-            return new JsonMessage
+            var message = new JsonMessage
             {
                 Id = Id,
                 AuthorId = AuthorId,
@@ -33,6 +36,10 @@ namespace Revolt.Net.WebSocket.JsonModels.Messages
                 Member = Member,
                 User = User
             };
+
+            var socketMessage = Message.CreateNew(message, restClient);
+
+            return new MessageReceivedEvent(socketMessage);
         }
     }
 }

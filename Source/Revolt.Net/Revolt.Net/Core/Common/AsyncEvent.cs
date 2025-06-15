@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace Revolt.Net.Core
+namespace Revolt.Net.Core.Common
 {
     public class AsyncEvent<T> where T : class
     {

@@ -7,9 +7,9 @@ using System.Text.Json;
 
 namespace Revolt.Net.WebSocket.Services
 {
-    internal sealed class RevoltWebSocketConn(ILoggerFactory loggerFactory)
+    internal sealed class RevoltWebSocketConnection(ILoggerFactory loggerFactory)
     {
-        private readonly ILogger<RevoltWebSocketConn> _logger = loggerFactory.CreateLogger<RevoltWebSocketConn>();
+        private readonly ILogger<RevoltWebSocketConnection> _logger = loggerFactory.CreateLogger<RevoltWebSocketConnection>();
 
         private readonly ClientWebSocket WebSocket = new();
 

@@ -20,7 +20,7 @@ namespace Revolt.Net.WebSocket.BackgroundServices
         RevoltRestClient _apiClient
     ) : BackgroundService
     {
-        private readonly RevoltWebSocketConn _connection = new(_loggerFactory);
+        private readonly RevoltWebSocketConnection _connection = new(_loggerFactory);
         private readonly RevoltConfiguration _configuration = _configurationOptions.Value;
         private readonly ILogger<WebSocketBackgroundService> _logger = _loggerFactory.CreateLogger<WebSocketBackgroundService>();
 

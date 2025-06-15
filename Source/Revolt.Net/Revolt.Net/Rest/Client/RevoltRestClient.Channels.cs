@@ -1,6 +1,6 @@
 ﻿using Revolt.Net.Core.Entities.Channels;
 using Revolt.Net.Core.JsonModels.Channels;
-using Revolt.Net.Rest.Contracts.RestValues;
+using Revolt.Net.Rest.Contracts;
 
 namespace Revolt.Net.Rest.Clients
 {

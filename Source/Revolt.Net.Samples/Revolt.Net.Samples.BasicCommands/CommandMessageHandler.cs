@@ -4,7 +4,7 @@ using Revolt.Net.Commands.Abstractions;
 using Revolt.Net.Commands.Extensions;
 using Revolt.Net.Rest.Extensions;
 using Revolt.Net.WebSocket.Abstractions;
-using Revolt.Net.WebSocket.Events.Messages;
+using Revolt.Net.WebSocket.Events;
 
 namespace Revolt.Net.Samples.BasicCommands
 {
@@ -27,7 +27,7 @@ namespace Revolt.Net.Samples.BasicCommands
             return Task.CompletedTask;
         }
 
-        async Task OnMessageReceived(MessageEvent e, CancellationToken cancellationToken)
+        async Task OnMessageReceived(MessageReceivedEvent e, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(e.Message.Content))
             {
