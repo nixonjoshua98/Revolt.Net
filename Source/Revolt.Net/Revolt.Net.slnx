@@ -1,4 +1,8 @@
 <Solution>
   <Project Path="../Revolt.Net.Samples/Revolt.Net.Samples.BasicCommands/Revolt.Net.Samples.BasicCommands.csproj" />
+  <Project Path="Revolt.Net.Commands/Revolt.Net.Commands.csproj" Id="9e6ac707-773d-4231-aa4b-056491628d8b" />
+  <Project Path="Revolt.Net.Core/Revolt.Net.Core.csproj" Id="e85d9ef0-6b25-4b00-a584-139cfa61aaf0" />
+  <Project Path="Revolt.Net.Rest/Revolt.Net.Rest.csproj" Id="6a9500dd-f2eb-4750-946e-d3473727c396" />
+  <Project Path="Revolt.Net.WebSocket/Revolt.Net.WebSocket.csproj" Id="898cb436-9359-4c0b-8f6f-4d7691263d7e" />
   <Project Path="Revolt.Net/Revolt.Net.csproj" />
 </Solution>
