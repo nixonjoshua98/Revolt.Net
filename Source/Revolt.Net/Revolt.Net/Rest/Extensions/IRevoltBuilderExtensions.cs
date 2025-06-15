@@ -4,7 +4,7 @@ using Revolt.Net.Core.Builders;
 using Revolt.Net.Core.Configuration;
 using Revolt.Net.Rest.Clients;
 
-namespace Revolt.Net.Rest.Hosting.Extensions
+namespace Revolt.Net.Rest.Extensions
 {
     public static class IRevoltBuilderExtensions
     {

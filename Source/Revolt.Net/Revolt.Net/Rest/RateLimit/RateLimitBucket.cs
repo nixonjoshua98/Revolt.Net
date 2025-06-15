@@ -1,12 +1,11 @@
 ﻿namespace Revolt.Net.Rest.RateLimit
 {
-    internal sealed class RateLimitBucket(string name, int limit, int remaining, TimeSpan resetAfter)
+    internal sealed class RateLimitBucket(string bucketId, int limit, int remaining, TimeSpan resetAfter)
     {
         private readonly SemaphoreSlim _waitLock = new(1, 1);
 
-        public readonly string BucketId = name;
-        public readonly int Limit = limit;
-
+        public int Limit { get; } = limit;
+        public string BucketId { get; } = bucketId;
         public int Remaining { get; private set; } = remaining;
         public DateTimeOffset ResetsAt { get; private set; } = DateTimeOffset.UtcNow.Add(resetAfter);
 

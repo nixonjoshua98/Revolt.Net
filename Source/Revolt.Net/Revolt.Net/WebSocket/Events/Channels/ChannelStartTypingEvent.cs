@@ -1,6 +1,6 @@
 ﻿using Revolt.Net.WebSocket.JsonModels.Channels;
 
-namespace Revolt.Net.WebSocket.Events.Channels
+namespace Revolt.Net.WebSocket.Events
 {
     public sealed record ChannelStartTypingEvent(string ChannelId, string UserId)
     {

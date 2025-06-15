@@ -1,6 +1,6 @@
 ﻿using Revolt.Net.Core.Entities.Servers;
 using Revolt.Net.Core.JsonModels.Servers;
-using Revolt.Net.Rest.Contracts.RestValues;
+using Revolt.Net.Rest.Contracts;
 
 namespace Revolt.Net.Rest.Clients
 {
