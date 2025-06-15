@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../Revolt.Net.Samples/Revolt.Net.Samples.BasicCommands/Revolt.Net.Samples.BasicCommands.csproj" />
+  <Project Path="Revolt.Net/Revolt.Net.csproj" />
+</Solution>
