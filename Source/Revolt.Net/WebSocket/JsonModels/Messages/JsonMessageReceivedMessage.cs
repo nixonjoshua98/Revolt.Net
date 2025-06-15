@@ -18,7 +18,7 @@ namespace Revolt.Net.WebSocket.JsonModels.Messages
 
         public string? Content { get; init; }
 
-        public required JsonMember Member { get; init; }
+        public JsonServerMember? Member { get; init; }
 
         internal JsonMessage ToJsonMessage()
         {

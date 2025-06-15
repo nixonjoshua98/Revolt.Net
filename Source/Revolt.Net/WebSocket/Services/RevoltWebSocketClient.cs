@@ -53,10 +53,6 @@ namespace Revolt.Net.WebSocket.Services
                     await Task.WhenAll(bulk.Messages.Select(x => InvokeAsync(x, cancellationToken)));
                     break;
 
-                default:
-                    _logger.LogDebug("Unsupported message : {MessageType}", e.GetType().Name);
-                    break;
-
             }
         }
     }

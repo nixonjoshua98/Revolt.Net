@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Revolt.Net.Core.Hosting.Builders;
+using Revolt.Net.Core.Builders;
 using Revolt.Net.WebSocket.Abstractions;
 using Revolt.Net.WebSocket.HostedServices;
 using Revolt.Net.WebSocket.Services;

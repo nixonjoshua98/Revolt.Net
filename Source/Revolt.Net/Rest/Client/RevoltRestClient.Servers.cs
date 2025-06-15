@@ -6,11 +6,11 @@ namespace Revolt.Net.Rest.Clients
 {
     internal sealed partial class RevoltRestClient
     {
-        public async Task<Member> GetServerMemberAsync(GetServerMemberValues values, CancellationToken cancellationToken = default)
+        public async Task<ServerMember> GetServerMemberAsync(GetServerMemberValues values, CancellationToken cancellationToken = default)
         {
-            var response = await SendRequestAsync<JsonMember>(HttpMethod.Get, $"servers/{values.ServerId}/members/{values.UserId}", cancellationToken);
+            var response = await SendRequestAsync<JsonServerMember>(HttpMethod.Get, $"servers/{values.ServerId}/members/{values.UserId}", cancellationToken);
 
-            return new Member(response, this);
+            return new ServerMember(response, this);
         }
     }
 }

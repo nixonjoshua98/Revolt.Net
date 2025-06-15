@@ -1,18 +1,23 @@
 ﻿using Revolt.Net.Core.Entities.Abstractions;
-using Revolt.Net.Core.Entities.Servers;
+using Revolt.Net.Core.Entities.Users;
+using Revolt.Net.Core.Exceptions;
 using Revolt.Net.Core.JsonModels.Messages;
 using Revolt.Net.Rest.Clients;
 
 namespace Revolt.Net.Core.Entities.Messages
 {
-    public sealed class Message : RevoltClientEntity
+    public class Message : RevoltClientEntity
     {
         internal JsonMessage JsonModel;
 
-        internal Message(JsonMessage message, RevoltRestClient restClient) : base(restClient)
+        internal Message(JsonMessage data, RevoltRestClient restClient) : base(restClient)
         {
-            JsonModel = message;
-            Author = new Member(message.Member, restClient);
+            JsonModel = data;
+
+            Author = new User(
+                RevoltException.ThrowIfNull(data.User, nameof(data.User)), 
+                restClient
+            );
         }
 
         public string Id => JsonModel.Id;
@@ -23,12 +28,15 @@ namespace Revolt.Net.Core.Entities.Messages
 
         public string? Content => JsonModel.Content;
 
-        public Member Author { get; private set; }
+        public User Author { get; init; }
 
-        internal void UpdateJsonModel(JsonMessage message)
+        internal static Message CreateNew(JsonMessage message, RevoltRestClient restClient)
         {
-            JsonModel = message;
-            Author = new Member(message.Member, Client);
+            return message.Member switch
+            {
+                null => new Message(message, restClient),
+                _ => new ServerMessage(message, restClient)
+            };
         }
     }
 }

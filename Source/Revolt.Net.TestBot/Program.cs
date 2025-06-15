@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Revolt.Net.Commands.Extensions;
 using Revolt.Net.Commands.Handlers;
-using Revolt.Net.Commands.Hosting.Extensions;
-using Revolt.Net.Core.Hosting.Extensions;
+using Revolt.Net.Core.Extensions;
 using Revolt.Net.Rest.Hosting.Extensions;
 using Revolt.Net.WebSocket.Extensions;
 
@@ -17,6 +17,7 @@ builder.Services.AddRevolt(cfg => cfg
     .AddWebSocket()
     .AddCommands<CommandMessageHandler>(cmd => cmd
         .AddModulesFromAssemblyContaining<Program>()
+        .AddCheckHandlersFromAssemblyContaining<Program>()
     )
 );
 

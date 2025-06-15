@@ -1,4 +1,5 @@
 ﻿using Revolt.Net.Core.JsonModels.Servers;
+using Revolt.Net.Core.JsonModels.Users;
 using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Core.JsonModels.Messages
@@ -16,6 +17,8 @@ namespace Revolt.Net.Core.JsonModels.Messages
 
         public string? Content { get; init; }
 
-        public required JsonMember Member { get; init; }
+        public JsonUser? User { get; init; }
+
+        public required JsonServerMember? Member { get; init; }
     }
 }

@@ -12,4 +12,6 @@
         string ServerId,
         string UserId
     );
+
+    internal readonly record struct GetUserValues(string  UserId);
 }

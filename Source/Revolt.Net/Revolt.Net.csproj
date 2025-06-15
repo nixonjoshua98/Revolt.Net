@@ -9,7 +9,7 @@
 		<Title>Revolt.Net</Title>
 		<Authors>JNixon</Authors>
 		<PackageId>Revolt.Net</PackageId>
-		<Description>Library for interacting with Revolt.Chat.</Description>
+		<Description>Library for interacting with Revolt.Chat</Description>
 		<PackageProjectUrl>https://github.com/nixonjoshua98/Revolt.Net</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/nixonjoshua98/Revolt.Net</RepositoryUrl>

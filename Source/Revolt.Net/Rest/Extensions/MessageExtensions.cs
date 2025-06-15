@@ -87,19 +87,5 @@ namespace Revolt.Net.Rest.Extensions
 
             return await message.Client.GetChannelAsync(req, cancellationToken);
         }
-
-        public static async Task RefreshAsync(
-            this Message message,
-            CancellationToken cancellationToken = default)
-        {
-            var req = new GetMessageValues(
-                message.ChannelId,
-                message.Id
-            );
-
-            var refreshed = await message.Client.GetMessageAsync(req, cancellationToken);
-
-            message.UpdateJsonModel(refreshed.JsonModel);
-        }
     }
 }

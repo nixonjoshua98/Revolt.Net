@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Revolt.Net.Core.Common;
-using Revolt.Net.Core.Hosting.Configuration;
+using Revolt.Net.Core.Configuration;
 using Revolt.Net.Rest.Common;
 using Revolt.Net.Rest.Extensions;
 using Revolt.Net.Rest.RateLimit;

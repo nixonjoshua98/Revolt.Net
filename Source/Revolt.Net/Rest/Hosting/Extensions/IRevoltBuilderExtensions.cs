@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Revolt.Net.Core.Hosting.Builders;
-using Revolt.Net.Core.Hosting.Configuration;
+using Revolt.Net.Core.Builders;
+using Revolt.Net.Core.Configuration;
 using Revolt.Net.Rest.Clients;
 
 namespace Revolt.Net.Rest.Hosting.Extensions

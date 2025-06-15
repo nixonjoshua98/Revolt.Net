@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Revolt.Net.Core.Common;
-using Revolt.Net.Core.Hosting.Configuration;
+using Revolt.Net.Core.Configuration;
 using Revolt.Net.Rest.Clients;
 using Revolt.Net.WebSocket.Abstractions;
 using Revolt.Net.WebSocket.Messages;
