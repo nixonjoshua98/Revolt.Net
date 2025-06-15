@@ -2,14 +2,14 @@
 
 namespace Revolt.Net.Rest.RateLimit
 {
-    sealed record RoutePattern(HttpMethod? Method, Regex Regex, string Path)
+    internal sealed record RoutePattern(HttpMethod? Method, Regex Regex, string Path)
     {
         public string Key = Method is null ? Path : $"{Method.Method}:{Path}";
     }
 
     internal static class RateLimitHelper
     {
-        #pragma warning disable SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
+#pragma warning disable SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
 
         // https://developers.revolt.chat/developers/api/ratelimits.html
         private static readonly List<RoutePattern> _routePatterns =

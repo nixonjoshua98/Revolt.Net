@@ -1,0 +1,35 @@
+﻿using Revolt.Net.Core.JsonModels.Messages;
+using Revolt.Net.Core.JsonModels.Servers;
+using Revolt.Net.WebSocket.Messages;
+using System.Text.Json.Serialization;
+
+namespace Revolt.Net.WebSocket.JsonModels.Messages
+{
+    internal sealed record JsonMessageReceivedMessage : JsonWebSocketMessage
+    {
+        [JsonPropertyName("_id")]
+        public required string Id { get; init; }
+
+        [JsonPropertyName("author")]
+        public required string AuthorId { get; init; }
+
+        [JsonPropertyName("channel")]
+        public required string ChannelId { get; init; }
+
+        public string? Content { get; init; }
+
+        public required JsonMember Member { get; init; }
+
+        internal JsonMessage ToJsonMessage()
+        {
+            return new JsonMessage
+            {
+                Id = Id,
+                AuthorId = AuthorId,
+                ChannelId = ChannelId,
+                Content = Content,
+                Member = Member
+            };
+        }
+    }
+}

@@ -1,51 +1,41 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Revolt.Net.Commands.Abstractions;
-using Revolt.Net.Commands.Configuration;
+using Revolt.Net.Commands.Builders;
 using Revolt.Net.Commands.Hosting.HostedServices;
 using Revolt.Net.Commands.Models;
 using Revolt.Net.Commands.Services;
+using Revolt.Net.Commands.TypeBinding.DefaultBinders;
 using Revolt.Net.Core.Hosting.Builders;
 
 namespace Revolt.Net.Commands.Hosting.Extensions
 {
     public static class IRevoltBuilderExtensions
     {
-        public static IRevoltBuilder AddCommandHandler<T>(this IRevoltBuilder builder) where T : class, ICommandMessageHandler
+        public static IRevoltBuilder AddCommands<T>(
+            this IRevoltBuilder builder,
+            Action<IRevoltCommandsBuilder>? builderAction = null
+        ) where T : class, ICommandMessageHandler
         {
+            var commandsBuilder = new RevoltCommandsBuilder(builder)
+                .AddTypeParser<int, DefaultIntTypeParser>()
+                .AddTypeParser<DefaultEnumTypeParser>();
+
             builder.Services.TryAddScoped<ICommandMessageHandler, T>();
 
             builder.Services.TryAddScoped<ICommandProcessor, CommandProcessor>();
 
             builder.Services.AddHostedService<CommandHandlerBackgroundService>();
 
-            builder.Services.Configure<RevoltCommandState>(cfg =>
-            {
-                cfg.Commands = LoadCommands();
-            });
+            builder.Services.TryAddSingleton(p =>
+                p.GetRequiredService<IOptions<RevoltCommandStateBuilder>>().Value.Build());
+
+            builder.Services.Configure<RevoltCommandStateBuilder>(_ => { });
+
+            builderAction?.Invoke(commandsBuilder);
 
             return builder;
-        }
-
-        private static List<RegisteredCommand> LoadCommands()
-        {
-            var commandModuleType = typeof(CommandModule);
-
-            var modules = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .SelectMany(x => x.DefinedTypes)
-                .Where(t => t.IsAssignableTo(commandModuleType));
-
-            List<RegisteredCommand> commands = [];
-
-            foreach (var module in modules)
-            {
-                var moduleCommands = RegisteredCommand.GetCommandsFromModuleType(module);
-
-                commands.AddRange(moduleCommands);
-            }
-
-            return commands;
         }
     }
 }

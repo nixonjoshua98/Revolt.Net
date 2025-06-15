@@ -25,13 +25,10 @@ namespace Revolt.Net.Core
                 _subscriptions = _subscriptions.Remove(subscriber);
             }
         }
-    }
 
-    internal static class EventExtensions
-    {
-        public static async Task InvokeAsync<T>(this AsyncEvent<T> eventHandler, T arg, CancellationToken cancellationToken) where T : class
+        public async Task InvokeAsync(T arg, CancellationToken cancellationToken)
         {
-            var subscribers = eventHandler.Subscriptions;
+            var subscribers = Subscriptions;
 
             for (int i = 0; i < subscribers.Count; i++)
             {

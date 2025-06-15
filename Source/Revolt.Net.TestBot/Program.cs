@@ -15,7 +15,9 @@ builder.Logging.SetMinimumLevel(LogLevel.Debug);
 builder.Services.AddRevolt(cfg => cfg
     .AddRestClient("https://api.revolt.chat/", builder.Configuration["BOT_TOKEN"]!)
     .AddWebSocket()
-    .AddCommandHandler<CommandMessageHandler>()
+    .AddCommands<CommandMessageHandler>(cmd => cmd
+        .AddModulesFromAssemblyContaining<Program>()
+    )
 );
 
 var app = builder.Build();

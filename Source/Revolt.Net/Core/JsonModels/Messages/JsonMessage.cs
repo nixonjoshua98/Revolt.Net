@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Revolt.Net.Core.JsonModels.Servers;
+using System.Text.Json.Serialization;
 
 namespace Revolt.Net.Core.JsonModels.Messages
 {
@@ -14,5 +15,7 @@ namespace Revolt.Net.Core.JsonModels.Messages
         public required string ChannelId { get; init; }
 
         public string? Content { get; init; }
+
+        public required JsonMember Member { get; init; }
     }
 }

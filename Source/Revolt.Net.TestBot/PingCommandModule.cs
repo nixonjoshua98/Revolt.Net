@@ -5,24 +5,20 @@ using Revolt.Net.Rest.Extensions;
 
 namespace Revolt.Net.TestBot
 {
+    enum TestEnum { Hello, Goodbye }
+
     internal sealed class PingCommandModule : CommandModule
     {
-        [Command("ping")]
-        public async Task Ping(CommandContext context)
+        [Command("ping", priority: 1)]
+        public async Task Ping1(CommandContext context, TestEnum value)
         {
-            var msg = await context.Message.ReplyAsync("Replied");
+            await context.Message.ReplyAsync($"Ping: {value}:{(int)value}");
+        }
 
-            msg = await msg.EditAsync("Edited");
-
-            var channel = await msg.GetChannelAsync();
-
-            await msg.ReplyAsync(channel.Id);
-
-            msg = await channel.GetMessageAsync(msg.Id);
-
-            await msg.EditAsync("Fetched and edited");
-
-            await msg.RefreshAsync();
+        [Command("ping", priority: 2)]
+        public async Task Ping2(CommandContext context, int value1, int value2)
+        {
+            await context.Message.ReplyAsync($"Ping: {value1}:{value2}");
         }
     }
 }

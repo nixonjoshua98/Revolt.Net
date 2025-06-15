@@ -3,7 +3,13 @@ using System.Reflection;
 
 namespace Revolt.Net.Commands.Models
 {
-    internal sealed record RegisteredCommand(string Command, Type ModuleType, MethodInfo CommandMethod)
+    internal sealed record RegisteredCommand(
+        string Command,
+        int Priority,
+        Type ModuleType,
+        MethodInfo CommandMethod,
+        IReadOnlyList<ParameterInfo> Parameters
+    )
     {
         public static IEnumerable<RegisteredCommand> GetCommandsFromModuleType(Type commandModuleType)
         {
@@ -15,7 +21,15 @@ namespace Revolt.Net.Commands.Models
 
                 if (commandAttr != null)
                 {
-                    yield return new RegisteredCommand(commandAttr.Name, commandModuleType, method);
+                    var methodParams = method.GetParameters();
+
+                    yield return new RegisteredCommand(
+                        commandAttr.Name,
+                        commandAttr.Priority,
+                        commandModuleType,
+                        method,
+                        methodParams
+                    );
                 }
             }
         }

@@ -1,4 +1,6 @@
 ﻿using Revolt.Net.Commands.Abstractions;
+using Revolt.Net.Commands.Extensions;
+using Revolt.Net.Rest.Extensions;
 
 namespace Revolt.Net.Commands.Handlers
 {
@@ -13,7 +15,17 @@ namespace Revolt.Net.Commands.Handlers
                 return;
             }
 
-            await _commandProcessor.ExecuteAsync(context, 0, cancellationToken);
+            if (!context.Message.HasStringPrefix("!", out var idx))
+            {
+                return;
+            }
+
+            var result = await _commandProcessor.ExecuteAsync(context, idx, cancellationToken);
+
+            if (result.Error is not null)
+            {
+                await context.Message.ReplyAsync(result.ErrorMessage, cancellationToken: cancellationToken);
+            }
         }
     }
 }

@@ -18,6 +18,7 @@
 		<AnalysisLevel>latest</AnalysisLevel>
 		<PackageReleaseNotes>Added features, and improved performance</PackageReleaseNotes>
 		<Version>0.1.0</Version>
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

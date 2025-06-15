@@ -1,4 +1,5 @@
 ﻿using Revolt.Net.Core.Entities.Abstractions;
+using Revolt.Net.Core.Entities.Servers;
 using Revolt.Net.Core.JsonModels.Messages;
 using Revolt.Net.Rest.Clients;
 
@@ -11,6 +12,7 @@ namespace Revolt.Net.Core.Entities.Messages
         internal Message(JsonMessage message, RevoltRestClient restClient) : base(restClient)
         {
             JsonModel = message;
+            Author = new Member(message.Member, restClient);
         }
 
         public string Id => JsonModel.Id;
@@ -21,9 +23,12 @@ namespace Revolt.Net.Core.Entities.Messages
 
         public string? Content => JsonModel.Content;
 
+        public Member Author { get; private set; }
+
         internal void UpdateJsonModel(JsonMessage message)
         {
             JsonModel = message;
+            Author = new Member(message.Member, Client);
         }
     }
 }

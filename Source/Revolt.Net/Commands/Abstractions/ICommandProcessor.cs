@@ -1,7 +1,9 @@
-﻿namespace Revolt.Net.Commands.Abstractions
+﻿using Revolt.Net.Commands.Models;
+
+namespace Revolt.Net.Commands.Abstractions
 {
     public interface ICommandProcessor
     {
-        Task ExecuteAsync(CommandContext context, int startIndex, CancellationToken cancellationToken);
+        Task<CommandExecutionResult> ExecuteAsync(CommandContext context, int commandStartIndex, CancellationToken cancellationToken);
     }
 }

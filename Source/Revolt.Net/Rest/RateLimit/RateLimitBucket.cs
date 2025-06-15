@@ -5,7 +5,6 @@
         private readonly SemaphoreSlim _waitLock = new(1, 1);
 
         public readonly string BucketId = name;
-        public readonly string Bucket = name;
         public readonly int Limit = limit;
 
         public int Remaining { get; private set; } = remaining;
@@ -28,7 +27,7 @@
                 if (IsRateLimited)
                 {
                     var ts = ResetsAt - DateTimeOffset.UtcNow;
-                   
+
                     if (ts > TimeSpan.Zero)
                     {
                         await Task.Delay(ts, cancellationToken);

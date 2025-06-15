@@ -13,7 +13,7 @@ namespace Revolt.Net.WebSocket.Extensions
         {
             builder.Services.AddHostedService<WebSocketBackgroundService>();
 
-            builder.Services.TryAddSingleton<IWebSocketEventHub, WebSocketEventHub>();
+            builder.Services.TryAddSingleton<IRevoltWebSocketClient, RevoltWebSocketClient>();
 
             return builder;
         }

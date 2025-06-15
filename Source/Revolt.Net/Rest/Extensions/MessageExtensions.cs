@@ -8,7 +8,7 @@ namespace Revolt.Net.Rest.Extensions
     public static class MessageExtensions
     {
         public static async Task<Message> ReplyAsync(
-            this Message message, 
+            this Message message,
             string? content = null,
             bool mention = false,
             bool failIfNotExists = true,
@@ -16,10 +16,10 @@ namespace Revolt.Net.Rest.Extensions
             CancellationToken cancellationToken = default)
         {
             var req = new SendMessageValues(
-                message.ChannelId, 
-                content, 
+                message.ChannelId,
+                content,
                 embeds ?? [],
-                [ new JsonMessageReply(message.Id, mention, failIfNotExists) ]
+                [new JsonMessageReply(message.Id, mention, failIfNotExists)]
             );
 
             return await message.Client.SendMessageAsync(req, cancellationToken);

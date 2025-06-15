@@ -2,7 +2,7 @@
 {
     internal static class RevoltRestConstant
     {
-        public const string BotTokenHeader = "x-bot-token"; 
+        public const string BotTokenHeader = "x-bot-token";
 
         public const string RateLimitBucket = "X-RateLimit-Bucket";
 
