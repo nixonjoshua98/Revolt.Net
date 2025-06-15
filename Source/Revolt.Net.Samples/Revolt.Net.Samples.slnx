@@ -1,9 +1,0 @@
-<Solution>
-  <Configurations>
-    <BuildType Name="Debug" />
-    <BuildType Name="Debug - Local" />
-  </Configurations>
-  <Project Path="Revolt.Net.Samples.BasicCommands/Revolt.Net.Samples.BasicCommands.csproj">
-    <BuildType Project="Debug" />
-  </Project>
-</Solution>

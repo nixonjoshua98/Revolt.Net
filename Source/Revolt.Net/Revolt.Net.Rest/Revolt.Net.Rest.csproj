@@ -6,10 +6,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>Revolt.Net</Title>
+		<Title>Revolt.Net.Rest</Title>
 		<Authors>JNixon</Authors>
-		<PackageId>Revolt.Net</PackageId>
-		<Description>Library for interacting with Revolt.Chat</Description>
+		<PackageId>Revolt.Net.Rest</PackageId>
+		<Description>Rest components for Revolt.Net</Description>
 		<PackageProjectUrl>https://github.com/nixonjoshua98/Revolt.Net</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/nixonjoshua98/Revolt.Net</RepositoryUrl>
@@ -31,10 +31,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Revolt.Net.Commands\Revolt.Net.Commands.csproj"/>
 		<ProjectReference Include="..\Revolt.Net.Core\Revolt.Net.Core.csproj" />
-		<ProjectReference Include="..\Revolt.Net.Rest\Revolt.Net.Rest.csproj"/>
-		<ProjectReference Include="..\Revolt.Net.WebSocket\Revolt.Net.WebSocket.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Http" />
 	</ItemGroup>
 
 </Project>

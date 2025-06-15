@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <OutputType>Library</OutputType>
+	  <TargetFramework>net9.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <Title>Revolt.Net.Commands</Title>
+	  <Authors>JNixon</Authors>
+	  <PackageId>Revolt.Net.Commands</PackageId>
+	  <Description>Commands functionality for Revolt.Net</Description>
+	  <PackageProjectUrl>https://github.com/nixonjoshua98/Revolt.Net</PackageProjectUrl>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/nixonjoshua98/Revolt.Net</RepositoryUrl>
+	  <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	  <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+	  <AnalysisLevel>latest</AnalysisLevel>
+	  <Version>0.3.1</Version>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Revolt.Net.WebSocket\Revolt.Net.WebSocket.csproj" />
+  </ItemGroup>
+
+</Project>
