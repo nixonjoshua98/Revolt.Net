@@ -15,7 +15,11 @@
 
 <h2>Installation</h2>
 
-Revolt.Net can be downloaded via [NuGet](https://www.nuget.org/packages/Revolt.Net/).
+Revolt.Net can be downloaded via [NuGet](https://www.nuget.org/packages/Revolt.Net/)
+
+<h2>Documentation</h2>
+
+Sample projects can be found at [Sample Projects](/Source/Revolt.Net.Samples)
 
 <h2>Contributing</h2>
 
