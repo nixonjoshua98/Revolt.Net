@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Revolt.Net.Commands.Abstractions;
 using Revolt.Net.Commands.Builders;
-using Revolt.Net.Commands.Models;
 using Revolt.Net.Commands.Services;
 using Revolt.Net.Core.Builders;
 

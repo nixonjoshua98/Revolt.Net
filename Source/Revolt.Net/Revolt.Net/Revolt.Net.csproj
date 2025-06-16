@@ -31,10 +31,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Revolt.Net.Commands\Revolt.Net.Commands.csproj"/>
-		<ProjectReference Include="..\Revolt.Net.Core\Revolt.Net.Core.csproj" />
-		<ProjectReference Include="..\Revolt.Net.Rest\Revolt.Net.Rest.csproj"/>
-		<ProjectReference Include="..\Revolt.Net.WebSocket\Revolt.Net.WebSocket.csproj" />
+		<ProjectReference Include="..\Revolt.Net.Commands\Revolt.Net.Commands.csproj">
+		  <TreatAsUsed>true</TreatAsUsed>
+		</ProjectReference>
+		<ProjectReference Include="..\Revolt.Net.Core\Revolt.Net.Core.csproj">
+		  <TreatAsUsed>true</TreatAsUsed>
+		</ProjectReference>
+		<ProjectReference Include="..\Revolt.Net.Rest\Revolt.Net.Rest.csproj">
+		  <TreatAsUsed>true</TreatAsUsed>
+		</ProjectReference>
+		<ProjectReference Include="..\Revolt.Net.WebSocket\Revolt.Net.WebSocket.csproj">
+		  <TreatAsUsed>true</TreatAsUsed>
+		</ProjectReference>
 	</ItemGroup>
 
 </Project>

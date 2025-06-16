@@ -1,13 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Revolt.Net.Commands.Abstractions;
 using Revolt.Net.Commands.Checks;
-using Revolt.Net.Commands.Models;
 using Revolt.Net.Commands.Parsers;
 using Revolt.Net.Core.Builders;
 
 namespace Revolt.Net.Commands.Builders
 {
-
     internal sealed record RevoltCommandsBuilder(IRevoltBuilder Builder) : IRevoltCommandsBuilder
     {
         public IRevoltCommandsBuilder AddCheckHandlersFromAssemblyContaining<T>()

@@ -1,9 +1,10 @@
 ﻿using Revolt.Net.Commands.Abstractions;
 using Revolt.Net.Commands.Checks;
+using Revolt.Net.Commands.Models;
 using Revolt.Net.Commands.Parsers;
 using System.Reflection;
 
-namespace Revolt.Net.Commands.Models
+namespace Revolt.Net.Commands.Builders
 {
     internal sealed class RevoltCommandStateBuilder
     {
